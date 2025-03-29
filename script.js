@@ -23,42 +23,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideAllTooltips() {
         tooltips.forEach(tip => tip.classList.remove('visible'));
         currentVisibleTooltip = null;
+         // Hvis en tooltip lukkes, og det var den der udløste Labka highlight, fjern highlight
+         if (labkaIcon.classList.contains('labka-highlight')) {
+             clearTimeout(labkaHighlightTimeout);
+             labkaIcon.classList.remove('labka-highlight');
+         }
     }
 
     function removeAllStepHighlights() {
         workflowSteps.forEach(step => step.classList.remove('highlighted'));
         currentHighlightedStep = null;
-         // Når ingen step er highlighted, nulstil CIMT ikonernes udseende
-         resetCimtIconsOpacity();
     }
-
-     function resetCimtIconsOpacity() {
-        // Nulstil opacity for alle CIMT ikoner, hvis laget er synligt
-        if (body.classList.contains('cimt-visible')) {
-            cimtIcons.forEach(icon => {
-                 // Sæt en grundlæggende nedtonet opacity, når intet specifikt er valgt
-                icon.style.opacity = '0.6'; // Matcher CSS default
-                icon.style.backgroundColor = 'rgba(200, 200, 200, 0.7)'; // Matcher CSS default
-            });
-        }
-    }
-
-     function highlightRelevantCimtIcons(stepId) {
-        resetCimtIconsOpacity(); // Start med at nulstille alle
-        if (body.classList.contains('cimt-visible') && stepId) {
-            cimtIcons.forEach(icon => {
-                const relevantSteps = icon.dataset.cimtRelevant || '';
-                if (relevantSteps.includes(stepId)) {
-                    icon.style.opacity = '1'; // Fuld synlighed
-                    icon.style.backgroundColor = 'rgba(0, 123, 255, 0.2)'; // Fremhævningsfarve
-                } else {
-                    icon.style.opacity = '0.4'; // Gør irrelevante MERE nedtonede
-                    icon.style.backgroundColor = 'rgba(200, 200, 200, 0.7)'; // Tilbage til default baggrund
-                }
-            });
-        }
-    }
-
 
     // --- Event Listeners ---
 
@@ -66,21 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleCimtButton.addEventListener('click', () => {
         body.classList.toggle('cimt-visible');
         if (body.classList.contains('cimt-visible')) {
-            toggleCimtButton.textContent = 'Skjul CIMT Support';
-            // Opdater CIMT ikonernes synlighed baseret på evt. allerede valgt step
-            if (currentHighlightedStep) {
-                 highlightRelevantCimtIcons(currentHighlightedStep.id);
-            } else {
-                 resetCimtIconsOpacity(); // Sørg for at alle er nedtonede hvis intet step er valgt
-            }
+            // Opdateret knaptekst
+            toggleCimtButton.textContent = 'Skjul CIMT Understøttelse';
         } else {
-            toggleCimtButton.textContent = 'Vis CIMT Support';
+            // Opdateret knaptekst
+            toggleCimtButton.textContent = 'Vis CIMT Understøttelse';
             hideAllTooltips(); // Skjul tooltips når laget skjules
-            // Nulstil opacity på ikonerne (selvom laget er usynligt, er det god praksis)
-             cimtIcons.forEach(icon => {
-                icon.style.opacity = ''; // Lad CSS styre igen
-                icon.style.backgroundColor = ''; // Lad CSS styre igen
-             });
         }
     });
 
@@ -89,13 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
         step.addEventListener('click', () => {
             const infoBoxId = step.dataset.infoTarget;
             const infoBox = document.getElementById(infoBoxId);
-            const stepId = step.id;
 
             // Hvis man klikker på det allerede aktive step
             if (step === currentHighlightedStep) {
                 hideAllInfoBoxes();
                 removeAllStepHighlights();
-                 highlightRelevantCimtIcons(null); // Nulstil CIMT highlights
             } else {
                 // Skjul forrige og vis nye
                 hideAllInfoBoxes();
@@ -109,8 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     infoBox.classList.add('visible');
                     currentVisibleInfoBox = infoBox;
                 }
-                 // Opdater CIMT ikon highlights
-                 highlightRelevantCimtIcons(stepId);
             }
         });
 
@@ -118,33 +80,22 @@ document.addEventListener('DOMContentLoaded', () => {
          step.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 step.click(); // Simuler klik
-                e.preventDefault(); // Undgå standard handling (fx scroll)
+                e.preventDefault();
             }
         });
     });
 
-    // Klik på CIMT ikoner
+    // Klik på CIMT ikoner (kun når laget er synligt - styres af CSS pointer-events)
     cimtIcons.forEach(icon => {
         icon.addEventListener('click', (event) => {
-            // Stop propagation for at forhindre evt. klik på underliggende elementer
-             event.stopPropagation();
-
-             // Gør kun noget hvis CIMT laget er synligt
-            if (!body.classList.contains('cimt-visible')) {
-                 return;
-             }
+             event.stopPropagation(); // Undgå at lukke tooltip med det samme pga. body click listener
 
             const tooltipId = icon.dataset.tooltipTarget;
             const tooltip = document.getElementById(tooltipId);
 
              // Hvis man klikker på ikonet for den allerede viste tooltip
-             if (tooltip === currentVisibleTooltip) {
-                hideAllTooltips();
-                // Hvis det var Forvalter, fjern highlight med det samme
-                if (icon.id === 'cimt-icon-forvaltning') {
-                    clearTimeout(labkaHighlightTimeout);
-                    labkaIcon.classList.remove('labka-highlight');
-                }
+             if (tooltip && tooltip.classList.contains('visible')) {
+                hideAllTooltips(); // Lukker den aktuelle tooltip
              } else {
                 // Skjul forrige tooltip og vis ny
                 hideAllTooltips();
@@ -155,24 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Special handling for Forvalter (LIMS) ikonet
                     if (icon.id === 'cimt-icon-forvaltning') {
-                        // Ryd tidligere timeout hvis der klikkes hurtigt
-                        clearTimeout(labkaHighlightTimeout);
-
+                        clearTimeout(labkaHighlightTimeout); // Ryd evt. gammel timer
                         labkaIcon.classList.add('labka-highlight');
-
-                        // Sæt timeout til at fjerne highlight igen efter lidt tid
                         labkaHighlightTimeout = setTimeout(() => {
                             labkaIcon.classList.remove('labka-highlight');
                         }, 2000); // Fremhæv i 2 sekunder
-                    } else {
-                         // Hvis et andet ikon klikkes, fjern evt. eksisterende Labka highlight
-                         clearTimeout(labkaHighlightTimeout);
-                         labkaIcon.classList.remove('labka-highlight');
                     }
-                } else {
-                    // Hvis der ikke var et tooltip, sørg for at fjerne Labka highlight
-                     clearTimeout(labkaHighlightTimeout);
-                     labkaIcon.classList.remove('labka-highlight');
+                    // Ingen grund til 'else' for at fjerne highlight her, da hideAllTooltips() nu håndterer det
                 }
              }
         });
@@ -186,24 +126,20 @@ document.addEventListener('DOMContentLoaded', () => {
          });
     });
 
-     // Klik udenfor popups for at lukke dem (simpel implementering)
+     // Klik udenfor popups for at lukke dem
      document.addEventListener('click', (event) => {
-         // Luk info-boks hvis der klikkes udenfor et step eller en info-boks
          const clickedElement = event.target;
+
+         // Luk info-boks hvis der klikkes udenfor et step eller en info-boks
          if (!clickedElement.closest('.workflow-step') && !clickedElement.closest('.info-box') && currentVisibleInfoBox) {
               hideAllInfoBoxes();
               removeAllStepHighlights();
-              highlightRelevantCimtIcons(null); // Nulstil CIMT highlights
          }
 
-          // Luk tooltip hvis der klikkes udenfor et CIMT ikon eller en tooltip (og laget er synligt)
+          // Luk tooltip hvis der klikkes udenfor et CIMT ikon eller en tooltip
+          // Tjek om laget er synligt FØR vi lukker tooltips, for at undgå at lukke dem når man tænder for laget
          if (body.classList.contains('cimt-visible') && !clickedElement.closest('.cimt-icon') && !clickedElement.closest('.tooltip') && currentVisibleTooltip) {
               hideAllTooltips();
-              // Fjern Labka highlight hvis det var aktivt pga. Forvalter tooltip
-              if (labkaIcon.classList.contains('labka-highlight')) {
-                   clearTimeout(labkaHighlightTimeout);
-                   labkaIcon.classList.remove('labka-highlight');
-              }
          }
      });
 
