@@ -21,13 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LeaderLine Options ---
     const lineOptions = {
-        color: 'rgba(120, 120, 120, 0.5)', // Lidt lysere grå, transparent
-        size: 2,                          // Lidt tykkere igen for synlighed
-        path: 'fluid',                    // NYT: Brug kurvede linjer
+        color: 'rgba(120, 120, 120, 0.5)', // Hold farven diskret
+        size: 3,                          // NYT: Lidt tykkere linje
+        path: 'fluid',                    // Behold fluid for kurver/undgåelse
         startSocket: 'bottom',
         endSocket: 'top',
-        // endPlug: 'arrow1',             // FJERNET: Ingen pil
-        // endPlugSize: 1.5,
+        // Ingen pil for et renere look med kurver
     };
 
 
@@ -81,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
                          const iconStyle = window.getComputedStyle(iconElement);
                          if (stepStyle.display !== 'none' && iconStyle.display !== 'none') {
                             try {
-                                // Brug evt. kopierede options for at undgå sideeffekter
                                 const currentOptions = {...lineOptions};
                                 const line = new LeaderLine(stepElement, iconElement, currentOptions);
                                 activeLines.push(line);
@@ -94,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
-             // Lille hack: Nogle gange skal linjer genpositioneres lige efter tegning
+             // Genpositioner kort efter for at sikre korrekt placering med fluid
              setTimeout(() => {
                 activeLines.forEach(l => { try { l.position(); } catch(e){} });
              }, 50);
@@ -151,9 +149,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    // Håndterer resize (Nu uden linjer - kan evt. fjernes helt)
+    // Håndterer resize (behøves sandsynligvis ikke med click-baserede linjer)
     // const handleResize = debounce(() => {
-    //     // Ingen linjer at opdatere ved resize i denne version
+    //     if (body.classList.contains('cimt-band-visible') && activeLines.length > 0) {
+    //          // Måske bare fjerne linjer ved resize?
+    //          // removeAllLines();
+    //          // Eller forsøge at repositionere?
+    //          // activeLines.forEach(l => { try { l.position(); } catch(e){} });
+    //     }
     // }, 250);
 
 
@@ -166,10 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
         hideTrendsBand();
         hideAllInfoBoxes();
         removeAllStepHighlights();
-        // removeAllLines(); // Sker nu i hideCimtBand
 
         if (isCurrentlyVisible) {
-             hideCimtBand();
+             hideCimtBand(); // Skjuler bånd og fjerner linjer/tooltips
         } else {
             body.classList.add('cimt-band-visible');
             // Linjer tegnes først ved ikon-klik
@@ -249,21 +251,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const tooltip = document.getElementById(tooltipId);
             const isCurrentTooltip = tooltip && tooltip.classList.contains('visible');
 
-            // Altid fjern gamle linjer og tooltips FØR vi gør noget nyt
             hideAllTooltips(); // Inkluderer removeAllLines()
 
             if (!isCurrentTooltip) {
-                // Vis ny tooltip
                 if (tooltip) {
                     tooltip.classList.add('visible');
                     currentVisibleTooltip = tooltip;
                 }
-                // Tegn KUN linjer hvis det er et ikon i CIMT båndet
                 if (isCimtVisible) {
-                     drawLinesForIcon(icon);
+                     drawLinesForIcon(icon); // Tegn nye linjer
                 }
             }
-            // Hvis tooltip VAR synlig, er den og linjer allerede fjernet af hideAllTooltips()
         });
 
          icon.addEventListener('keypress', (e) => {
@@ -300,8 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
      });
 
-     // Fjernet resize listener
-     // window.removeEventListener('resize', handleResize);
+     // window.removeEventListener('resize', handleResize); // Fjerner resize listener
 
      // Initial opdatering af knaptekster
      updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
