@@ -14,7 +14,7 @@ body {
 #infographic-container {
     width: 100%;
     max-width: 1800px;
-    padding: 15px; /* Lidt mindre padding */
+    padding: 15px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -25,12 +25,12 @@ h1 {
     text-align: center;
     color: #005f60;
     margin-bottom: 10px;
-    font-size: 1.5em; /* Lidt mindre H1 på mobil først */
+    font-size: 1.5em; /* Mobil først */
 }
 
 .center-text {
     text-align: center;
-    font-size: 0.85em; /* Lidt mindre intro */
+    font-size: 0.85em; /* Mobil først */
     color: #555;
     margin-bottom: 25px;
 }
@@ -41,7 +41,7 @@ h1 {
 }
 
 #controls button {
-    padding: 8px 15px; /* Mindre knapper */
+    padding: 8px 15px;
     font-size: 0.9em;
     cursor: pointer;
     background-color: #007bff;
@@ -49,7 +49,7 @@ h1 {
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    margin: 5px; /* Tillad ombrydning af knapper */
+    margin: 5px;
 }
 
 #controls button:hover {
@@ -60,7 +60,7 @@ h1 {
 #main-diagram {
     position: relative;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Lidt mindre afstand */
     z-index: 10;
 }
 
@@ -68,8 +68,8 @@ h1 {
     /* Standard: Lodret layout til mobil først */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrer trin lodret */
-    gap: 15px; /* Afstand mellem trin */
+    align-items: center;
+    gap: 15px;
     width: 95%;
     margin: 0 auto;
     padding-top: 10px;
@@ -86,23 +86,23 @@ h1 {
     border-radius: 8px;
     transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
     position: relative;
-    width: 90%; /* Tag mere bredde i lodret layout */
-    max-width: 150px; /* Men ikke FOR bred */
+    width: 90%;
+    max-width: 150px;
     flex-shrink: 0;
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Lidt skygge */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .workflow-step p {
     margin-top: 4px;
-    font-size: 0.8em; /* Mindre tekst */
+    font-size: 0.8em; /* Mobil først */
     font-weight: bold;
-    min-height: auto; /* Fjern min højde */
+    min-height: auto;
     line-height: 1.2;
 }
 
 .workflow-step:hover {
-    transform: scale(1.02); /* Mindre hover effekt */
+    transform: scale(1.02);
 }
 
 .workflow-step.highlighted {
@@ -112,34 +112,34 @@ h1 {
 
 .workflow-step svg {
     stroke: #005f60;
-    width: 48px; /* Mindre ikoner på mobil */
+    width: 48px; /* Mobil først */
     height: 48px;
 }
 
 .arrow {
-     display: none; /* Skjul pile i lodret layout */
-     /* Styling for pile genaktiveres i media query for større skærme */
+     display: none; /* Skjul pile som standard (mobil først) */
 }
 
-/* Bånd Styling (Mobil først) */
+/* Bånd Styling (Gælder både #cimt-band og #trends-band) */
 #cimt-band,
 #trends-band {
     display: none; /* Skjult som standard */
     flex-wrap: wrap; /* Tillad ombrydning */
-    justify-content: center; /* Centrer ikonerne */
+    justify-content: center; /* Centrer indhold */
     align-items: flex-start;
-    padding: 10px 5px; /* Mindre padding */
+    padding: 10px; /* Lidt mindre padding */
     background-color: #e9ecef;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    margin: 20px auto 0 auto; /* Mindre margin */
-    width: 100%; /* Fuld bredde på mobil */
+    margin: 20px auto 0 auto;
+    width: 100%; /* Brug fuld bredde på mobil */
     border-radius: 5px;
-    min-height: auto; /* Højde bestemmes af indhold */
+    min-height: auto;
     position: relative;
     z-index: 50;
-    gap: 10px; /* Mindre gap */
+    gap: 10px; /* Mindre gap på mobil */
 }
+
 
 /* Vis det relevante bånd baseret på body klasse */
 body.cimt-band-visible #cimt-band {
@@ -159,16 +159,16 @@ body.trends-band-visible #trends-band {
     cursor: pointer;
     transition: transform 0.3s ease;
     flex-shrink: 0;
-    width: 75px; /* Smallere ikon container */
+    width: 75px; /* Mobil størrelse */
     text-align: center;
     z-index: 51;
-    padding: 5px 0; /* Lidt lodret luft */
+    padding: 5px 0;
 }
 
 .cimt-icon svg {
     display: block;
-    width: 36px; /* Mindre ikon */
-    height: 36px; /* Mindre ikon */
+    width: 36px; /* Mobil størrelse */
+    height: 36px; /* Mobil størrelse */
     stroke: #555;
     margin-bottom: 3px;
 }
@@ -178,38 +178,38 @@ body.trends-band-visible #trends-band {
 }
 
 .cimt-icon-title {
-    font-size: 0.7em; /* Mindre titel */
+    font-size: 0.7em; /* Mobil størrelse */
     font-weight: bold;
     color: #333;
     line-height: 1.1;
     margin: 0;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    min-height: auto; /* Fjern min højde */
+    min-height: auto;
 }
 
 /* Tooltips (Mobil først) */
 .tooltip {
     display: none;
     position: absolute;
-    top: calc(100% + 5px); /* Lidt tættere på */
+    top: calc(100% + 5px);
     left: 50%;
     transform: translateX(-50%);
-    width: 90vw; /* Brug viewport width */
-    max-width: 300px; /* Max bredde for tooltip */
+    width: 90vw;
+    max-width: 300px;
     background-color: #333;
     color: white;
     text-align: left;
-    padding: 8px 10px; /* Mindre padding */
+    padding: 8px 10px;
     border-radius: 4px;
-    font-size: 0.9em; /* Mindre font i tooltip */
+    font-size: 0.9em; /* Mobil tooltip font */
     line-height: 1.3;
     z-index: 150;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Lidt skygge */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 .tooltip p {
     margin: 0;
@@ -240,15 +240,15 @@ body.trends-band-visible #trends-band {
 /* Info-boks container (Mobil først) */
 .info-box-container {
     width: 100%; /* Fuld bredde */
-    max-width: 900px; /* Stadig max bredde */
+    max-width: 900px;
     min-height: auto;
-    margin: 20px auto 0 auto; /* Mindre margin */
+    margin: 20px auto 0 auto;
     z-index: 100;
 }
 
 .info-box {
     display: none;
-    padding: 12px 15px; /* Lidt mindre padding */
+    padding: 12px 15px;
     background-color: #f8f9fa;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -267,20 +267,20 @@ body.trends-band-visible #trends-band {
 
 .info-box h2 {
     margin-top: 0;
-    font-size: 1.2em; /* Større end p, men mindre end desktop */
+    font-size: 1.2em; /* Mobil */
     color: #005f60;
     margin-bottom: 0.5em;
 }
 
 .info-box p {
-    font-size: 0.95em; /* Større end alm. tekst, men mindre end desktop */
+    font-size: 0.95em; /* Mobil */
     line-height: 1.4;
     color: #333;
 }
 
 /* --- Media Queries for Større Skærme --- */
 
-/* Tablet og opefter (f.eks. > 768px) */
+/* Tablet (f.eks. > 768px) */
 @media (min-width: 768px) {
     body { padding: 20px; }
     #infographic-container { padding: 20px; }
@@ -288,15 +288,15 @@ body.trends-band-visible #trends-band {
     .center-text { font-size: 0.9em; }
     #controls button { padding: 10px 20px; font-size: 1em; }
 
-    /* Genindfør vandret workflow */
+    /* Vandret workflow */
     #workflow-layer {
         flex-direction: row;
         align-items: flex-start;
-        gap: 0; /* Gap styres af pile */
-         width: 95%;
+        gap: 0;
+        width: 95%;
     }
     .arrow {
-        display: flex; /* Vis pile igen */
+        display: flex;
         align-items: center;
         justify-content: center;
         flex-grow: 1;
@@ -305,19 +305,20 @@ body.trends-band-visible #trends-band {
     }
     .arrow svg { width: 36px; height: 36px; }
     .workflow-step {
-        width: 110px; /* Tilbage til fast bredde */
+        width: 110px;
         padding: 10px;
         box-shadow: none;
     }
-    .workflow-step svg { width: 48px; height: 48px; } /* Lidt større end mobil */
+    .workflow-step svg { width: 48px; height: 48px; }
     .workflow-step p { font-size: 0.8em; min-height: 2.5em;}
 
-    /* Bånd styling */
+    /* Bånd styling - lidt større */
     #cimt-band, #trends-band {
         width: 95%;
         padding: 15px 10px;
-        min-height: 90px; /* Lidt højere */
+        min-height: 90px;
         gap: 15px;
+        margin-top: 30px;
     }
     .cimt-icon { width: 90px; }
     .cimt-icon svg { width: 48px; height: 48px; }
@@ -331,26 +332,47 @@ body.trends-band-visible #trends-band {
      .info-box p { font-size: 1.05em; }
 }
 
-/* Større tablet / lille desktop (f.eks. > 1000px) */
-@media (min-width: 1000px) {
-     .workflow-step svg { width: 64px; height: 64px; } /* Fuld størrelse ikon */
+/* Desktop (f.eks. > 1200px - her forsøger vi at få plads på én linje) */
+@media (min-width: 1200px) {
+     .workflow-step svg { width: 64px; height: 64px; }
      .workflow-step p { font-size: 0.9em; }
      .arrow svg { width: 44px; height: 44px; }
 
-     #cimt-band, #trends-band { min-height: 110px; gap: 20px; }
-     #trends-band { gap: 30px; }
-     .cimt-icon { width: 110px; }
-     .cimt-icon svg { width: 64px; height: 64px; } /* Fuld størrelse ikon */
-     .cimt-icon-title { font-size: 0.9em; }
-     .tooltip { font-size: 1.275em; width: 380px; } /* Fuld størrelse tooltip */
+     #cimt-band, #trends-band {
+        min-height: 100px; /* Lidt lavere min-højde nu */
+        gap: 15px; /* NYT: Lidt mindre gap for at spare plads */
+        max-width: 1600px; /* Tillad meget bredt bånd */
+        width: 98%; /* Brug næsten fuld bredde */
+        padding: 10px 5px; /* Lidt mindre padding */
+     }
+     #trends-band { gap: 25px; /* Stadig lidt mere luft i trends */ }
 
-     .info-box h2 { font-size: 1.54em; } /* Fuld størrelse info boks */
-     .info-box p { font-size: 1.26em; }
+     .cimt-icon {
+        width: 100px; /* NYT: Reduceret bredde lidt */
+        margin: 0; /* Styres af gap */
+     }
+     .cimt-icon svg {
+        width: 56px; /* NYT: Lidt mindre ikon */
+        height: 56px; /* NYT: Lidt mindre ikon */
+     }
+     .cimt-icon-title {
+        font-size: 0.8em; /* NYT: Lidt mindre titel */
+        min-height: 2.2em;
+     }
+     .tooltip {
+         font-size: 1.2em; /* Stadig stor, men ikke 1.275 */
+         width: 360px; /* Lidt mindre end før */
+     }
+
+     .info-box h2 { font-size: 1.5em; } /* Lidt mindre end før */
+     .info-box p { font-size: 1.2em; } /* Lidt mindre end før */
+     .info-box-container { width: 80%; max-width: 1000px; }
 }
 
-/* Ekstra bred skærm (f.eks. > 1400px) */
-@media (min-width: 1400px) {
-    #infographic-container { max-width: 1800px; }
-    #cimt-band, #trends-band { width: 95%; max-width: 1400px; } /* Lidt bredere bånd */
-    .info-box-container { width: 80%; max-width: 1000px; } /* Lidt bredere infoboks */
+/* Ekstra bred skærm */
+@media (min-width: 1600px) {
+    /* Her kan vi evt. øge størrelsen igen hvis ønsket */
+    /* .cimt-icon svg { width: 64px; height: 64px; } */
+    /* .cimt-icon-title { font-size: 0.9em; } */
+    /* .cimt-icon { width: 110px; } */
 }
