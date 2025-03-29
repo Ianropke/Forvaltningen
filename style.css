@@ -13,7 +13,7 @@ body {
 
 #infographic-container {
     width: 100%;
-    max-width: 1800px; /* Holder sidens max bredde */
+    max-width: 1800px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
@@ -67,7 +67,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 95%; /* Lidt indryk fra siderne */
+    width: 95%;
     margin: 0 auto;
     padding-top: 20px;
 }
@@ -128,17 +128,16 @@ h1 {
 #cimt-band,
 #trends-band {
     display: none; /* Skjult som standard */
-    flex-wrap: wrap; /* NYT: Tillad ombrydning igen */
-    justify-content: center; /* NYT: Centrer ikonerne */
-    /* overflow-x: auto; -- FJERNET */
+    flex-wrap: wrap; /* Tillad ombrydning */
+    justify-content: center; /* Centrer ikonerne */
     align-items: flex-start;
-    padding: 15px 10px; /* Gendan normal padding */
+    padding: 15px 10px;
     background-color: #e9ecef;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     margin: 30px auto 0 auto;
-    width: 95%; /* Brug 95% af containerens bredde */
-    /* max-width: 1200px; -- FJERNET for at lade båndet blive bredere */
+    width: 95%;
+    /* max-width: 1200px; -- Fjernet */
     border-radius: 5px;
     min-height: 110px;
     position: relative;
@@ -157,6 +156,7 @@ body.cimt-band-visible #cimt-band {
 body.trends-band-visible #trends-band {
     display: flex;
 }
+
 
 /* Ikon og Titel Styling (Gælder ikoner i BEGGE bånd) */
 .cimt-icon {
@@ -212,7 +212,7 @@ body.trends-band-visible #trends-band {
     text-align: left;
     padding: 12px 15px;
     border-radius: 4px;
-    font-size: 1.275em; /* Stor font */
+    font-size: 1.275em; /* Stor font for tooltip */
     line-height: 1.4;
     z-index: 150;
     opacity: 0;
@@ -232,6 +232,7 @@ body.trends-band-visible #trends-band {
 .tooltip p strong.tooltip-title {
      /* color: #fff; */
 }
+
 
 .tooltip::after { /* Pil peger op */
     content: "";
@@ -254,7 +255,7 @@ body.trends-band-visible #trends-band {
 .info-box-container {
     width: 85%;
     max-width: 900px;
-    min-height: 100px;
+    min-height: 120px; /* Lidt mere min-højde */
     margin: 30px auto 0 auto;
     z-index: 100;
 }
@@ -280,25 +281,26 @@ body.trends-band-visible #trends-band {
 
 .info-box h2 {
     margin-top: 0;
-    font-size: 1.1em;
+    font-size: 1.54em; /* NYT: 1.1em * 1.4 */
     color: #005f60;
+    margin-bottom: 0.6em; /* Lidt mere luft under overskrift */
 }
 
 .info-box p {
-    font-size: 0.9em;
-    line-height: 1.4;
+    font-size: 1.26em; /* NYT: 0.9em * 1.4 */
+    line-height: 1.5; /* Lidt større linjehøjde */
     color: #333;
 }
 
 
 /* Responsivitet */
 @media (max-width: 1400px) {
-    #infographic-container {
-        max-width: 1200px;
-    }
+    #infographic-container { max-width: 1200px; }
     #cimt-band, #trends-band { width: 98%; }
     .info-box-container { width: 90%; }
     .tooltip { width: 340px; font-size: 1.2em; }
+    .info-box h2 { font-size: 1.4em; } /* Juster ned */
+    .info-box p { font-size: 1.15em; } /* Juster ned */
 }
 
 @media (max-width: 1000px) {
@@ -307,35 +309,34 @@ body.trends-band-visible #trends-band {
     .cimt-icon { width: 90px; }
     #cimt-band, #trends-band { min-height: 90px; gap: 15px; }
     .tooltip { width: 300px; font-size: 1.1em; }
+    .info-box h2 { font-size: 1.3em; } /* Juster ned */
+    .info-box p { font-size: 1.05em; } /* Juster ned */
 }
 @media (max-width: 768px) {
-    #cimt-band, #trends-band {
-        /* Stadig wrap og center på mindre skærme */
-        padding: 10px 5px;
-        gap: 10px;
-    }
-     .cimt-icon { width: 80px; }
-     .cimt-icon svg { width: 40px; height: 40px; }
-     .cimt-icon-title { font-size: 0.7em; }
-
-     .workflow-step { width: 90px; }
-     .workflow-step svg { height: 48px; width: 48px; }
-     .workflow-step p { font-size: 0.8em; }
-     .arrow { display: none; }
-     #workflow-layer { flex-direction: column; align-items: center; gap: 15px; }
-     .tooltip { width: 250px; font-size: 1em; }
+    #cimt-band, #trends-band { justify-content: space-around; padding: 10px 5px; gap: 10px; }
+    .cimt-icon { width: 80px; }
+    .cimt-icon svg { width: 40px; height: 40px; }
+    .cimt-icon-title { font-size: 0.7em; }
+    .workflow-step { width: 90px; }
+    .workflow-step svg { height: 48px; width: 48px; }
+    .workflow-step p { font-size: 0.8em; }
+    .arrow { display: none; }
+    #workflow-layer { flex-direction: column; align-items: center; gap: 15px; }
+    .tooltip { width: 250px; font-size: 1em; }
+    .info-box h2 { font-size: 1.2em; } /* Juster ned */
+    .info-box p { font-size: 0.95em; } /* Juster ned */
 }
 @media (max-width: 480px) {
     #cimt-band, #trends-band { padding: 5px; justify-content: space-around; }
     .cimt-icon { width: 65px; margin: 5px 2px; }
     .cimt-icon svg { width: 32px; height: 32px; }
     .cimt-icon-title { font-size: 0.65em; }
-
     .workflow-step { width: 80px; }
-     .workflow-step svg { height: 40px; width: 40px; }
-     .workflow-step p { font-size: 0.75em; }
-
-     .info-box-container { width: 95%; margin-top: 15px; }
-     .info-box { padding: 10px; font-size: 0.85em;}
-     .tooltip { font-size: 0.9em; width: 85vw; }
+    .workflow-step svg { height: 40px; width: 40px; }
+    .workflow-step p { font-size: 0.75em; }
+    .info-box-container { width: 95%; margin-top: 15px; }
+    .info-box { padding: 10px; }
+    .info-box h2 { font-size: 1.1em; } /* Juster ned */
+    .info-box p { font-size: 0.9em; } /* Juster ned */
+    .tooltip { font-size: 0.9em; width: 85vw; }
 }
