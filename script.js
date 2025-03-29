@@ -36,24 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     // --- Event Listeners ---
 
     // Knap til at vise/skjule CIMT båndet
     toggleCimtButton.addEventListener('click', () => {
         if (!body.classList.contains('cimt-visible')) {
             // Hvis vi er ved at vise CIMT båndet:
-            hideAllInfoBoxes();         // Skjul info-boks
-            removeAllStepHighlights();  // Fjern step highlight
+            hideAllInfoBoxes();
+            removeAllStepHighlights();
         }
         // Ellers (hvis vi er ved at skjule båndet), gør vi ikke noget ved info-bokse/steps
 
         body.classList.toggle('cimt-visible'); // Vis/skjul bånd via CSS
-        updateToggleButtonText(); // Opdater knaptekst
+        updateToggleButtonText();
 
-        // Hvis vi lige har skjult båndet, skjul også tooltips
         if (!body.classList.contains('cimt-visible')) {
-            hideAllTooltips();
+            hideAllTooltips(); // Skjul tooltips når båndet skjules
         }
     });
 
@@ -66,19 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
              // Skjul altid CIMT båndet når et step klikkes
              if (body.classList.contains('cimt-visible')) {
                  body.classList.remove('cimt-visible');
-                 updateToggleButtonText(); // Opdater knap til "Vis..."
-                 hideAllTooltips(); // Skjul evt. åbne tooltips
+                 updateToggleButtonText();
+                 hideAllTooltips();
              }
 
             if (step === currentHighlightedStep) {
-                // Klik på allerede aktivt step: Skjul info-boks og fjern highlight
                 hideAllInfoBoxes();
                 removeAllStepHighlights();
             } else {
-                // Klik på nyt step: Skjul evt. gammel, vis ny, opdater highlight
                 hideAllInfoBoxes();
                 removeAllStepHighlights();
-                // Tooltips er allerede skjult ovenfor hvis båndet var synligt
 
                 step.classList.add('highlighted');
                 currentHighlightedStep = step;
@@ -103,13 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.addEventListener('click', (event) => {
              event.stopPropagation();
 
-             // Tjek om båndet er synligt
              if (!body.classList.contains('cimt-visible')) return;
 
-            // Sørg for at info-bokse er skjult, hvis et ikon klikkes
-            // (Selvom det burde være sket da båndet blev vist, for en sikkerheds skyld)
-             hideAllInfoBoxes();
-             removeAllStepHighlights();
+             hideAllInfoBoxes(); // Sikkerhedsforanstaltning
+             removeAllStepHighlights(); // Sikkerhedsforanstaltning
 
             const tooltipId = icon.dataset.tooltipTarget;
             const tooltip = document.getElementById(tooltipId);
@@ -117,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
              if (tooltip && tooltip.classList.contains('visible')) {
                 hideAllTooltips();
              } else {
-                hideAllTooltips(); // Skjul andre først
+                hideAllTooltips();
                 if (tooltip) {
                     tooltip.classList.add('visible');
                     currentVisibleTooltip = tooltip;
@@ -143,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
               removeAllStepHighlights();
          }
 
-          // Luk tooltip hvis der klikkes udenfor et CIMT ikon eller tooltip OG udenfor selve båndet
+          // Luk tooltip hvis der klikkes udenfor et CIMT ikon OG udenfor selve båndet
          if (body.classList.contains('cimt-visible') && !clickedElement.closest('.cimt-icon') && !clickedElement.closest('.tooltip') && currentVisibleTooltip) {
               if (!clickedElement.closest('#cimt-band')) {
                    hideAllTooltips();
