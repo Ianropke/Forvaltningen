@@ -109,6 +109,7 @@ h1 {
 
 .workflow-step svg {
     stroke: #005f60;
+    /* Husk at sætte width/height på SVG i HTML */
 }
 
 .arrow {
@@ -129,8 +130,7 @@ h1 {
 #trends-band {
     display: none; /* Skjult som standard */
     flex-wrap: wrap;
-    /* Justeret fordeling - center er måske bedre med færre ikoner i trends */
-    justify-content: center;
+    justify-content: center; /* Centrer ikonerne i båndet */
     align-items: flex-start;
     padding: 15px 10px;
     background-color: #e9ecef;
@@ -143,14 +143,12 @@ h1 {
     min-height: 110px;
     position: relative;
     z-index: 50;
+    gap: 20px; /* Tilføj afstand mellem ikonerne */
 }
 
-/* Lidt mere afstand mellem ikoner i båndene */
-#cimt-band {
-    gap: 20px; /* Tilføj lidt ekstra luft i CIMT båndet */
-}
+/* Lidt mere luft specifikt i trends-båndet */
 #trends-band {
-     gap: 30px; /* Lidt mere luft i Trends båndet da der er færre ikoner */
+     gap: 30px;
 }
 
 
@@ -171,7 +169,6 @@ body.trends-band-visible #trends-band {
     align-items: center;
     cursor: pointer;
     transition: transform 0.3s ease;
-    /* margin: 5px 10px; -- Erstattes af gap i parent */
     flex-shrink: 0;
     width: 110px;
     text-align: center;
@@ -228,11 +225,17 @@ body.trends-band-visible #trends-band {
 .tooltip p {
     margin: 0;
 }
-.tooltip p strong {
+.tooltip p strong { /* Gælder BÅDE titel og fremhævet tekst */
     display: block;
     margin-bottom: 4px;
     color: #eee;
+    /* Hvis kun krav skal være fed, ikke titlen, skal vi bruge en klasse */
 }
+
+.tooltip p strong.tooltip-title { /* Specifik styling for titel hvis nødvendigt */
+     color: #fff; /* Lidt lysere end krav? */
+}
+
 
 .tooltip::after { /* Pil peger op */
     content: "";
@@ -302,7 +305,6 @@ body.trends-band-visible #trends-band {
 }
 
 @media (max-width: 1000px) {
-    /* Størrelsen på ikoner i bånd justeres */
     .cimt-icon svg { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
     .cimt-icon { width: 90px; }
@@ -310,7 +312,7 @@ body.trends-band-visible #trends-band {
 }
 @media (max-width: 768px) {
     #cimt-band, #trends-band {
-        justify-content: space-around; /* Tilbage til space-around på mindre skærme */
+        justify-content: space-around;
         padding: 10px 5px;
         gap: 10px;
     }
@@ -326,7 +328,7 @@ body.trends-band-visible #trends-band {
 }
 @media (max-width: 480px) {
     #cimt-band, #trends-band { padding: 5px; justify-content: space-around; }
-    .cimt-icon { width: 65px; margin: 5px 2px; /* Mindre margin */ }
+    .cimt-icon { width: 65px; margin: 5px 2px; }
     .cimt-icon svg { width: 32px; height: 32px; }
     .cimt-icon-title { font-size: 0.65em; }
 
