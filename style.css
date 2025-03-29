@@ -19,7 +19,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: relative; /* Stadig relativ for tooltips */
-    /* Ikke brug for padding-bottom længere, da indholdet skubber højden */
 }
 
 h1 {
@@ -83,14 +82,14 @@ h1 {
     border-radius: 8px;
     transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
     position: relative;
-    width: 110px;
+    width: 110px; /* Bredde for workflow step */
     flex-shrink: 0;
     background-color: #fff;
 }
 
 .workflow-step p {
     margin-top: 5px;
-    font-size: 0.9em;
+    font-size: 0.9em; /* Workflow tekst størrelse */
     font-weight: bold;
     min-height: 2.5em;
     display: flex;
@@ -108,6 +107,8 @@ h1 {
 }
 
 .workflow-step svg {
+    /* Størrelse defineres i HTML som width="64" height="64" */
+    /* Sørg for at SVG'er har width/height attributter i HTML */
     stroke: #005f60;
 }
 
@@ -129,9 +130,8 @@ h1 {
     width: 85%;
     max-width: 900px;
     min-height: 100px;
-    margin: 30px auto 0 auto; /* Afstand over og centreret */
+    margin: 30px auto 0 auto;
     z-index: 100;
-    /* border: 1px dashed blue; /* Til debug */
 }
 
 .info-box {
@@ -165,13 +165,13 @@ h1 {
     color: #333;
 }
 
-/* CIMT Bånd Styling (nu i normalt flow) */
+/* CIMT Bånd Styling */
 #cimt-band {
     display: none; /* Skjult som standard, styres af body.cimt-visible */
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: flex-start;
-    padding: 10px; /* Reduceret padding */
+    align-items: flex-start; /* Juster så ikoner + tekst starter øverst */
+    padding: 15px 10px; /* Øget padding for større ikoner */
     background-color: #e9ecef;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
@@ -179,36 +179,35 @@ h1 {
     width: 95%;
     max-width: 1200px;
     border-radius: 5px;
-    min-height: 70px; /* Reduceret min-højde */
-    position: relative; /* For tooltips' z-index kontekst */
+    min-height: 110px; /* Øget min-højde pga. større ikoner/tekst */
+    position: relative;
     z-index: 50;
-    /* border: 1px dashed green; /* Til debug */
 }
 
 body.cimt-visible #cimt-band {
-    display: flex; /* Vis båndet */
+    display: flex;
 }
 
 .cimt-icon {
-    position: relative; /* For tooltip */
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
     transition: transform 0.3s ease;
-    margin: 5px 8px; /* Lidt mindre margin */
+    margin: 5px 10px;
     flex-shrink: 0;
-    width: 80px; /* Reduceret bredde */
+    width: 110px; /* Øget bredde, samme som .workflow-step */
     text-align: center;
-    z-index: 51; /* Over båndets baggrund */
+    z-index: 51;
 }
 
 .cimt-icon svg {
     display: block;
-    width: 28px; /* Reduceret ikon størrelse */
-    height: 28px; /* Reduceret ikon størrelse */
+    width: 64px; /* NYT: Samme bredde som workflow ikoner */
+    height: 64px; /* NYT: Samme højde som workflow ikoner */
     stroke: #555;
-    margin-bottom: 3px; /* Lidt mindre afstand */
+    margin-bottom: 4px;
 }
 
 .cimt-icon:hover {
@@ -217,24 +216,27 @@ body.cimt-visible #cimt-band {
 
 /* Styling af titel under CIMT ikon */
 .cimt-icon-title {
-    font-size: 0.7em; /* Reduceret font størrelse */
+    font-size: 0.9em; /* NYT: Samme font-size som workflow tekst */
+    font-weight: bold; /* Gør den fed ligesom workflow tekst */
     color: #333;
-    line-height: 1.1; /* Strammere linjehøjde */
+    line-height: 1.2;
     margin: 0;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    min-height: 2.5em; /* Samme min-højde som workflow tekst */
+    display: flex; /* Vertikal centrering hvis teksten er kort */
+    align-items: center;
+    justify-content: center;
 }
 
 
-/* Tooltips for CIMT ikoner (NU UNDER IKONET) */
+/* Tooltips for CIMT ikoner (under ikonet) */
 .tooltip {
     display: none;
     position: absolute;
-    /* NYT: Placer under ikon */
-    top: calc(100% + 8px);
+    top: calc(100% + 8px); /* Placeres under .cimt-icon div'en */
     left: 50%;
     transform: translateX(-50%);
-    /* Resten som før */
     width: 220px;
     background-color: #333;
     color: white;
@@ -258,16 +260,14 @@ body.cimt-visible #cimt-band {
     color: #eee;
 }
 
-.tooltip::after { /* Lille pil (NU OVER TOOLTIP, PEGER OP) */
+.tooltip::after { /* Lille pil (peger op) */
     content: "";
     position: absolute;
-    /* NYT: Placeres i bunden af pilen (som peger op) */
     bottom: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    /* NYT: Peger op */
     border-color: transparent transparent #333 transparent;
 }
 
@@ -287,26 +287,34 @@ body.cimt-visible #cimt-band {
 }
 
 @media (max-width: 1000px) {
-     /* Ingen ændringer nødvendige her længere ift. positionering */
+    /* Her kan det blive nødvendigt at reducere størrelsen igen */
+    .cimt-icon svg { width: 48px; height: 48px; }
+    .cimt-icon-title { font-size: 0.8em; }
+    .cimt-icon { width: 90px; }
+    #cimt-band { min-height: 90px; }
 }
-
 @media (max-width: 768px) {
     #cimt-band {
         justify-content: center;
+        padding: 10px 5px;
     }
-     .cimt-icon { width: 70px; } /* Endnu smallere */
-     .cimt-icon svg { width: 26px; height: 26px; }
-     .cimt-icon-title { font-size: 0.65em; }
+     .cimt-icon { width: 80px; }
+     .cimt-icon svg { width: 40px; height: 40px; }
+     .cimt-icon-title { font-size: 0.7em; }
+
      .workflow-step { width: 90px; }
      .workflow-step svg { height: 48px; width: 48px; }
-     .arrow { display: none; /* Skjul pile på små skærme hvis workflow bliver lodret */ }
-     #workflow-layer { flex-direction: column; align-items: center; gap: 15px; } /* Lodret workflow */
+     .workflow-step p { font-size: 0.8em; }
+     .arrow { display: none; }
+     #workflow-layer { flex-direction: column; align-items: center; gap: 15px; }
 }
 @media (max-width: 480px) {
-    #cimt-band { padding: 5px; }
-    .cimt-icon { width: 60px; margin: 5px; }
-    .cimt-icon svg { width: 24px; height: 24px; }
-    .cimt-icon-title { font-size: 0.6em; }
-    .info-box-container { width: 95%; margin-top: 15px; }
-    .info-box { padding: 10px; }
+    #cimt-band { padding: 5px; justify-content: space-around; }
+    .cimt-icon { width: 65px; margin: 5px; }
+    .cimt-icon svg { width: 32px; height: 32px; }
+    .cimt-icon-title { font-size: 0.65em; }
+
+    .workflow-step { width: 80px; }
+     .workflow-step svg { height: 40px; width: 40px; }
+     .workflow-step p { font-size: 0.75em; }
 }
