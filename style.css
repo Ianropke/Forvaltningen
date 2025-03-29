@@ -208,14 +208,14 @@ body.trends-band-visible #trends-band {
     top: calc(100% + 8px); /* Under ikonet */
     left: 50%;
     transform: translateX(-50%);
-    width: 220px;
+    width: 280px; /* Øget bredde for større tekst */
     background-color: #333;
     color: white;
     text-align: left;
-    padding: 10px 12px;
+    padding: 12px 15px; /* Lidt mere padding */
     border-radius: 4px;
-    font-size: 0.85em;
-    line-height: 1.3;
+    font-size: 1.275em; /* NYT: 0.85em * 1.5 */
+    line-height: 1.4; /* Lidt større linjehøjde */
     z-index: 150;
     opacity: 0;
     visibility: hidden;
@@ -225,15 +225,15 @@ body.trends-band-visible #trends-band {
 .tooltip p {
     margin: 0;
 }
-.tooltip p strong { /* Gælder BÅDE titel og fremhævet tekst */
+.tooltip p strong {
     display: block;
     margin-bottom: 4px;
     color: #eee;
-    /* Hvis kun krav skal være fed, ikke titlen, skal vi bruge en klasse */
+    /* Fed skrift anvendes nu både til titel og krav */
 }
 
-.tooltip p strong.tooltip-title { /* Specifik styling for titel hvis nødvendigt */
-     color: #fff; /* Lidt lysere end krav? */
+.tooltip p strong.tooltip-title { /* Giver mulighed for separat titel-styling */
+     /* F.eks.: color: #fff; */
 }
 
 
@@ -309,6 +309,7 @@ body.trends-band-visible #trends-band {
     .cimt-icon-title { font-size: 0.8em; }
     .cimt-icon { width: 90px; }
     #cimt-band, #trends-band { min-height: 90px; gap: 15px; }
+    .tooltip { font-size: 1.1em; width: 250px; } /* Lidt mindre på tablet */
 }
 @media (max-width: 768px) {
     #cimt-band, #trends-band {
@@ -325,6 +326,7 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.8em; }
      .arrow { display: none; }
      #workflow-layer { flex-direction: column; align-items: center; gap: 15px; }
+     .tooltip { font-size: 1em; width: 220px; } /* Lidt mindre på mobil */
 }
 @media (max-width: 480px) {
     #cimt-band, #trends-band { padding: 5px; justify-content: space-around; }
@@ -337,5 +339,6 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.75em; }
 
      .info-box-container { width: 95%; margin-top: 15px; }
-     .info-box { padding: 10px; }
+     .info-box { padding: 10px; font-size: 0.85em;} /* Lidt mindre infobox tekst */
+     .tooltip { font-size: 0.9em; width: 180px; } /* Mindre tooltip på små mobiler */
 }
