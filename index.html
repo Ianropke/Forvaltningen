@@ -14,7 +14,8 @@
 
         <div id="controls">
             <button id="toggle-cimt">Vis CIMT Understøttelse</button>
-            <button id="toggle-trends">Vis Tendenser/Risici</button> </div>
+            <button id="toggle-trends">Vis Tendenser/Risici</button>
+        </div>
 
         <div id="main-diagram">
             <div id="workflow-layer">
@@ -89,46 +90,28 @@
                 <div class="tooltip" id="tooltip-infosec"> <p><strong>CIMT Funktion: Informationssikkerhed</strong><br>Sikrer fortrolighed og integritet af patientdata (GDPR). Styrer adgangskontrol i systemer, logning, kryptering og håndtering af sikkerhedshændelser.</p> </div>
             </div>
         </div> <div id="trends-band">
-             <div class="cimt-icon" id="trend-ai" data-tooltip-target="tooltip-trend-ai" tabindex="0" aria-label="Trend/Risiko: AI/ML">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brain" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" /><path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" /><path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" /><path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" /><path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" /><path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" /></svg>
-                <p class="cimt-icon-title">AI / ML</p>
-                <div class="tooltip" id="tooltip-trend-ai"><p><strong>Trend/Risiko: AI/ML</strong><br>[Tekst om AI/Machine Learning i sundhedsvæsenet, muligheder og risici - leveres af bruger]</p></div>
+             <div class="cimt-icon" id="trend-tech" data-tooltip-target="tooltip-trend-tech" tabindex="0" aria-label="Tendens/Risiko: Ny Teknologi">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-atom-2" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 21l0 -6" /><path d="M3.634 15.366l1.827 -1.133" /><path d="M20.366 15.366l-1.827 -1.133" /><path d="M12 3l0 6" /><path d="M20.366 8.634l-1.827 1.133" /><path d="M3.634 8.634l1.827 1.133" /></svg>
+                 <p class="cimt-icon-title">Ny Teknologi</p>
+                 <div class="tooltip" id="tooltip-trend-tech"><p><strong>Trend/Risiko: Ny Teknologi</strong><br>Cloud-LIMS (skala, sikkerhed). AI/Automation (effektivitet, kvalitet). IoT/Robotter (automatisering). Nye bruger-interfaces (mobil, mv.). Kræver cloud/AI-kompetencer og robust infrastruktur.</p></div>
              </div>
 
-             <div class="cimt-icon" id="trend-cyber" data-tooltip-target="tooltip-trend-cyber" tabindex="0" aria-label="Trend/Risiko: Cybersikkerhed">
+             <div class="cimt-icon" id="trend-security" data-tooltip-target="tooltip-trend-security" tabindex="0" aria-label="Trend/Risiko: Sikkerhed & Krav">
                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-lock" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M12 11m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M10 14a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>
-                 <p class="cimt-icon-title">Cybersikkerhed</p>
-                 <div class="tooltip" id="tooltip-trend-cyber"><p><strong>Trend/Risiko: Cybersikkerhed</strong><br>[Tekst om stigende cybertrusler, ransomware, sikring af systemer og data - leveres af bruger]</p></div>
+                 <p class="cimt-icon-title">Sikkerhed & Krav</p>
+                 <div class="tooltip" id="tooltip-trend-security"><p><strong>Trend/Risiko: Sikkerhed & Krav</strong><br>Øget cybertrussel (ransomware). Strengere lovgivning (NIS2, GDPR). Nye teknologikrav (kryptering, MFA). Fokus på etik & Privacy by Design. Kræver overvågning, beredskab, audits, uddannelse.</p></div>
             </div>
 
-             <div class="cimt-icon" id="trend-cloud" data-tooltip-target="tooltip-trend-cloud" tabindex="0" aria-label="Trend/Risiko: Cloud">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.657 18c-2.572 0 -4.657 -2.007 -4.657 -4.483c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-11.878" /></svg>
-                 <p class="cimt-icon-title">Cloud</p>
-                 <div class="tooltip" id="tooltip-trend-cloud"><p><strong>Trend/Risiko: Cloud</strong><br>[Tekst om migration til cloud, fordele (skala, agilitet) og ulemper/risici (sikkerhed, afhængighed, omkostninger) - leveres af bruger]</p></div>
+             <div class="cimt-icon" id="trend-region" data-tooltip-target="tooltip-trend-region" tabindex="0" aria-label="Trend/Risiko: Region Øst">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg>
+                 <p class="cimt-icon-title">Region Øst</p>
+                 <div class="tooltip" id="tooltip-trend-region"><p><strong>Trend/Risiko: Region Øst</strong><br>Fusion RH/RS (~60k ansatte) giver IT-kompleksitet (konsolidering/integration). Kræver fælles infrastruktur, standarder & governance. Nødvendiggør tæt organisatorisk samarbejde ml. IT-afd.</p></div>
             </div>
 
-             <div class="cimt-icon" id="trend-data" data-tooltip-target="tooltip-trend-data" tabindex="0" aria-label="Trend/Risiko: Data Vækst">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-database" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /><path d="M4 6v6a8 3 0 0 0 16 0v-6" /><path d="M4 12v6a8 3 0 0 0 16 0v-6" /></svg>
-                 <p class="cimt-icon-title">Data Vækst</p>
-                 <div class="tooltip" id="tooltip-trend-data"><p><strong>Trend/Risiko: Data Vækst</strong><br>[Tekst om eksplosiv vækst i sundhedsdata, krav til lagring, analyse (Big Data) og datastyring - leveres af bruger]</p></div>
-            </div>
-
-             <div class="cimt-icon" id="trend-integration" data-tooltip-target="tooltip-trend-integration" tabindex="0" aria-label="Trend/Risiko: Integration">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plug-connected" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 12l5 5l-1.5 1.5a3.536 3.536 0 1 1 -5 -5l1.5 -1.5z" /><path d="M17 12l-5 -5l1.5 -1.5a3.536 3.536 0 1 1 5 5l-1.5 1.5z" /><path d="M3 21l2.5 -2.5" /><path d="M18.5 5.5l2.5 -2.5" /><path d="M10 11l-2 2" /><path d="M13 14l-2 2" /></svg>
-                 <p class="cimt-icon-title">Integration</p>
-                 <div class="tooltip" id="tooltip-trend-integration"><p><strong>Trend/Risiko: Integration</strong><br>[Tekst om stigende behov for integration mellem systemer (interoperabilitet), standarder (FHIR), kompleksitet og vedligehold - leveres af bruger]</p></div>
-            </div>
-
-            <div class="cimt-icon" id="trend-telemed" data-tooltip-target="tooltip-trend-telemed" tabindex="0" aria-label="Trend/Risiko: Telemedicin">
-                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-remote" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z" /><path d="M10 7l4 5l-4 5" /></svg>
-                 <p class="cimt-icon-title">Telemedicin</p>
-                 <div class="tooltip" id="tooltip-trend-telemed"><p><strong>Trend/Risiko: Telemedicin</strong><br>[Tekst om fjernmonitorering, virtuelle konsultationer, dataopsamling i hjemmet, og de IT-mæssige udfordringer - leveres af bruger]</p></div>
-            </div>
-
-             <div class="cimt-icon" id="trend-ressourcer" data-tooltip-target="tooltip-trend-ressourcer" tabindex="0" aria-label="Trend/Risiko: Ressourcer">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" /><path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M17 10h2a2 2 0 0 1 2 2v1" /><path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M3 13v-1a2 2 0 0 1 2 -2h2" /></svg>
-                 <p class="cimt-icon-title">Ressourcer</p>
-                 <div class="tooltip" id="tooltip-trend-ressourcer"><p><strong>Trend/Risiko: Ressourcer</strong><br>[Tekst om udfordringer med budgetter, personalemangel (både klinisk og IT), kompetenceudvikling og prioritering - leveres af bruger]</p></div>
+             <div class="cimt-icon" id="trend-growth" data-tooltip-target="tooltip-trend-growth" tabindex="0" aria-label="Trend/Risiko: Vækst & Integration">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-activity" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h4l3 8l4 -16l3 8h4" /></svg>
+                 <p class="cimt-icon-title">Vækst & Integration</p>
+                 <div class="tooltip" id="tooltip-trend-growth"><p><strong>Trend/Risiko: Vækst & Integration</strong><br>Stigende prøvemængder/kompleksitet & flere brugere/enheder kræver skalerbarhed/performance. Øget behov for systemintegration (interoperabilitet, FHIR/HL7). Kræver kapacitet, ekspertise & kompetenceudvikling (Cloud, Sikkerhed, Agile).</p></div>
             </div>
 
          </div> <div class="info-box-container">
