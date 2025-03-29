@@ -208,14 +208,15 @@ body.trends-band-visible #trends-band {
     top: calc(100% + 8px); /* Under ikonet */
     left: 50%;
     transform: translateX(-50%);
-    width: 280px; /* Øget bredde for større tekst */
+    width: 380px; /* NYT: Øget bredde markant */
+    max-width: 90vw; /* Max bredde ift. viewport */
     background-color: #333;
     color: white;
     text-align: left;
-    padding: 12px 15px; /* Lidt mere padding */
+    padding: 12px 15px;
     border-radius: 4px;
-    font-size: 1.275em; /* NYT: 0.85em * 1.5 */
-    line-height: 1.4; /* Lidt større linjehøjde */
+    font-size: 1.275em; /* Stor font */
+    line-height: 1.4;
     z-index: 150;
     opacity: 0;
     visibility: hidden;
@@ -229,11 +230,10 @@ body.trends-band-visible #trends-band {
     display: block;
     margin-bottom: 4px;
     color: #eee;
-    /* Fed skrift anvendes nu både til titel og krav */
 }
 
-.tooltip p strong.tooltip-title { /* Giver mulighed for separat titel-styling */
-     /* F.eks.: color: #fff; */
+.tooltip p strong.tooltip-title {
+     /* color: #fff; */
 }
 
 
@@ -302,6 +302,7 @@ body.trends-band-visible #trends-band {
     }
     #cimt-band, #trends-band { width: 98%; }
     .info-box-container { width: 90%; }
+    .tooltip { width: 340px; font-size: 1.2em; } /* Lidt mindre bredde/font */
 }
 
 @media (max-width: 1000px) {
@@ -309,7 +310,7 @@ body.trends-band-visible #trends-band {
     .cimt-icon-title { font-size: 0.8em; }
     .cimt-icon { width: 90px; }
     #cimt-band, #trends-band { min-height: 90px; gap: 15px; }
-    .tooltip { font-size: 1.1em; width: 250px; } /* Lidt mindre på tablet */
+    .tooltip { width: 300px; font-size: 1.1em; } /* Lidt mindre på tablet */
 }
 @media (max-width: 768px) {
     #cimt-band, #trends-band {
@@ -326,7 +327,7 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.8em; }
      .arrow { display: none; }
      #workflow-layer { flex-direction: column; align-items: center; gap: 15px; }
-     .tooltip { font-size: 1em; width: 220px; } /* Lidt mindre på mobil */
+     .tooltip { width: 250px; font-size: 1em; } /* Lidt mindre på mobil */
 }
 @media (max-width: 480px) {
     #cimt-band, #trends-band { padding: 5px; justify-content: space-around; }
@@ -339,6 +340,6 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.75em; }
 
      .info-box-container { width: 95%; margin-top: 15px; }
-     .info-box { padding: 10px; font-size: 0.85em;} /* Lidt mindre infobox tekst */
-     .tooltip { font-size: 0.9em; width: 180px; } /* Mindre tooltip på små mobiler */
+     .info-box { padding: 10px; font-size: 0.85em;}
+     .tooltip { font-size: 0.9em; width: 85vw; } /* Bredde ift. skærm, mindre font */
 }
