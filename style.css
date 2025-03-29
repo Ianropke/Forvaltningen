@@ -109,7 +109,6 @@ h1 {
 
 .workflow-step svg {
     stroke: #005f60;
-    /* Husk at sætte width/height på SVG i HTML */
 }
 
 .arrow {
@@ -130,7 +129,8 @@ h1 {
 #trends-band {
     display: none; /* Skjult som standard */
     flex-wrap: wrap;
-    justify-content: space-around;
+    /* Justeret fordeling - center er måske bedre med færre ikoner i trends */
+    justify-content: center;
     align-items: flex-start;
     padding: 15px 10px;
     background-color: #e9ecef;
@@ -141,9 +141,18 @@ h1 {
     max-width: 1200px;
     border-radius: 5px;
     min-height: 110px;
-    position: relative; /* For tooltips */
+    position: relative;
     z-index: 50;
 }
+
+/* Lidt mere afstand mellem ikoner i båndene */
+#cimt-band {
+    gap: 20px; /* Tilføj lidt ekstra luft i CIMT båndet */
+}
+#trends-band {
+     gap: 30px; /* Lidt mere luft i Trends båndet da der er færre ikoner */
+}
+
 
 /* Vis det relevante bånd baseret på body klasse */
 body.cimt-band-visible #cimt-band {
@@ -155,7 +164,6 @@ body.trends-band-visible #trends-band {
 
 
 /* Ikon og Titel Styling (Gælder ikoner i BEGGE bånd) */
-/* Bruger .cimt-icon klassen til begge typer ikoner for ensartethed */
 .cimt-icon {
     position: relative;
     display: flex;
@@ -163,7 +171,7 @@ body.trends-band-visible #trends-band {
     align-items: center;
     cursor: pointer;
     transition: transform 0.3s ease;
-    margin: 5px 10px;
+    /* margin: 5px 10px; -- Erstattes af gap i parent */
     flex-shrink: 0;
     width: 110px;
     text-align: center;
@@ -248,7 +256,7 @@ body.trends-band-visible #trends-band {
     width: 85%;
     max-width: 900px;
     min-height: 100px;
-    margin: 30px auto 0 auto; /* Afstand til elementet over (enten diagram eller et bånd) */
+    margin: 30px auto 0 auto;
     z-index: 100;
 }
 
@@ -298,12 +306,13 @@ body.trends-band-visible #trends-band {
     .cimt-icon svg { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
     .cimt-icon { width: 90px; }
-    #cimt-band, #trends-band { min-height: 90px; }
+    #cimt-band, #trends-band { min-height: 90px; gap: 15px; }
 }
 @media (max-width: 768px) {
     #cimt-band, #trends-band {
-        justify-content: center;
+        justify-content: space-around; /* Tilbage til space-around på mindre skærme */
         padding: 10px 5px;
+        gap: 10px;
     }
      .cimt-icon { width: 80px; }
      .cimt-icon svg { width: 40px; height: 40px; }
@@ -317,7 +326,7 @@ body.trends-band-visible #trends-band {
 }
 @media (max-width: 480px) {
     #cimt-band, #trends-band { padding: 5px; justify-content: space-around; }
-    .cimt-icon { width: 65px; margin: 5px; }
+    .cimt-icon { width: 65px; margin: 5px 2px; /* Mindre margin */ }
     .cimt-icon svg { width: 32px; height: 32px; }
     .cimt-icon-title { font-size: 0.65em; }
 
