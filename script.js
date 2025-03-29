@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const toggleCimtButton = document.getElementById('toggle-cimt');
-    // const cimtLayer = document.getElementById('cimt-layer'); // FJERNET
-    const cimtBand = document.getElementById('cimt-band'); // TILFØJET
+    const cimtBand = document.getElementById('cimt-band');
     const workflowSteps = document.querySelectorAll('.workflow-step');
     const infoBoxes = document.querySelectorAll('.info-box');
     const cimtIcons = document.querySelectorAll('.cimt-icon');
     const tooltips = document.querySelectorAll('.tooltip');
-    const body = document.body; // Stadig brugt til at styre synlighed
+    const body = document.body;
 
     let currentHighlightedStep = null;
     let currentVisibleInfoBox = null;
@@ -29,16 +28,32 @@ document.addEventListener('DOMContentLoaded', () => {
         currentHighlightedStep = null;
     }
 
-    // --- Event Listeners ---
-
-    // Knap til at vise/skjule CIMT båndet via body klasse
-    toggleCimtButton.addEventListener('click', () => {
-        body.classList.toggle('cimt-visible'); // Klassen styrer nu #cimt-band via CSS
+    function updateToggleButtonText() {
         if (body.classList.contains('cimt-visible')) {
             toggleCimtButton.textContent = 'Skjul CIMT Understøttelse';
         } else {
             toggleCimtButton.textContent = 'Vis CIMT Understøttelse';
-            hideAllTooltips(); // Skjul tooltips når båndet skjules
+        }
+    }
+
+
+    // --- Event Listeners ---
+
+    // Knap til at vise/skjule CIMT båndet
+    toggleCimtButton.addEventListener('click', () => {
+        if (!body.classList.contains('cimt-visible')) {
+            // Hvis vi er ved at vise CIMT båndet:
+            hideAllInfoBoxes();         // Skjul info-boks
+            removeAllStepHighlights();  // Fjern step highlight
+        }
+        // Ellers (hvis vi er ved at skjule båndet), gør vi ikke noget ved info-bokse/steps
+
+        body.classList.toggle('cimt-visible'); // Vis/skjul bånd via CSS
+        updateToggleButtonText(); // Opdater knaptekst
+
+        // Hvis vi lige har skjult båndet, skjul også tooltips
+        if (!body.classList.contains('cimt-visible')) {
+            hideAllTooltips();
         }
     });
 
@@ -48,13 +63,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const infoBoxId = step.dataset.infoTarget;
             const infoBox = document.getElementById(infoBoxId);
 
+             // Skjul altid CIMT båndet når et step klikkes
+             if (body.classList.contains('cimt-visible')) {
+                 body.classList.remove('cimt-visible');
+                 updateToggleButtonText(); // Opdater knap til "Vis..."
+                 hideAllTooltips(); // Skjul evt. åbne tooltips
+             }
+
             if (step === currentHighlightedStep) {
+                // Klik på allerede aktivt step: Skjul info-boks og fjern highlight
                 hideAllInfoBoxes();
                 removeAllStepHighlights();
             } else {
+                // Klik på nyt step: Skjul evt. gammel, vis ny, opdater highlight
                 hideAllInfoBoxes();
                 removeAllStepHighlights();
-                hideAllTooltips(); // Skjul også tooltips når man skifter step
+                // Tooltips er allerede skjult ovenfor hvis båndet var synligt
 
                 step.classList.add('highlighted');
                 currentHighlightedStep = step;
@@ -77,10 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Klik på CIMT ikoner i båndet
     cimtIcons.forEach(icon => {
         icon.addEventListener('click', (event) => {
-             event.stopPropagation(); // Undgå at klik går videre til body/band
+             event.stopPropagation();
 
-             // Tjek om båndet er synligt (selvom ikonet er klikket)
+             // Tjek om båndet er synligt
              if (!body.classList.contains('cimt-visible')) return;
+
+            // Sørg for at info-bokse er skjult, hvis et ikon klikkes
+            // (Selvom det burde være sket da båndet blev vist, for en sikkerheds skyld)
+             hideAllInfoBoxes();
+             removeAllStepHighlights();
 
             const tooltipId = icon.dataset.tooltipTarget;
             const tooltip = document.getElementById(tooltipId);
@@ -89,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 hideAllTooltips();
              } else {
                 hideAllTooltips(); // Skjul andre først
-
                 if (tooltip) {
                     tooltip.classList.add('visible');
                     currentVisibleTooltip = tooltip;
@@ -98,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
          icon.addEventListener('keypress', (e) => {
-             // Tjek om båndet er synligt
             if (body.classList.contains('cimt-visible') && (e.key === 'Enter' || e.key === ' ')) {
                  icon.click();
                  e.preventDefault();
@@ -110,15 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
      document.addEventListener('click', (event) => {
          const clickedElement = event.target;
 
-         // Luk info-boks hvis der klikkes udenfor et step eller en info-boks container
+         // Luk info-boks hvis der klikkes udenfor et step eller info-boks container
          if (!clickedElement.closest('.workflow-step') && !clickedElement.closest('.info-box-container') && currentVisibleInfoBox) {
               hideAllInfoBoxes();
               removeAllStepHighlights();
          }
 
-          // Luk tooltip hvis der klikkes udenfor et CIMT ikon eller en tooltip (men indenfor båndet, hvis det er synligt)
+          // Luk tooltip hvis der klikkes udenfor et CIMT ikon eller tooltip OG udenfor selve båndet
          if (body.classList.contains('cimt-visible') && !clickedElement.closest('.cimt-icon') && !clickedElement.closest('.tooltip') && currentVisibleTooltip) {
-              // Skal vi kun lukke, hvis der klikkes UDENFOR selve båndet også? Måske smartest.
               if (!clickedElement.closest('#cimt-band')) {
                    hideAllTooltips();
               }
