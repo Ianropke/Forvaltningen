@@ -13,7 +13,7 @@ body {
 
 #infographic-container {
     width: 100%;
-    max-width: 1800px;
+    max-width: 1800px; /* Holder sidens max bredde */
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
@@ -67,7 +67,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 95%;
+    width: 95%; /* Lidt indryk fra siderne */
     margin: 0 auto;
     padding-top: 20px;
 }
@@ -109,7 +109,6 @@ h1 {
 
 .workflow-step svg {
     stroke: #005f60;
-    /* Husk at sætte width/height på SVG i HTML */
 }
 
 .arrow {
@@ -129,32 +128,27 @@ h1 {
 #cimt-band,
 #trends-band {
     display: none; /* Skjult som standard */
-    /* NYT: Forhindr ombrydning og tillad scroll */
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: flex-start; /* Start fra venstre hvis der scrolles */
-    /* Slut */
+    flex-wrap: wrap; /* NYT: Tillad ombrydning igen */
+    justify-content: center; /* NYT: Centrer ikonerne */
+    /* overflow-x: auto; -- FJERNET */
     align-items: flex-start;
-    padding: 15px 10px;
-    padding-bottom: 25px; /* Lidt ekstra plads til scrollbar */
+    padding: 15px 10px; /* Gendan normal padding */
     background-color: #e9ecef;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     margin: 30px auto 0 auto;
-    width: 95%;
-    max-width: 1200px;
+    width: 95%; /* Brug 95% af containerens bredde */
+    /* max-width: 1200px; -- FJERNET for at lade båndet blive bredere */
     border-radius: 5px;
     min-height: 110px;
     position: relative;
     z-index: 50;
-    gap: 20px; /* Afstand mellem ikonerne */
+    gap: 20px;
 }
 
-/* Lidt mere luft specifikt i trends-båndet */
 #trends-band {
      gap: 30px;
 }
-
 
 /* Vis det relevante bånd baseret på body klasse */
 body.cimt-band-visible #cimt-band {
@@ -164,7 +158,6 @@ body.trends-band-visible #trends-band {
     display: flex;
 }
 
-
 /* Ikon og Titel Styling (Gælder ikoner i BEGGE bånd) */
 .cimt-icon {
     position: relative;
@@ -173,11 +166,10 @@ body.trends-band-visible #trends-band {
     align-items: center;
     cursor: pointer;
     transition: transform 0.3s ease;
-    flex-shrink: 0; /* Vigtigt for nowrap */
+    flex-shrink: 0;
     width: 110px;
     text-align: center;
     z-index: 51;
-    /* margin fjernet, bruger gap på parent */
 }
 
 .cimt-icon svg {
@@ -240,7 +232,6 @@ body.trends-band-visible #trends-band {
 .tooltip p strong.tooltip-title {
      /* color: #fff; */
 }
-
 
 .tooltip::after { /* Pil peger op */
     content: "";
@@ -319,11 +310,9 @@ body.trends-band-visible #trends-band {
 }
 @media (max-width: 768px) {
     #cimt-band, #trends-band {
-        /* Stadig nowrap og overflow-x: auto */
-        justify-content: flex-start; /* Start fra venstre */
+        /* Stadig wrap og center på mindre skærme */
         padding: 10px 5px;
-        padding-bottom: 20px; /* Plads til scrollbar */
-        gap: 15px; /* Lidt mere plads mellem ikoner */
+        gap: 10px;
     }
      .cimt-icon { width: 80px; }
      .cimt-icon svg { width: 40px; height: 40px; }
@@ -337,8 +326,8 @@ body.trends-band-visible #trends-band {
      .tooltip { width: 250px; font-size: 1em; }
 }
 @media (max-width: 480px) {
-    #cimt-band, #trends-band { padding: 5px; gap: 10px; }
-    .cimt-icon { width: 65px; }
+    #cimt-band, #trends-band { padding: 5px; justify-content: space-around; }
+    .cimt-icon { width: 65px; margin: 5px 2px; }
     .cimt-icon svg { width: 32px; height: 32px; }
     .cimt-icon-title { font-size: 0.65em; }
 
