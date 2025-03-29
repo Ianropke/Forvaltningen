@@ -18,8 +18,8 @@ body {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-    padding-bottom: 280px; /* GOD PLADS I BUNDEN til bånd + infoboks */
+    position: relative; /* Stadig relativ for tooltips */
+    /* Ikke brug for padding-bottom længere, da indholdet skubber højden */
 }
 
 h1 {
@@ -57,9 +57,10 @@ h1 {
 
 /* Diagram layout */
 #main-diagram {
-    position: relative;
+    position: relative; /* For z-index ift. tooltips */
     width: 100%;
-    margin-bottom: 20px; /* Afstand ned til indhold under */
+    margin-bottom: 30px; /* Afstand ned til CIMT bånd */
+    z-index: 10; /* Sørg for at diagram er over default, men under tooltips */
 }
 
 #workflow-layer {
@@ -69,9 +70,7 @@ h1 {
     width: 95%;
     margin: 0 auto;
     padding-top: 20px;
-    margin-bottom: 40px; /* Afstand til elementer under diagrammet */
-    position: relative; /* Sæt z-index for at sikre den er øverst */
-    z-index: 10;
+    /* Fjernet margin-bottom her, styres af #main-diagram */
 }
 
 .workflow-step {
@@ -87,7 +86,7 @@ h1 {
     position: relative;
     width: 110px;
     flex-shrink: 0;
-    background-color: #fff; /* Baggrund så de ligger "ovenpå" */
+    background-color: #fff;
 }
 
 .workflow-step p {
@@ -126,17 +125,15 @@ h1 {
     stroke: #aaa;
 }
 
-/* Info-boks container (Placeret HELT i bunden) */
+/* Info-boks container (nu i normalt flow) */
 .info-box-container {
-    position: absolute;
-    bottom: 10px; /* Helt i bunden med lidt luft */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%; /* Bredere */
-    max-width: 900px; /* Lidt bredere max */
-    min-height: 100px; /* Minimum højde */
-    z-index: 100; /* Læg over båndet */
-    pointer-events: none;
+    /* position: absolute; -- FJERNET */
+    width: 85%; /* Bredere */
+    max-width: 900px;
+    min-height: 100px;
+    margin: 20px auto 0 auto; /* Afstand over og centreret */
+    z-index: 100; /* Stadig høj z-index */
+    /* border: 1px dashed blue; /* Til debug */
 }
 
 .info-box {
@@ -149,7 +146,6 @@ h1 {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    pointer-events: auto;
     text-align: left;
 }
 
@@ -171,23 +167,23 @@ h1 {
     color: #333;
 }
 
-/* CIMT Bånd Styling (Placeret over info-boksen) */
+/* CIMT Bånd Styling (nu i normalt flow) */
 #cimt-band {
     display: none; /* Skjult som standard, styres af body.cimt-visible */
+    /* position: absolute; -- FJERNET */
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start; /* Juster så ikoner + tekst starter øverst */
     padding: 15px 10px;
     background-color: #e9ecef;
     border-top: 1px solid #ccc;
-    position: absolute;
-    bottom: 140px; /* Lige over info-boksen (ca. min-højde + padding/margin) - JUSTER DENNE VÆRDI */
-    left: 10px;
-    right: 10px;
-    width: auto;
+    border-bottom: 1px solid #ccc; /* Tilføj bundkant */
+    margin: 30px auto 0 auto; /* Afstand over og centreret */
+    width: 95%;
+    max-width: 1200px; /* Max bredde på bånd */
     border-radius: 5px;
-    z-index: 50;
-    min-height: 60px; /* Sørg for minimum højde til ikonerne */
+    min-height: 80px; /* Minimum højde til ikon + tekst */
+    /* border: 1px dashed green; /* Til debug */
 }
 
 body.cimt-visible #cimt-band {
@@ -195,34 +191,49 @@ body.cimt-visible #cimt-band {
 }
 
 .cimt-icon {
-    position: relative;
+    position: relative; /* For tooltip */
+    display: flex; /* Brug flex til ikon + titel */
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    background-color: rgba(200, 200, 200, 0.7);
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    /* Fjernet padding/border-radius - styres af indhold */
+    /* background-color: rgba(200, 200, 200, 0.7); -- Fjernet baggrund */
+    transition: transform 0.3s ease;
     margin: 5px 10px;
     flex-shrink: 0;
-    z-index: 51; /* Læg ikoner over båndets baggrund */
+    width: 90px; /* Fast bredde for at holde layout stabilt */
+    text-align: center;
 }
 
 .cimt-icon svg {
     display: block;
-    width: 32px;
+    width: 32px; /* Fasthold ikon størrelse */
     height: 32px;
     stroke: #555;
+    margin-bottom: 4px; /* Afstand ned til titel */
 }
 
 .cimt-icon:hover {
-    transform: scale(1.1);
-    background-color: rgba(150, 150, 150, 0.8);
+    transform: scale(1.05);
 }
 
-/* Tooltips for CIMT ikoner */
+/* NYT: Styling af titel under CIMT ikon */
+.cimt-icon-title {
+    font-size: 0.75em;
+    color: #333;
+    line-height: 1.2;
+    margin: 0;
+    /* Ordombrydning hvis nødvendigt */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+
+/* Tooltips for CIMT ikoner (positioneres ift. ikon) */
 .tooltip {
     display: none;
     position: absolute;
-    bottom: calc(100% + 5px);
+    bottom: calc(100% + 8px); /* Over hele .cimt-icon div'en nu */
     left: 50%;
     transform: translateX(-50%);
     width: 220px;
@@ -269,58 +280,29 @@ body.cimt-visible #cimt-band {
 @media (max-width: 1400px) {
     #infographic-container {
         max-width: 1200px;
-        padding-bottom: 300px; /* Stadig god plads */
     }
-    #cimt-band { bottom: 160px; /* Juster position ift. infoboks */ }
-    .info-box-container { width: 85%; bottom: 10px;}
+    #cimt-band { width: 98%; }
+    .info-box-container { width: 90%; }
 }
 
 @media (max-width: 1000px) {
+     /* Behøver ikke længere den store ændring af positionering */
      #workflow-layer {
-         flex-direction: column;
-         align-items: center;
-         width: 100%;
-         margin-bottom: 20px;
-         position: static; /* Fjern absolut positionering */
+         /* Kan stadig overveje column layout hvis det ønskes */
+         /* flex-direction: column; */
+         /* align-items: center; */
+         /* width: 100%; */
+         /* margin-bottom: 20px; */
      }
-     .arrow {
-         transform: rotate(90deg);
-         padding: 15px 0;
-     }
-     #cimt-band {
-         position: relative; /* Normal position i flowet */
-         bottom: auto;
-         left: auto;
-         right: auto;
-         margin: 20px auto;
-         width: 95%;
-     }
-     .info-box-container {
-         position: relative; /* Normal position i flowet */
-         width: 90%;
-         margin: 30px auto 0 auto;
-         transform: none;
-         left: auto;
-         bottom: auto;
-     }
-      #infographic-container {
-         padding-bottom: 20px; /* Normal padding igen */
-     }
+     /* .arrow { transform: rotate(90deg); padding: 15px 0; } */
+
 }
 @media (max-width: 768px) {
     #cimt-band {
-        justify-content: center;
-        padding: 10px 5px;
-        bottom: 180px; /* Juster evt. */
+        justify-content: center; /* Centrer ikoner tættere */
     }
-     .info-box-container {
-        min-height: 120px; /* Sørg for plads */
-     }
-    #infographic-container {
-         padding-bottom: 320px; /* Mere plads igen */
-    }
+     .cimt-icon { width: 75px; } /* Lidt smallere */
      .workflow-step { width: 90px; }
      .workflow-step svg { height: 48px; width: 48px; }
      .arrow svg { height: 32px; width: 32px; }
-     .cimt-icon { margin: 5px; } /* Mindre margin */
 }
