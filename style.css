@@ -18,7 +18,7 @@ body {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
+    position: relative; /* Vigtigt for absolut positionering af dynamisk tooltip */
 }
 
 h1 { text-align: center; color: #005f60; margin-bottom: 10px; font-size: 1.5em; }
@@ -62,30 +62,8 @@ body.trends-band-visible #trends-band { display: flex; }
 .tooltip.visible { display: block; opacity: 1; visibility: visible; }
 
 /* Dynamisk tooltip til trend eksempler */
-.trend-example-tooltip {
-    /* Position sættes af JS til 'fixed' */
-    display: block;
-    width: auto;
-    max-width: 280px; /* Lidt bredere */
-    background-color: #555;
-    color: white;
-    text-align: left;
-    padding: 8px 12px; /* Lidt mere padding */
-    border-radius: 4px;
-    font-size: 0.8em; /* Lidt større end før */
-    line-height: 1.4;
-    z-index: 210; /* Skal være over alt andet */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    pointer-events: none;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
-.trend-example-tooltip.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
+.trend-example-tooltip { position: absolute; display: block; width: auto; max-width: 280px; background-color: #555; color: white; text-align: left; padding: 8px 12px; border-radius: 4px; font-size: 0.8em; line-height: 1.4; z-index: 210; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease; pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+.trend-example-tooltip.visible { opacity: 1; visibility: visible; }
 
 /* Info-boks container */
 .info-box-container { width: 100%; max-width: 900px; margin: 20px auto 0 auto; position: relative; z-index: 100; clear: both; height: auto; max-height: none; overflow: visible; min-height: 50px; }
@@ -110,27 +88,8 @@ body.trends-band-visible #trends-band { display: flex; }
 .risk-marker svg { display: block; width: 100%; height: 100%; fill: #dc3545; stroke: #fff; stroke-width: 1; }
 .risk-marker.visible { opacity: 1; visibility: visible; transform: scale(1) rotate(0deg); }
 
-/* Opdateret styling for Trend Indikator Ikoner */
-.trend-indicator {
-    position: absolute;
-    top: -5px; /* Justeret */
-    left: -5px; /* Justeret */
-    width: 24px; /* Større */
-    height: 24px;
-    z-index: 17;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.5);
-    transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s, transform 0.3s ease 0.1s;
-    pointer-events: none;
-    background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    padding: 2px; /* Justeret padding */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.trend-indicator svg { display: block; width: 80%; height: 80%; stroke-width: 2; } /* Større SVG */
+.trend-indicator { position: absolute; top: -5px; left: -5px; width: 24px; height: 24px; z-index: 17; opacity: 0; visibility: hidden; transform: scale(0.5); transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s, transform 0.3s ease 0.1s; pointer-events: none; background-color: rgba(255, 255, 255, 0.6); border-radius: 50%; padding: 2px; display: flex; justify-content: center; align-items: center; }
+.trend-indicator svg { display: block; width: 80%; height: 80%; stroke-width: 2; }
 .trend-indicator.visible { opacity: 1; visibility: visible; transform: scale(1); }
 .trend-indicator.trend-icon-tech svg { fill: #17a2b8; stroke: #fff; }
 .trend-indicator.trend-icon-security svg { fill: #ffc107; stroke: #333; }
@@ -140,33 +99,30 @@ body.trends-band-visible #trends-band { display: flex; }
 /* Styling for LeaderLine */
 .leader-line { z-index: 60; pointer-events: none; }
 
-/* Fokus Effekt (Fade/Highlight) */
+/* Fokus Effekt (Fade/Highlight) - FULD KORRIGERET VERSION */
 #workflow-layer > .workflow-step,
 #cimt-band > .cimt-icon { transition: opacity 0.4s ease, transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease; opacity: 1; pointer-events: auto; }
 
-/* Når trend-fokus er aktivt, fade irrelevante */
+/* Fade irrelevante i Trend Fokus */
 body.trend-focus-active #workflow-layer > .workflow-step:not(.relevant-for-trend),
 body.trend-focus-active #cimt-band > .cimt-icon:not(.relevant-for-trend) { opacity: 0.3; pointer-events: none; }
 
-/* Når cimt-fokus er aktivt, fade irrelevante steps og ikoner */
+/* Fade irrelevante i CIMT Fokus */
 body.cimt-focus-active #workflow-layer > .workflow-step:not(.relevant-for-cimt),
 body.cimt-focus-active #cimt-band > .cimt-icon:not(.cimt-focus-icon) { opacity: 0.3; pointer-events: none; }
 
-/* Ophæv fade for relevante/aktive elementer */
+/* Ophæv fade for relevante/aktive */
 body.trend-focus-active .relevant-for-trend,
 body.cimt-focus-active .relevant-for-cimt,
 body.cimt-focus-active .cimt-focus-icon { opacity: 1 !important; pointer-events: auto; }
 
-
 /* --- Media Queries --- */
-
 @media (min-width: 768px) {
     body { padding: 20px; }
     #infographic-container { padding: 20px; }
     h1 { font-size: 1.8em; }
     .center-text { font-size: 0.9em; }
     #controls button { padding: 10px 20px; font-size: 1em; }
-
     #workflow-layer { flex-direction: row; justify-content: center; align-items: flex-start; gap: 0; width: auto; max-width: 1600px; margin-bottom: 60px; }
     .arrow { display: flex; }
     .arrow svg { width: 36px; height: 36px; }
@@ -176,15 +132,13 @@ body.cimt-focus-active .cimt-focus-icon { opacity: 1 !important; pointer-events:
     .priority-number { top: -10px; right: 0px; width: 22px; height: 22px; line-height: 22px; font-size: 0.8em; }
     #workflow-layer.workflow-frame-active .priority-number { top: -8px; }
     .risk-marker { top: -4px; left: -4px; width: 28px; height: 28px; }
-    .trend-indicator { top: -6px; left: -6px; width: 26px; height: 26px; } /* Større ikon */
-
+    .trend-indicator { top: -6px; left: -6px; width: 26px; height: 26px; }
     #cimt-band, #trends-band { width: 95%; padding: 15px 10px; min-height: 90px; gap: 15px; margin-top: 80px; }
     .cimt-icon { width: 90px; }
     .cimt-icon svg.icon { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
     .tooltip { font-size: 0.9em; max-width: 700px; }
     .trend-example-tooltip { max-width: 300px; font-size: 0.8em; }
-
      .info-box-container { width: 85%; margin-top: 30px; }
      .info-box { padding: 15px 20px; }
      .info-box h2 { font-size: 1.3em; }
@@ -192,7 +146,6 @@ body.cimt-focus-active .cimt-focus-icon { opacity: 1 !important; pointer-events:
      #info-significance ul.significance-list li { margin-bottom: 0.7em; }
      #info-significance p { font-size: 1.05em; }
 }
-
 @media (min-width: 1200px) {
      .workflow-step svg.icon { width: 64px; height: 64px; }
      .workflow-step p { font-size: 0.9em; }
@@ -200,9 +153,7 @@ body.cimt-focus-active .cimt-focus-icon { opacity: 1 !important; pointer-events:
      .priority-number { top: -12px; width: 24px; height: 24px; line-height: 24px; font-size: 0.85em; }
     #workflow-layer.workflow-frame-active .priority-number { top: -10px; }
     .risk-marker { top: -5px; left: -5px; width: 30px; height: 30px; }
-    .trend-indicator { top: -7px; left: -7px; width: 28px; height: 28px; } /* Større ikon */
-
-
+    .trend-indicator { top: -7px; left: -7px; width: 28px; height: 28px; }
      #cimt-band, #trends-band { min-height: 100px; gap: 15px; max-width: none; width: 98%; padding: 10px 5px; justify-content: center; }
      #trends-band { gap: 25px; }
      .cimt-icon { width: 100px; margin: 0; }
@@ -210,18 +161,16 @@ body.cimt-focus-active .cimt-focus-icon { opacity: 1 !important; pointer-events:
      .cimt-icon-title { font-size: 0.8em; }
      .tooltip { font-size: 1.0em; max-width: 850px; }
      .trend-example-tooltip { max-width: 320px; font-size: 0.85em; }
-
      .info-box h2 { font-size: 1.5em; }
      .info-box p { font-size: 1.2em; }
      .info-box-container { width: 80%; max-width: 1000px; }
      #info-significance p { font-size: 1.2em; }
 }
-
 @media (min-width: 1600px) {
      #cimt-band, #trends-band { max-width: 1600px; }
      .info-box-container { max-width: 1100px; }
      .tooltip { max-width: 900px; }
      .risk-marker { top: -6px; left: -6px; width: 32px; height: 32px; }
-     .trend-indicator { top: -8px; left: -8px; width: 30px; height: 30px; } /* Større ikon */
+     .trend-indicator { top: -8px; left: -8px; width: 30px; height: 30px; }
      .trend-example-tooltip { max-width: 350px; }
 }
