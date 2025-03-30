@@ -197,20 +197,21 @@ body.trends-band-visible #trends-band {
     min-height: auto;
 }
 
-/* Tooltips (KUN for CIMT ikoner) - Opdateret skrift/bredde */
+/* Tooltips (KUN for CIMT ikoner) - Forsøg med min-width */
 .tooltip {
     display: none;
     position: absolute;
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    max-width: min(500px, 90vw); /* <<< NY VÆRDI (Basis: Max 500px, men ikke > 90% af skærm) */
+    min-width: 300px; /* <<< NYT: Tvinger den til at være mindst 300px bred */
+    max-width: min(500px, 90vw); /* Bevarer max bredde fra sidst */
     background-color: #333;
     color: white;
     text-align: left;
     padding: 12px 15px;
     border-radius: 4px;
-    font-size: 0.8em; /* <<< NY SKRIFT (Basis) */
+    font-size: 0.8em; /* Beholder mindre skrift */
     line-height: 1.4;
     z-index: 150;
     opacity: 0;
@@ -218,6 +219,7 @@ body.trends-band-visible #trends-band {
     transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: none;
     box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    box-sizing: border-box; /* <<< NYT: Sikrer padding/border regnes med i bredden */
 }
 .tooltip p { margin: 0; }
 .tooltip p strong { display: block; margin-bottom: 4px; color: #eee; }
@@ -462,7 +464,13 @@ body.trends-band-visible #trends-band {
     .cimt-icon { width: 90px; }
     .cimt-icon svg { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
-    .tooltip { font-size: 0.9em; max-width: 600px; /* <<< NY SKRIFT/BREDDE (768px) */ }
+    /* Tooltip justeringer for 768px+ */
+    .tooltip {
+        font-size: 0.9em;
+        max-width: 600px; /* Bredere max-width */
+        /* min-width bevares fra basisreglen, eller kan justeres her hvis nødvendigt */
+        /* min-width: 400px; */
+     }
 
      .info-box-container { width: 85%; margin-top: 30px; }
      .info-box { padding: 15px 20px; }
@@ -488,7 +496,13 @@ body.trends-band-visible #trends-band {
      .cimt-icon { width: 100px; margin: 0; }
      .cimt-icon svg { width: 56px; height: 56px; }
      .cimt-icon-title { font-size: 0.8em; }
-     .tooltip { font-size: 1.0em; max-width: 700px; /* <<< NY SKRIFT/BREDDE (1200px) */ }
+     /* Tooltip justeringer for 1200px+ */
+     .tooltip {
+        font-size: 1.0em;
+        max-width: 700px; /* Bredere max-width */
+        /* min-width bevares fra basisreglen, eller kan justeres her hvis nødvendigt */
+        /* min-width: 450px; */
+     }
 
      .info-box h2 { font-size: 1.5em; }
      .info-box p { font-size: 1.2em; }
@@ -503,5 +517,10 @@ body.trends-band-visible #trends-band {
      #cimt-band, #trends-band { max-width: 1600px; }
      .info-box-container { max-width: 1100px; }
      #modal-content { max-width: 750px; }
-     .tooltip { max-width: 750px; /* <<< NY BREDDE (1600px) */ }
+     /* Tooltip justeringer for 1600px+ */
+     .tooltip {
+         max-width: 750px; /* Lidt bredere max-width */
+         /* min-width bevares fra basisreglen, eller kan justeres her hvis nødvendigt */
+        /* min-width: 500px; */
+      }
 }
