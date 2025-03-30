@@ -101,15 +101,15 @@
              <div class="cimt-icon" id="trend-security"
                   data-description="Øget cybertrussel (ransomware). Strengere lovgivning (NIS2, GDPR). Fokus på etik & Privacy by Design."
                   data-examples-map='{"step-analyse": "Malware-risiko på udstyr/net","step-resultat-sp": "Krav til kryptering/logning","step-kliniker-adgang": "Phishing/MFA","step-proevetagning": "Datasikkerhed ved registrering","Generelt": "Overholdelse af NIS2/GDPR"}'
-                  data-relevant-steps="step-proevetagning step-transport step-analyse step-andre-analyser step-resultat-sp step-kliniker-adgang"
+                  data-relevant-steps="step-proevetagning step-analyse step-resultat-sp" /* <<< KUN 3 steps */
                   data-relevant-cimt="cimt-icon-opsec cimt-icon-infosec cimt-icon-infra cimt-icon-arkitekt"
                   tabindex="0" aria-label="Trend/Risiko: Sikkerhed & Krav">
                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-lock" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M12 11m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M10 14a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg><p class="cimt-icon-title">Sikkerhed & Krav</p>
               </div>
              <div class="cimt-icon" id="trend-region"
                   data-description="Fusion RH/RS (~60k ansatte) giver IT-kompleksitet (konsolidering/integration)."
-                  data-examples-map='{"step-resultat-sp": "Harmonisering af data/formater","step-analyse": "Konsolidering af LIMS?","step-kliniker-adgang": "Fælles adgang/SP","step-transport": "Fælles infrastruktur (rørpost?)","Generelt": "Behov for standarder & governance"}'
-                  data-relevant-steps="step-proevetagning step-transport step-analyse step-andre-analyser step-resultat-sp step-kliniker-adgang"
+                  data-examples-map='{"step-resultat-sp": "Harmonisering af data/formater","step-analyse": "Konsolidering af LIMS?","step-kliniker-adgang": "Fælles adgang/SP","Generelt": "Behov for standarder & governance"}' /* Fjernet step-transport ex */
+                  data-relevant-steps="step-analyse step-resultat-sp step-kliniker-adgang" /* <<< KUN 3 steps */
                   data-relevant-cimt="cimt-icon-infra cimt-icon-forvaltning cimt-icon-strategi cimt-icon-arkitekt cimt-icon-servicedesk cimt-icon-lokalsys"
                   tabindex="0" aria-label="Trend/Risiko: Region Øst">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg><p class="cimt-icon-title">Region Øst</p>
