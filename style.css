@@ -70,8 +70,8 @@ h1 {
     align-items: center;
     gap: 15px;
     width: 95%;
-    max-width: 1600px; /* Sæt max bredde for bedre centrering */
-    margin: 0 auto;
+    max-width: 1600px; /* Sat max bredde */
+    margin: 0 auto; /* Centrering */
     padding-top: 10px;
     margin-bottom: 40px;
 }
@@ -126,7 +126,7 @@ h1 {
 #trends-band {
     display: none;
     flex-wrap: wrap;
-    justify-content: center; /* Centrer som standard */
+    justify-content: center; /* Centrering */
     align-items: flex-start;
     padding: 10px;
     background-color: #e9ecef;
@@ -316,7 +316,7 @@ body.trends-band-visible #trends-band {
     width: 95%; /* Mobil først */
     position: relative;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-height: 85vh; /* Lidt højere */
+    max-height: 85vh;
     overflow-y: auto;
 }
 
@@ -373,7 +373,7 @@ body.trends-band-visible #trends-band {
 }
 
 
-/* --- Media Queries for Større Skærme --- */
+/* --- Media Queries --- */
 
 @media (min-width: 768px) {
     body { padding: 20px; }
@@ -382,12 +382,14 @@ body.trends-band-visible #trends-band {
     .center-text { font-size: 0.9em; }
     #controls button { padding: 10px 20px; font-size: 1em; }
 
-    /* Vandret workflow */
+    /* Vandret workflow - NU CENTRERET */
     #workflow-layer {
         flex-direction: row;
         align-items: flex-start;
-        gap: 0;
-        width: 95%;
+        justify-content: center; /* NYT: Centrerer indholdet */
+        gap: 0; /* Styres af pile */
+        width: auto; /* Lad flex bestemme bredden */
+        /* max-width: 1600px; -- Stadig sat */
         margin-bottom: 60px;
     }
     .arrow { display: flex; width: 36px; height: 36px; }
@@ -419,19 +421,9 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.9em; }
      .arrow svg { width: 44px; height: 44px; }
 
-     #cimt-band, #trends-band {
-        min-height: 100px;
-        gap: 15px;
-        max-width: 1600px; /* Max bredde for bånd */
-        width: 95%; /* Tilpasser sig container */
-        padding: 10px 5px;
-        justify-content: center; /* Centrér */
-        margin-left: auto; /* Centrér bånd */
-        margin-right: auto; /* Centrér bånd */
-     }
+     #cimt-band, #trends-band { min-height: 100px; gap: 15px; max-width: none; width: 98%; padding: 10px 5px; justify-content: center; }
      #trends-band { gap: 25px; }
-
-     .cimt-icon { width: 100px; }
+     .cimt-icon { width: 100px; margin: 0; }
      .cimt-icon svg { width: 56px; height: 56px; }
      .cimt-icon-title { font-size: 0.8em; }
      .tooltip { font-size: 1.2em; width: 360px; }
@@ -445,6 +437,7 @@ body.trends-band-visible #trends-band {
 }
 
 @media (min-width: 1600px) {
+     #cimt-band, #trends-band { max-width: 1600px; }
      .info-box-container { max-width: 1100px; }
      #modal-content { max-width: 750px; }
 }
