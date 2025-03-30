@@ -72,9 +72,23 @@ h1 {
     width: 95%;
     max-width: 1600px;
     margin: 0 auto;
-    padding-top: 25px;
+    padding-top: 25px; /* Original padding */
+    padding-bottom: 0; /* Original padding */
     margin-bottom: 40px;
+    border-radius: 10px; /* Tilføjet for outline */
+    /* Overgang for padding ifm. ramme */
+    transition: outline 0.4s ease-in-out, outline-offset 0.4s ease-in-out, padding 0.4s ease-in-out;
 }
+
+/* NYT: Ramme omkring workflow for "Samlet Indsats" */
+#workflow-layer.workflow-frame-active {
+    outline: 4px dashed #005f60; /* Tydelig stiplet ramme i primærfarven */
+    outline-offset: 12px; /* Lidt luft mellem ramme og ikoner */
+    /* Juster padding dynamisk for at undgå overlap med ramme/offset */
+    padding-top: calc(25px + 12px + 4px); /* Original + offset + outline */
+    padding-bottom: calc(12px + 4px); /* Lidt ekstra plads i bunden pga ramme */
+}
+
 
 .workflow-step {
     display: flex;
@@ -197,14 +211,14 @@ body.trends-band-visible #trends-band {
     min-height: auto;
 }
 
-/* Tooltips (KUN for CIMT ikoner) - Opdateret skrift/bredde */
+/* Tooltips (KUN for CIMT ikoner) */
 .tooltip {
     display: none;
     position: absolute;
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    min-width: 300px; /* <<< Sikrer minimum bredde */
+    min-width: 300px; /* Sikrer minimum bredde */
     max-width: min(500px, 90vw); /* Basis: Max 500px, men ikke > 90% af skærm */
     background-color: #333;
     color: white;
@@ -219,7 +233,7 @@ body.trends-band-visible #trends-band {
     transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: none;
     box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    box-sizing: border-box; /* Sikrer padding/border regnes med i bredden */
+    box-sizing: border-box;
 }
 .tooltip p { margin: 0; }
 .tooltip p strong { display: block; margin-bottom: 4px; color: #eee; }
@@ -296,16 +310,16 @@ body.trends-band-visible #trends-band {
     cursor: pointer;
     padding: 4px 6px;
     border-radius: 4px;
-    transition: background-color 0.2s ease, color 0.2s ease; /* Tilføjet color transition */
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 #info-significance ul.significance-list li:hover {
     background-color: #e9ecef;
 }
 /* Opdateret styling for aktivt punkt */
 #info-significance ul.significance-list li.active-visual {
-    /* background-color: #d0eaff; */ /* Fjernet baggrundsfarve */
-    font-weight: bold; /* Beholder fed skrift som markering */
-    color: #005f60; /* Gør teksten mørkegrøn for ekstra tydelighed */
+    /* background-color: #d0eaff; */ /* Fjernet baggrund */
+    font-weight: bold;
+    color: #005f60; /* Mørkegrøn tekst i stedet */
 }
 #info-significance p em {
     color: #555;
@@ -315,7 +329,7 @@ body.trends-band-visible #trends-band {
 /* Styling for Betydning Visualiseringer */
 .priority-number {
     position: absolute;
-    top: -8px;
+    top: -12px; /* Justeret lidt ned igen pga. workflow padding ændring */
     right: -5px;
     display: inline-block;
     width: 20px;
@@ -329,7 +343,7 @@ body.trends-band-visible #trends-band {
     border-radius: 50%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition: opacity 0.4s ease, visibility 0.4s ease, top 0.4s ease-in-out; /* Tilføjet top transition */
     z-index: 15;
     pointer-events: none;
 }
@@ -337,6 +351,11 @@ body.trends-band-visible #trends-band {
     opacity: 1;
     visibility: visible;
 }
+/* Juster .priority-number position når rammen er aktiv */
+#workflow-layer.workflow-frame-active .priority-number {
+     top: -8px; /* Flyt lidt op igen når der er ekstra padding */
+}
+
 
 .cimt-icon.risk-focus-highlight {
     outline: 3px solid #ffc107;
@@ -461,6 +480,7 @@ body.trends-band-visible #trends-band {
     .workflow-step svg { width: 48px; height: 48px; }
     .workflow-step p { font-size: 0.8em; }
     .priority-number { top: -10px; right: 0px; width: 22px; height: 22px; line-height: 22px; font-size: 0.8em; }
+    #workflow-layer.workflow-frame-active .priority-number { top: -8px; } /* Justering for ramme */
 
     #cimt-band, #trends-band { width: 95%; padding: 15px 10px; min-height: 90px; gap: 15px; margin-top: 80px; }
     .cimt-icon { width: 90px; }
@@ -469,7 +489,7 @@ body.trends-band-visible #trends-band {
     /* Tooltip justeringer for 768px+ */
     .tooltip {
         font-size: 0.9em;
-        max-width: 600px; /* Bredere max-width */
+        max-width: 600px;
         /* min-width arves fra basisreglen */
      }
 
@@ -491,6 +511,8 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.9em; }
      .arrow svg { width: 44px; height: 44px; }
      .priority-number { top: -12px; width: 24px; height: 24px; line-height: 24px; font-size: 0.85em; }
+    #workflow-layer.workflow-frame-active .priority-number { top: -10px; } /* Justering for ramme */
+
 
      #cimt-band, #trends-band { min-height: 100px; gap: 15px; max-width: none; width: 98%; padding: 10px 5px; justify-content: center; }
      #trends-band { gap: 25px; }
@@ -500,7 +522,7 @@ body.trends-band-visible #trends-band {
      /* Tooltip justeringer for 1200px+ */
      .tooltip {
         font-size: 1.0em;
-        max-width: 700px; /* Bredere max-width */
+        max-width: 700px;
         /* min-width arves fra basisreglen */
      }
 
@@ -519,7 +541,7 @@ body.trends-band-visible #trends-band {
      #modal-content { max-width: 750px; }
      /* Tooltip justeringer for 1600px+ */
      .tooltip {
-         max-width: 750px; /* Lidt bredere max-width */
+         max-width: 750px;
          /* min-width arves fra basisreglen */
       }
 }
