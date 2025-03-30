@@ -10,7 +10,9 @@
 
     <div id="infographic-container">
         <h1>Sammen om forvaltningen i CIMT</h1>
-        <p class="center-text"><em>Klik på trinene i blodprøvens rejse for detaljer. Aktiver knapperne nedenfor for at se CIMT funktioner (med tooltip/fokus), Tendenser/Risici (med fokus-effekt) eller Betydning for CIMT (med visuelle pointer). Klik på ikonerne i båndene eller punkterne i 'Betydning' for info.</em></p> <div id="controls">
+        <p class="center-text"><em>Klik på trinene i blodprøvens rejse for detaljer. Aktiver knapperne nedenfor for at se CIMT funktioner (med tooltip/fokus), Tendenser/Risici (med fokus-effekt) eller Betydning for CIMT (med visuelle pointer). Klik på ikonerne i båndene eller punkterne i 'Betydning' for info.</em></p>
+
+        <div id="controls">
             <button id="toggle-cimt">Vis CIMT Understøttelse</button>
             <button id="toggle-trends">Vis Tendenser/Risici</button>
             <button id="toggle-significance">Vis Betydning for CIMT</button>
@@ -91,12 +93,12 @@
              </div>
 
         <div class="info-box-container">
-            <div class="info-box" id="info-proevetagning"><h2>Prøvetagning (Afdeling)</h2><p>...</p></div>
-            <div class="info-box" id="info-transport"><h2>Transport (Rørpost)</h2><p>...</p></div>
-            <div class="info-box" id="info-analyse"><h2>Primær Analyse (Biokemisk Lab)</h2><p>...</p></div>
-            <div class="info-box" id="info-andre-analyser"><h2>Evt. Videresendelse / Andre Analyser</h2><p>...</p></div>
-            <div class="info-box" id="info-resultat-sp"><h2>Resultat til Sundhedsplatformen og nationale baser</h2><p>...</p></div>
-            <div class="info-box" id="info-kliniker-adgang"><h2>Kliniker og patientadgang (via SP)</h2><p>...</p></div>
+            <div class="info-box" id="info-proevetagning"><h2>Prøvetagning (Afdeling)</h2><p>Her starter rejsen. Sundhedspersonale på afdelingen identificerer patienten og tager blodprøven iht. procedurer. Korrekt mærkning med patient-ID er kritisk. Udstyr som håndholdte scannere kan bruges til registrering. Prøven klargøres til transport.</p></div>
+            <div class="info-box" id="info-transport"><h2>Transport (Rørpost)</h2><p>Prøven sendes hurtigt og sikkert til det centrale biokemiske laboratorium via regionens interne luftpostsystem. Systemet sikrer sporbarhed og overholder krav til fx temperatur.</p></div>
+            <div class="info-box" id="info-analyse"><h2>Primær Analyse (Biokemisk Lab)</h2><p>I laboratoriet scannes prøven igen og registreres i Labka II, som nu styrer den videre proces. Prøven placeres ofte i automatiserede analysemaskiner, der udfører de bestilte tests. Resultater overføres digitalt fra maskinerne til Labka II.</p></div>
+            <div class="info-box" id="info-andre-analyser"><h2>Evt. Videresendelse / Andre Analyser</h2><p>Hvis der er bestilt specialanalyser, som ikke udføres af det primære apparatur, håndterer Labka II processen med at videresende prøven (eller en del af den) til analyse. Labka II modtager også svarene retur digitalt, så alle resultater samles.</p></div>
+            <div class="info-box" id="info-resultat-sp"><h2>Resultat til Sundhedsplatformen og nationale baser</h2><p>Når analyseresultaterne er valideret i Labka II (både teknisk og af bioanalytikere/læger), sendes de automatisk og sikkert videre til Sundhedsplatformen og andre baser. Dette sker via standardiserede integrationsformater (fx HL7). Overførslen sikrer, at resultaterne bliver tilgængelige for klinikere.</p></div>
+            <div class="info-box" id="info-kliniker-adgang"><h2>Kliniker og patientadgang (via SP)</h2><p>Patienter, læger og andet sundhedspersonale tilgår blodprøvesvarene direkte i patientens elektroniske journal i Sundhedsplatformen (SP). Her ses resultaterne i kontekst med andre patientdata, hvilket understøtter diagnose og behandling.</p></div>
 
             <div class="info-box" id="info-significance">
                 <h2>Betydning for CIMT: Sammen om Forvaltningen</h2>
@@ -105,7 +107,7 @@
                     <li data-visual="unified" tabindex="0">Sikre at forretningen oplever en samlet indsats fra CIMT.</li>
                     <li data-visual="risk" tabindex="0">Sikre at de største risici adresseres først på tværs af CIMT.</li>
                 </ul>
-                <p><em>Dette kræver stærkt internt samarbejde...</em></p>
+                <p><em>Dette kræver stærkt internt samarbejde på tværs af funktioner i CIMT for at lykkes med både drift og udvikling i lyset af fremtidens krav og muligheder.</em></p>
             </div>
         </div> <div id="dynamic-tooltip-container"></div>
 
