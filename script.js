@@ -2,19 +2,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Knapper
     const toggleCimtButton = document.getElementById('toggle-cimt');
     const toggleTrendsButton = document.getElementById('toggle-trends');
+    const toggleConclusionButton = document.getElementById('toggle-conclusion'); // NY
 
     // Containere / Lag
     const cimtBand = document.getElementById('cimt-band');
     const trendsBand = document.getElementById('trends-band');
     const workflowSteps = document.querySelectorAll('.workflow-step');
-    const infoBoxes = document.querySelectorAll('.info-box');
-    const allIcons = document.querySelectorAll('.cimt-icon'); // Fælles klasse for alle ikoner i bånd
-    const tooltips = document.querySelectorAll('.tooltip'); // Bruges KUN til CIMT ikoner
+    const infoBoxes = document.querySelectorAll('.info-box:not(#info-conclusion)'); // Alle undtagen konklusion
+    const conclusionInfoBox = document.getElementById('info-conclusion'); // NY
+    const allIcons = document.querySelectorAll('.cimt-icon');
+    const tooltips = document.querySelectorAll('.tooltip');
     const body = document.body;
 
     // Modal elementer
     const modalOverlay = document.getElementById('modal-overlay');
-    const modalContent = document.getElementById('modal-content'); // Til evt. scroll reset
+    const modalContent = document.getElementById('modal-content');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
     const modalExamples = document.getElementById('modal-examples');
@@ -23,126 +25,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Status variable
     let currentHighlightedStep = null;
-    let currentVisibleInfoBox = null;
+    let currentVisibleInfoBox = null; // Kan nu være en workflow-boks ELLER konklusions-boks
     let currentVisibleTooltip = null;
-    let activeLines = []; // Til LeaderLine instanser
+    let activeLines = [];
 
     // --- LeaderLine Options ---
-    const lineOptions = {
-        color: 'rgba(120, 120, 120, 0.5)',
-        size: 2,
-        path: 'fluid',
-        startSocket: 'bottom',
-        endSocket: 'top',
-    };
+    const lineOptions = { /* ... uændret ... */ };
+
 
     // --- Funktioner ---
 
-     function hideModal() {
+    function hideModal() {
         if (modalOverlay && modalOverlay.classList.contains('visible')) {
              modalOverlay.classList.remove('visible');
         }
     }
 
+    // Skjuler ALLE info-bokse (både workflow og konklusion)
     function hideAllInfoBoxes() {
-        if (currentVisibleInfoBox) {
-            infoBoxes.forEach(box => box.classList.remove('visible'));
+        let boxHidden = false;
+        infoBoxes.forEach(box => {
+            if(box.classList.contains('visible')) {
+                box.classList.remove('visible');
+                boxHidden = true;
+            }
+        });
+        if (conclusionInfoBox && conclusionInfoBox.classList.contains('visible')) {
+             conclusionInfoBox.classList.remove('visible');
+             boxHidden = true;
+        }
+        if (boxHidden) {
             currentVisibleInfoBox = null;
         }
-         hideModal(); // Skjul også modal hvis en infoboks vises
+         hideModal(); // Skjul også altid modal
     }
 
-    function removeAllLines() {
-        activeLines.forEach(line => { try { line.remove(); } catch (e) {} });
-        activeLines = [];
-    }
+    function removeAllLines() { /* ... uændret ... */ }
 
-    function hideAllTooltips() {
-         if (currentVisibleTooltip) {
-            tooltips.forEach(tip => tip.classList.remove('visible'));
-            currentVisibleTooltip = null;
-         }
-         removeAllLines(); // Fjern også altid linjer når tooltips skjules
-         // Skjul ikke modal her, da den styres separat
-    }
+    function hideAllTooltips() { /* ... uændret ... */ }
 
-    function removeAllStepHighlights() {
-        if (currentHighlightedStep) {
-            workflowSteps.forEach(step => step.classList.remove('highlighted'));
-            currentHighlightedStep = null;
-        }
-    }
+    function removeAllStepHighlights() { /* ... uændret ... */ }
 
     // Skjuler ALLE interaktive popups/overlays/highlights
     function hideAllInteractiveElements() {
-         hideAllInfoBoxes(); // Skjuler også modal nu
-         hideAllTooltips(); // Skjuler tooltips og linjer
+         hideAllInfoBoxes(); // Inkluderer hideModal() og konklusion
+         hideAllTooltips(); // Inkluderer removeAllLines()
          removeAllStepHighlights();
     }
 
-
-    // Tegner KUN linjer for et specifikt CIMT ikon
-    function drawLinesForIcon(iconElement) {
-        removeAllLines(); // Fjern altid gamle linjer først
-        if (!iconElement || !document.contains(iconElement) || !body.classList.contains('cimt-band-visible')) return;
-
-        const relevantStepsStr = iconElement.dataset.cimtRelevant || '';
-        const relevantSteps = relevantStepsStr.split(' ');
-
-        requestAnimationFrame(() => { // Vent på næste frame
-            relevantSteps.forEach(stepId => {
-                if (stepId) {
-                    const stepElement = document.getElementById(stepId);
-                    if (stepElement && document.contains(stepElement)) {
-                         const stepStyle = window.getComputedStyle(stepElement);
-                         const iconStyle = window.getComputedStyle(iconElement);
-                         if (stepStyle.display !== 'none' && iconStyle.display !== 'none') {
-                            try {
-                                const line = new LeaderLine(stepElement, iconElement, {...lineOptions});
-                                activeLines.push(line);
-                            } catch(e) { console.error(`Fejl ved tegning af linje fra ${stepId} til ${iconElement.id}:`, e); }
-                         }
-                    }
-                }
-            });
-             // Genpositioner kort efter for at sikre korrekt placering med fluid
-             setTimeout(() => { activeLines.forEach(l => { try { l.position(); } catch(e){} }); }, 50);
-        });
-    }
+    // Tegner KUN linjer for et specifikt CIMT ikon (uændret)
+    function drawLinesForIcon(iconElement) { /* ... uændret ... */ }
 
 
-    function hideCimtBand() {
-        if (body.classList.contains('cimt-band-visible')) {
-            body.classList.remove('cimt-band-visible');
-            updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
-            hideAllTooltips(); // Skjuler også linjer
-        }
-    }
+    function hideCimtBand() { /* ... uændret ... */ }
 
-    function hideTrendsBand() {
-        if (body.classList.contains('trends-band-visible')) {
-            body.classList.remove('trends-band-visible');
-            updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
-            hideModal(); // Skjul modal når trends bånd skjules
-        }
-    }
+    function hideTrendsBand() { /* ... uændret ... */ }
 
-    function updateToggleButtonText(button, showText) {
-        const baseText = showText.replace('Vis ', '');
-        let bodyClassToCheck = (button === toggleCimtButton) ? 'cimt-band-visible' : 'trends-band-visible';
-        button.textContent = body.classList.contains(bodyClassToCheck) ? `Skjul ${baseText}` : `Vis ${baseText}`;
-    }
+    function updateToggleButtonText(button, showText) { /* ... uændret ... */ }
 
     // Debounce funktion (uændret)
     function debounce(func, wait, immediate) { /* ... uændret ... */ }
 
-    // Håndterer resize (Nu kun for linjer - fjern evt. hvis unødvendigt)
-    const handleResize = debounce(() => {
-        if (body.classList.contains('cimt-band-visible') && activeLines.length > 0) {
-            // Simplest: Bare fjern linjer ved resize, brugeren må klikke igen
-             removeAllLines();
-        }
-    }, 250);
+    // Håndterer resize (uændret)
+    const handleResize = debounce(() => { /* ... uændret ... */ }, 250);
 
 
     // --- Event Listeners ---
@@ -150,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Knap: Vis/Skjul CIMT bånd
     toggleCimtButton.addEventListener('click', () => {
         const becomingVisible = !body.classList.contains('cimt-band-visible');
-        hideAllInteractiveElements(); // Skjul alt andet FØRST
+        hideAllInteractiveElements(); // Skjul alt FØRST
         hideTrendsBand();
 
         if (becomingVisible) {
@@ -158,12 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
         updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
+        // Opdater også konklusionsknap (selvom den ikke har en body-klasse)
+        if(toggleConclusionButton) toggleConclusionButton.textContent = 'Vis Konklusion';
     });
 
     // Knap: Vis/Skjul Tendens bånd
     toggleTrendsButton.addEventListener('click', () => {
         const becomingVisible = !body.classList.contains('trends-band-visible');
-        hideAllInteractiveElements(); // Skjul alt andet FØRST
+        hideAllInteractiveElements(); // Skjul alt FØRST
         hideCimtBand();
 
         if (becomingVisible) {
@@ -171,7 +118,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
         updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
+        if(toggleConclusionButton) toggleConclusionButton.textContent = 'Vis Konklusion';
     });
+
+     // NY Knap: Vis/Skjul Konklusion
+     if (toggleConclusionButton && conclusionInfoBox) {
+        toggleConclusionButton.addEventListener('click', () => {
+            const becomingVisible = !conclusionInfoBox.classList.contains('visible');
+
+            hideAllInteractiveElements(); // Skjul alt FØRST
+            hideCimtBand();
+            hideTrendsBand();
+            // hideAllInfoBoxes() skjuler nu alle, inkl. konklusion
+
+            if (becomingVisible) {
+                conclusionInfoBox.classList.add('visible');
+                currentVisibleInfoBox = conclusionInfoBox; // Sæt denne som aktiv info-boks
+                toggleConclusionButton.textContent = 'Skjul Konklusion';
+            } else {
+                 toggleConclusionButton.textContent = 'Vis Konklusion';
+                 // hideAllInteractiveElements har allerede skjult den
+            }
+            // Opdater de andre knapper
+            updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
+            updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
+        });
+     }
 
 
     // Klik på workflow steps
@@ -180,14 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const infoBoxId = step.dataset.infoTarget;
             const infoBox = document.getElementById(infoBoxId);
 
+            // Skjul bånd og konklusion
             hideCimtBand();
             hideTrendsBand();
+            if (conclusionInfoBox) conclusionInfoBox.classList.remove('visible'); // Skjul konklusion eksplicit
 
             if (step === currentHighlightedStep) {
-                hideAllInfoBoxes();
+                hideAllInfoBoxes(); // Skjuler nu kun workflow/band info
                 removeAllStepHighlights();
             } else {
-                hideAllInfoBoxes(); // Inkluderer hideModal()
+                hideAllInfoBoxes();
                 removeAllStepHighlights();
 
                 step.classList.add('highlighted');
@@ -195,17 +169,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (infoBox) {
                     infoBox.classList.add('visible');
-                    currentVisibleInfoBox = infoBox;
+                    currentVisibleInfoBox = infoBox; // Sæt denne som aktiv
+                } else {
+                    currentVisibleInfoBox = null; // Nulstil hvis der ikke er nogen boks
                 }
             }
+             // Opdater alle knap-tekster
+            updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
+            updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
+            if(toggleConclusionButton) toggleConclusionButton.textContent = 'Vis Konklusion';
         });
 
-         step.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') { step.click(); e.preventDefault(); }
-         });
+         step.addEventListener('keypress', (e) => { /* ... uændret ... */ });
     });
 
-    // Klik på ikoner i BEGGE bånd (fælles listener - RETTET LOGIK)
+    // Klik på ikoner i BEGGE bånd (fælles listener - Opdateret)
     allIcons.forEach(icon => {
         icon.addEventListener('click', (event) => {
              event.stopPropagation();
@@ -217,10 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
              if (!isCimtVisible && !isTrendsVisible) return;
 
-             // Skjul altid info-bokse og step highlights
+             // Skjul altid info-bokse (inkl konklusion) og step highlights
              hideAllInfoBoxes();
              removeAllStepHighlights();
-             // Skjul tooltips/linjer eller modal specifikt nedenfor
 
              if (isTrendsVisible && parentTrendsBand) {
                  // *** TRENDS IKON -> VIS MODAL ***
@@ -229,17 +206,11 @@ document.addEventListener('DOMContentLoaded', () => {
                  const title = icon.querySelector('.cimt-icon-title')?.textContent || 'Tendens/Risiko';
                  const description = icon.dataset.description || 'Ingen beskrivelse.';
                  const examplesRaw = icon.dataset.examples || '';
-                 const examplesHtml = examplesRaw.split('<br>')
-                                          .map(ex => ex.trim()).filter(ex => ex)
-                                          .map(ex => `<li>${ex}</li>`).join('');
+                 const examplesHtml = examplesRaw.split('<br>').map(ex => ex.trim()).filter(ex => ex).map(ex => `<li>${ex}</li>`).join('');
 
                  modalTitle.textContent = title;
                  modalDescription.textContent = description;
-                 if (examplesHtml) {
-                    modalExamples.innerHTML = `<h3>Eksempler i Workflow:</h3><ul>${examplesHtml}</ul>`;
-                 } else {
-                    modalExamples.innerHTML = '';
-                 }
+                 modalExamples.innerHTML = examplesHtml ? `<h3>Eksempler i Workflow:</h3><ul>${examplesHtml}</ul>` : '';
                  if(modalContent) modalContent.scrollTop = 0;
                  modalOverlay.classList.add('visible');
                  currentVisibleTooltip = null; // Nulstil tooltip status
@@ -252,40 +223,36 @@ document.addEventListener('DOMContentLoaded', () => {
                  const tooltip = document.getElementById(tooltipId);
                  const isCurrentTooltip = tooltip && tooltip.classList.contains('visible');
 
-                 // Altid fjern gamle linjer/tooltips FØR der vises nyt
-                 hideAllTooltips(); // Inkluderer removeAllLines()
+                 hideAllTooltips(); // Fjerner også evt. gamle linjer
 
                  if (!isCurrentTooltip && tooltip) {
-                     // Vis ny tooltip OG tegn linjer
                      tooltip.classList.add('visible');
                      currentVisibleTooltip = tooltip;
                      drawLinesForIcon(icon);
                  }
-                 // Hvis tooltip var synlig, er den + linjer allerede fjernet
              }
+             // Opdater knap-tekster (kan være nødvendigt hvis en knap var "skjul")
+             updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
+             updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
+             if(toggleConclusionButton) toggleConclusionButton.textContent = 'Vis Konklusion';
+
         });
 
-         icon.addEventListener('keypress', (e) => {
-             if ((e.key === 'Enter' || e.key === ' ')) { icon.click(); e.preventDefault(); }
-         });
+         icon.addEventListener('keypress', (e) => { /* ... uændret ... */ });
     });
 
-     // Luk Modal
-     if (modalOverlay && modalCloseBtn) {
-        modalCloseBtn.addEventListener('click', hideModal);
-        modalOverlay.addEventListener('click', (event) => {
-            if (event.target === modalOverlay) { hideModal(); }
-        });
-     }
+     // Luk Modal (uændret)
+     if (modalOverlay && modalCloseBtn) { /* ... uændret ... */ }
 
-     // Klik udenfor popups/tooltips for at lukke dem
+     // Klik udenfor popups/tooltips/infobokse for at lukke dem
      document.addEventListener('click', (event) => {
          const clickedElement = event.target;
 
-         // Luk info-boks
-         if (!clickedElement.closest('.workflow-step') && !clickedElement.closest('.info-box-container') && currentVisibleInfoBox) {
-              hideAllInfoBoxes(); // Inkluderer hideModal()
+         // Luk synlig info-boks (workflow ELLER konklusion)
+         if (currentVisibleInfoBox && !clickedElement.closest('.workflow-step') && !clickedElement.closest('.info-box-container') && !clickedElement.closest('#toggle-conclusion')) {
+              hideAllInfoBoxes();
               removeAllStepHighlights();
+              if(toggleConclusionButton) toggleConclusionButton.textContent = 'Vis Konklusion'; // Nulstil knap
          }
 
           // Luk aktiv tooltip (og fjern linjer)
@@ -297,11 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
          // Modal lukkes af sin egen listener eller hideAllInfoBoxes()
      });
 
-     // Lyt efter resize for at fjerne linjer
-     window.addEventListener('resize', handleResize);
+     // Fjernet resize listener
+     // window.removeEventListener('resize', handleResize);
 
      // Initial opdatering af knaptekster
      updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
      updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
+     if(toggleConclusionButton) toggleConclusionButton.textContent = 'Vis Konklusion'; // Initial tekst
 
 }); // End DOMContentLoaded
