@@ -197,21 +197,21 @@ body.trends-band-visible #trends-band {
     min-height: auto;
 }
 
-/* Tooltips (KUN for CIMT ikoner) - Forsøg med min-width */
+/* Tooltips (KUN for CIMT ikoner) - Opdateret skrift/bredde */
 .tooltip {
     display: none;
     position: absolute;
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    min-width: 300px; /* <<< NYT: Tvinger den til at være mindst 300px bred */
-    max-width: min(500px, 90vw); /* Bevarer max bredde fra sidst */
+    min-width: 300px; /* <<< Sikrer minimum bredde */
+    max-width: min(500px, 90vw); /* Basis: Max 500px, men ikke > 90% af skærm */
     background-color: #333;
     color: white;
     text-align: left;
     padding: 12px 15px;
     border-radius: 4px;
-    font-size: 0.8em; /* Beholder mindre skrift */
+    font-size: 0.8em; /* Mindre skrift */
     line-height: 1.4;
     z-index: 150;
     opacity: 0;
@@ -219,7 +219,7 @@ body.trends-band-visible #trends-band {
     transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: none;
     box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    box-sizing: border-box; /* <<< NYT: Sikrer padding/border regnes med i bredden */
+    box-sizing: border-box; /* Sikrer padding/border regnes med i bredden */
 }
 .tooltip p { margin: 0; }
 .tooltip p strong { display: block; margin-bottom: 4px; color: #eee; }
@@ -296,14 +296,16 @@ body.trends-band-visible #trends-band {
     cursor: pointer;
     padding: 4px 6px;
     border-radius: 4px;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease; /* Tilføjet color transition */
 }
 #info-significance ul.significance-list li:hover {
     background-color: #e9ecef;
 }
+/* Opdateret styling for aktivt punkt */
 #info-significance ul.significance-list li.active-visual {
-    background-color: #d0eaff;
-    font-weight: bold;
+    /* background-color: #d0eaff; */ /* Fjernet baggrundsfarve */
+    font-weight: bold; /* Beholder fed skrift som markering */
+    color: #005f60; /* Gør teksten mørkegrøn for ekstra tydelighed */
 }
 #info-significance p em {
     color: #555;
@@ -468,8 +470,7 @@ body.trends-band-visible #trends-band {
     .tooltip {
         font-size: 0.9em;
         max-width: 600px; /* Bredere max-width */
-        /* min-width bevares fra basisreglen, eller kan justeres her hvis nødvendigt */
-        /* min-width: 400px; */
+        /* min-width arves fra basisreglen */
      }
 
      .info-box-container { width: 85%; margin-top: 30px; }
@@ -500,8 +501,7 @@ body.trends-band-visible #trends-band {
      .tooltip {
         font-size: 1.0em;
         max-width: 700px; /* Bredere max-width */
-        /* min-width bevares fra basisreglen, eller kan justeres her hvis nødvendigt */
-        /* min-width: 450px; */
+        /* min-width arves fra basisreglen */
      }
 
      .info-box h2 { font-size: 1.5em; }
@@ -520,7 +520,6 @@ body.trends-band-visible #trends-band {
      /* Tooltip justeringer for 1600px+ */
      .tooltip {
          max-width: 750px; /* Lidt bredere max-width */
-         /* min-width bevares fra basisreglen, eller kan justeres her hvis nødvendigt */
-        /* min-width: 500px; */
+         /* min-width arves fra basisreglen */
       }
 }
