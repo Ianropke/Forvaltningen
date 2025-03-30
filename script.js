@@ -39,14 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // LeaderLine Options
     const defaultLineOptions = { color: 'rgba(120, 120, 120, 0.5)', size: 2, path: 'fluid', startSocket: 'bottom', endSocket: 'top' };
-    // Opdaterede options for den samlede linje (tyndere, ikke stiplet, blød kurve)
-    const unifiedLineOptions = {
+    // Opdaterede options for den samlede linje
+     const unifiedLineOptions = {
         color: 'rgba(0, 95, 96, 0.7)',
-        size: 4, // Tyndere
+        size: 10, // <<< ØGET MARKANT
         path: 'arc', // Blød kurve
-        startSocket: 'top', // Start fra toppen af start element
-        endSocket: 'bottom', // Slut ved bunden af slut element
-        // Fjernet start/slut plugs og dash animation
+        startSocket: 'top',
+        endSocket: 'bottom',
     };
 
 
@@ -98,16 +97,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function showPriorityNumbers() { hideAllSignificanceVisuals(); priorityNumberElements.forEach(el => el.classList.add('visible')); activeSignificanceVisual = 'priority'; }
     function hideUnifiedEffortLine() { if (unifiedEffortLine) { try { unifiedEffortLine.remove(); } catch(e) {} unifiedEffortLine = null; } }
 
-    // Opdateret funktion for samlet linje
+    // Opdateret funktion for samlet linje med ramme-logik
     function showUnifiedEffortLine() {
         hideAllSignificanceVisuals(); // Skjul andre først
         hideAllTooltips(); // Skjul alm. tooltips/linjer
 
-        // Definer start- og slut-elementer mere robust
         const startElement = infoBoxContainer; // Starter fra toppen af info-boks containeren
         const endElement = workflowLayer; // Slutter ved bunden af workflow laget
 
         if (startElement && endElement && document.contains(startElement) && document.contains(endElement)) {
+            // Tilføj ramme-klassen til workflow-laget
+            workflowLayer?.classList.add('workflow-frame-active');
             try {
                 // Tegn linjen mellem de definerede elementer
                 unifiedEffortLine = new LeaderLine(
@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  activeSignificanceVisual = 'unified';
             } catch (e) {
                 console.error("Error drawing unified effort line:", e);
+                workflowLayer?.classList.remove('workflow-frame-active'); // Fjern ramme ved fejl
                 hideUnifiedEffortLine(); // Ryd op hvis fejl
             }
         } else {
@@ -128,11 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideRiskFocusHighlight() { allCimtIcons.forEach(icon => icon.classList.remove('risk-focus-highlight')); }
     function showRiskFocusHighlight() { hideAllSignificanceVisuals(); allCimtIcons.forEach(icon => icon.classList.add('risk-focus-highlight')); activeSignificanceVisual = 'risk'; }
 
+    // Opdateret funktion til at skjule alle visuals inkl. ramme
     function hideAllSignificanceVisuals() {
-        hidePriorityNumbers(); hideUnifiedEffortLine(); hideRiskFocusHighlight();
+        hidePriorityNumbers();
+        hideUnifiedEffortLine(); // Denne fjerner selve linjen
+        hideRiskFocusHighlight();
+        // Fjern ramme-klassen fra workflow-laget
+        workflowLayer?.classList.remove('workflow-frame-active');
         significanceListItems?.forEach(li => li.classList.remove('active-visual'));
         activeSignificanceVisual = null;
     }
+
 
     function updateAllButtonTexts() {
         if (toggleCimtButton) { toggleCimtButton.textContent = body.classList.contains('cimt-band-visible') ? 'Skjul CIMT Understøttelse' : 'Vis CIMT Understøttelse'; }
@@ -141,10 +148,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function debounce(func, wait) { let timeout; return function executedFunction(...args) { const later = () => { clearTimeout(timeout); func(...args); }; clearTimeout(timeout); timeout = setTimeout(later, wait); }; }
-    const handleResize = debounce(() => { if (activeLines.length > 0 || unifiedEffortLine) { removeAllLines(); } }, 250);
+    const handleResize = debounce(() => {
+        // Fjern alle linjer ved resize
+        removeAllLines();
+        // Skjul også workflow rammen hvis den var aktiv
+        workflowLayer?.classList.remove('workflow-frame-active');
+        // Man kunne overveje at gentegne den aktive visualisering, men det udelades for nu
+        }, 250);
 
     // --- Event Listeners ---
-    if (toggleCimtButton) {
+    // (Uændrede listeners for knapper, steps, ikoner, modal, globalt klik)
+     if (toggleCimtButton) {
         toggleCimtButton.addEventListener('click', () => {
             const shouldShow = !body.classList.contains('cimt-band-visible');
             body.classList.remove('trends-band-visible'); hideModal(); hideAllWorkflowAndSignificanceInfoBoxes(); removeAllStepHighlights();
