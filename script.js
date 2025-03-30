@@ -39,13 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // LeaderLine Options
     const defaultLineOptions = { color: 'rgba(120, 120, 120, 0.5)', size: 2, path: 'fluid', startSocket: 'bottom', endSocket: 'top' };
-    // Opdaterede options for den samlede linje
-     const unifiedLineOptions = {
+    // Opdaterede options for den samlede linje (tykkere, pil, offset)
+    const unifiedLineOptions = {
         color: 'rgba(0, 95, 96, 0.7)',
-        size: 10, // <<< ØGET MARKANT
+        size: 10, // Tyk linje/pil
         path: 'arc', // Blød kurve
-        startSocket: 'top',
-        endSocket: 'bottom',
+        startSocket: 'top', // Start fra toppen af start element
+        endSocket: 'bottom', // Slut ved bunden af slut element
+        startSocketOffsetY: 15, // Skubber startpunkt 15px ned
+        endSocketOffsetY: -15, // Skubber slutpunkt 15px op
+        endPlug: 'arrow2', // Tilføjer pilespids
+        endPlugSize: 2, // Størrelse på pilespids
     };
 
 
@@ -153,11 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
         removeAllLines();
         // Skjul også workflow rammen hvis den var aktiv
         workflowLayer?.classList.remove('workflow-frame-active');
-        // Man kunne overveje at gentegne den aktive visualisering, men det udelades for nu
         }, 250);
 
     // --- Event Listeners ---
-    // (Uændrede listeners for knapper, steps, ikoner, modal, globalt klik)
+    // (Resten af event listeners forbliver uændrede fra forrige version)
      if (toggleCimtButton) {
         toggleCimtButton.addEventListener('click', () => {
             const shouldShow = !body.classList.contains('cimt-band-visible');
