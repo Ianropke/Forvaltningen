@@ -1,39 +1,309 @@
-/* ... (Al eksisterende CSS uændret indtil videre) ... */
+/* Grundlæggende styling */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 10px;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
 
-/* Info-boks container (uændret) */
-.info-box-container { width: 100%; max-width: 900px; min-height: auto; margin: 20px auto 0 auto; z-index: 100; }
-.info-box { display: none; padding: 12px 15px; background-color: #f8f9fa; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; text-align: left; }
-.info-box.visible { display: block; opacity: 1; visibility: visible; }
-.info-box h2 { margin-top: 0; font-size: 1.2em; color: #005f60; margin-bottom: 0.6em; }
-.info-box p { font-size: 0.95em; line-height: 1.5; color: #333; }
+#infographic-container {
+    width: 100%;
+    max-width: 1800px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
 
-/* Opdateret selector for 'Betydning' */
-#info-significance ul.significance-list {
+h1 {
+    text-align: center;
+    color: #005f60;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.center-text {
+    text-align: center;
+    font-size: 0.85em;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+#controls {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#controls button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+#controls button:hover {
+    background-color: #0056b3;
+}
+
+/* Diagram layout */
+#main-diagram {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    z-index: 10; /* Lower than tooltips/modals */
+}
+
+#workflow-layer {
+    display: flex;
+    flex-direction: column; /* Mobil først */
+    align-items: center;
+    gap: 15px;
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-top: 10px; /* Space for priority numbers */
+    margin-bottom: 40px;
+}
+
+.workflow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    position: relative; /* Needed for absolute positioning of priority numbers */
+    width: 90%;
+    max-width: 150px;
+    flex-shrink: 0;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.workflow-step p {
+    margin-top: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    min-height: auto;
+    line-height: 1.2;
+}
+
+.workflow-step:hover {
+    transform: scale(1.02);
+}
+
+.workflow-step.highlighted {
+    border-color: #007bff;
+    background-color: #e7f3ff;
+}
+
+.workflow-step svg {
+    stroke: #005f60;
+    width: 48px;
+    height: 48px;
+}
+
+.arrow {
+     display: none; /* Skjult på mobil */
+     align-items: center; /* Center vertically */
+     justify-content: center; /* Center horizontally */
+     flex-shrink: 0;
+     padding: 0 5px; /* Lidt luft omkring pilen */
+}
+.arrow svg {
+    width: 36px;
+    height: 36px;
+    stroke: #888;
+}
+
+
+/* Bånd Styling */
+#cimt-band,
+#trends-band {
+    display: none; /* Skjult som standard */
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    padding: 10px;
+    background-color: #e9ecef;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 60px auto 0 auto;
+    width: 100%; /* Mobil: Fuld bredde */
+    border-radius: 5px;
+    min-height: auto;
+    position: relative;
+    z-index: 50;
+    gap: 10px; /* Mellemrum mellem ikoner */
+}
+
+/* Vis det relevante bånd baseret på body klasse */
+body.cimt-band-visible #cimt-band {
+    display: flex;
+}
+body.trends-band-visible #trends-band {
+    display: flex;
+}
+
+/* Ikon og Titel Styling (bruges af både CIMT og Trends ikoner) */
+.cimt-icon {
+    position: relative; /* Vigtigt for tooltip positionering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    flex-shrink: 0; /* Forhindrer ikoner i at blive klemt for meget */
+    width: 75px; /* Mobil */
+    text-align: center;
+    z-index: 51; /* Over båndets baggrund, under tooltip/modal */
+    padding: 5px 0; /* Top/bottom padding */
+}
+
+.cimt-icon svg {
+    display: block;
+    width: 36px; /* Mobil */
+    height: 36px; /* Mobil */
+    stroke: #555;
+    margin-bottom: 3px;
+}
+
+.cimt-icon:hover {
+    transform: scale(1.05);
+}
+
+.cimt-icon-title {
+    font-size: 0.7em; /* Mobil */
+    font-weight: bold;
+    color: #333;
+    line-height: 1.1;
+    margin: 0;
+    word-wrap: break-word; /* Tillad ombrydning */
+    overflow-wrap: break-word; /* Bedre ombrydning */
+    min-height: auto; /* Fjern evt. fast højde */
+}
+
+/* Tooltips (KUN for CIMT ikoner) */
+.tooltip {
+    display: none; /* Skjult som standard */
+    position: absolute;
+    top: calc(100% + 8px); /* Lige under ikonet + lidt luft */
+    left: 50%;
+    transform: translateX(-50%); /* Centrer tooltip */
+    width: 380px; /* Fast bredde for tooltip */
+    max-width: 90vw; /* Max bredde ift. viewport */
+    background-color: #333;
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-size: 1.0em; /* Justeret for læsbarhed */
+    line-height: 1.4;
+    z-index: 150; /* Skal være over alt andet undtagen modal */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none; /* Undgå at tooltip blokerer for klik */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.tooltip p { margin: 0; }
+.tooltip p strong { display: block; margin-bottom: 4px; color: #eee; }
+/* Lille pil over tooltip */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 100%; /* Peger opad fra toppen af tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent; /* Pilens farve */
+}
+.tooltip.visible {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* Info-boks container */
+.info-box-container {
+    width: 100%;
+    max-width: 900px;
+    min-height: auto; /* Kan vokse med indhold */
+    margin: 20px auto 0 auto; /* Luft over container */
+    z-index: 100; /* Skal være over diagram, under tooltips/modal */
+}
+.info-box {
+    display: none; /* Skjult som standard */
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    text-align: left;
+}
+.info-box.visible {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+.info-box h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #005f60;
+    margin-bottom: 0.6em;
+}
+.info-box p {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Opdateret selector og styling for 'Betydning' */
+#info-significance ul.significance-list { /* Opdateret ID */
     list-style: disc;
     padding-left: 25px;
     margin-top: 0.5em;
     margin-bottom: 1em;
 }
-#info-significance ul.significance-list li {
+#info-significance ul.significance-list li { /* Opdateret ID */
     margin-bottom: 0.6em;
     cursor: pointer; /* NYT: Gør punkterne klikbare */
     padding: 4px 6px; /* NYT: Lidt plads omkring teksten */
     border-radius: 4px; /* NYT */
     transition: background-color 0.2s ease; /* NYT */
 }
-#info-significance ul.significance-list li:hover {
+#info-significance ul.significance-list li:hover { /* Opdateret ID */
     background-color: #e9ecef; /* NYT: Hover effekt */
 }
-#info-significance ul.significance-list li.active-visual { /* NYT: Styling for aktivt punkt */
+#info-significance ul.significance-list li.active-visual { /* NYT: Styling for aktivt punkt */ /* Opdateret ID */
     background-color: #d0eaff;
     font-weight: bold;
 }
-#info-significance p em {
+#info-significance p em { /* Opdateret ID */
     color: #555;
 }
 
 
-/* --- NYT: Styling for Konklusion/Betydning Visualiseringer --- */
+/* --- NYT: Styling for Betydning Visualiseringer --- */
 
 /* Prioritetsnumre */
 .priority-number {
@@ -54,43 +324,284 @@
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
     z-index: 15; /* Sørg for at de er over ikonet */
-    pointer-events: none;
+    pointer-events: none; /* Undgå at de blokerer for klik på step */
 }
 .priority-number.visible {
     opacity: 1;
     visibility: visible;
 }
 
-/* Risiko Fokus Highlight */
+/* Risiko Fokus Highlight (Anvendes på .cimt-icon) */
 .cimt-icon.risk-focus-highlight {
     outline: 3px solid #ffc107; /* Gul outline for fokus */
     outline-offset: 2px;
     box-shadow: 0 0 8px rgba(255, 193, 7, 0.7); /* Gul glød */
     border-radius: 5px; /* Sørg for outline følger form */
     background-color: rgba(255, 193, 7, 0.1); /* Let gul baggrund */
-    transition: outline 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* NYT: Animation på highlight */
+    transition: outline 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Animation på highlight */
 }
 /* --- SLUT NYT --- */
 
 
-/* Styling for LeaderLine (uændret) */
-.leader-line { z-index: 60; pointer-events: none; }
+/* Styling for LeaderLine */
+.leader-line {
+    z-index: 60; /* Over bånd, under tooltips/modal */
+    pointer-events: none; /* Linjer skal ikke kunne klikkes */
+}
 
-/* Modal Popup Styling (uændret) */
-/* ... */
+/* Styling for den specifikke 'unified' linje (hvis nødvendigt udover JS options) */
+/* body.unified-line-active .leader-line { ... } */ /* Kan bruges hvis man vil style via CSS klasse på body */
 
-/* --- Media Queries (uændret struktur, men tjek om nye elementer skal justeres) --- */
+
+/* Modal Popup Styling */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200; /* Øverste lag */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 15px; /* Luft omkring modal på små skærme */
+    box-sizing: border-box;
+}
+#modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+#modal-content {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    max-width: 650px; /* Max bredde for modal */
+    width: 95%; /* Bredde på mindre skærme */
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-height: 85vh; /* Max højde ift. viewport */
+    overflow-y: auto; /* Scroll hvis indhold er for højt */
+}
+#modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2em;
+    line-height: 1;
+    color: #aaa;
+    cursor: pointer;
+    padding: 0;
+    z-index: 210; /* Sikrer knap er øverst i modal */
+    pointer-events: auto; /* Skal kunne klikkes */
+}
+#modal-close-btn:hover {
+    color: #333;
+}
+#modal-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #005f60;
+    font-size: 1.4em;
+}
+#modal-text {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #333;
+}
+#modal-description {
+    margin-bottom: 1.5em;
+}
+#modal-examples h3 {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    border-top: 1px solid #eee;
+    padding-top: 1em;
+}
+#modal-examples ul {
+    list-style: disc;
+    padding-left: 25px;
+    margin: 0;
+}
+#modal-examples li {
+    margin-bottom: 0.5em;
+}
+
+
+/* --- Media Queries --- */
 
 @media (min-width: 768px) {
-    /* ... (Eksisterende regler) ... */
-     .priority-number { top: -10px; right: 0px; width: 22px; height: 22px; line-height: 22px; font-size: 0.8em; } /* NYT: Juster for større skærme */
-     #info-significance ul.significance-list li { margin-bottom: 0.7em; }
-     #info-significance p { font-size: 1.05em; } /* Opdateret selector */
+    body { padding: 20px; }
+    #infographic-container { padding: 20px; }
+    h1 { font-size: 1.8em; }
+    .center-text { font-size: 0.9em; }
+    #controls button { padding: 10px 20px; font-size: 1em; }
+
+    /* Vandret & Centreret workflow */
+    #workflow-layer {
+        flex-direction: row;
+        justify-content: center; /* Centrer elementerne vandret */
+        align-items: flex-start; /* Juster evt. til 'center' hvis ikoner/tekst har forskellig højde */
+        gap: 0; /* Fjern gap, pilene styrer afstanden */
+        width: auto; /* Ikke 95% */
+        max-width: 1600px; /* Max bredde for workflow */
+        margin-bottom: 60px;
+    }
+    .arrow {
+        display: flex; /* Vis pilene */
+        /* width og height styres af SVG's attributter eller specifik CSS herunder */
+    }
+    .arrow svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .workflow-step {
+        width: 110px; /* Lidt mere bredde pr. step */
+        padding: 10px;
+        box-shadow: none; /* Fjern skygge hvis ønsket */
+    }
+    .workflow-step svg {
+        width: 48px;
+        height: 48px;
+    }
+    .workflow-step p {
+        font-size: 0.8em;
+    }
+    .priority-number { /* NYT: Juster position/størrelse for desktop */
+        top: -10px;
+        right: 0px;
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+        font-size: 0.8em;
+    }
+
+    /* Bånd styling */
+    #cimt-band, #trends-band {
+        width: 95%; /* Lidt indrykning */
+        padding: 15px 10px;
+        min-height: 90px; /* Minimum højde for bånd */
+        gap: 15px; /* Lidt mere luft mellem ikoner */
+        margin-top: 80px; /* Mere luft over bånd */
+    }
+    .cimt-icon {
+        width: 90px; /* Mere bredde pr. ikon */
+    }
+    .cimt-icon svg {
+        width: 48px;
+        height: 48px;
+    }
+    .cimt-icon-title {
+        font-size: 0.8em;
+    }
+    .tooltip {
+        font-size: 1.1em;
+        width: 300px; /* Lidt smallere tooltip hvis nødvendigt */
+    }
+
+    /* Info boks */
+     .info-box-container {
+         width: 85%;
+         margin-top: 30px;
+     }
+     .info-box { padding: 15px 20px; }
+     .info-box h2 { font-size: 1.3em; }
+     .info-box p { font-size: 1.05em; }
+     #info-significance ul.significance-list li { margin-bottom: 0.7em; } /* Opdateret ID */
+     #info-significance p { font-size: 1.05em; } /* Opdateret ID */
+
+     /* Modal */
+     #modal-content {
+         width: 85%; /* Bredere modal */
+         padding: 30px 35px;
+     }
+     #modal-title { font-size: 1.6em; }
+     #modal-text { font-size: 1.05em; }
+     #modal-examples h3 { font-size: 1.15em; }
 }
 
 @media (min-width: 1200px) {
-     /* ... (Eksisterende regler) ... */
-     .priority-number { top: -12px; width: 24px; height: 24px; line-height: 24px; font-size: 0.85em; } /* NYT: Juster for større skærme */
-     #info-significance p { font-size: 1.2em; } /* Opdateret selector */
+     /* Større workflow ikoner og pile */
+     .workflow-step svg {
+         width: 64px;
+         height: 64px;
+     }
+     .workflow-step p {
+         font-size: 0.9em;
+     }
+     .arrow svg {
+         width: 44px;
+         height: 44px;
+     }
+     .priority-number { /* NYT: Juster igen for større ikoner */
+        top: -12px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 0.85em;
+    }
+
+
+     /* Bånd styling */
+     #cimt-band, #trends-band {
+         min-height: 100px;
+         gap: 15px; /* Juster gap efter behov */
+         max-width: none; /* Tillad fuld bredde op til container */
+         width: 98%; /* Næsten fuld bredde */
+         padding: 10px 5px; /* Lidt mindre padding hvis mange ikoner */
+         justify-content: center; /* Centrer ikonerne som gruppe */
+     }
+     #trends-band {
+         gap: 25px; /* Mere plads mellem færre trends-ikoner */
+     }
+     .cimt-icon {
+         width: 100px; /* Mere plads pr ikon */
+         margin: 0; /* Nulstil margin hvis gap bruges */
+     }
+     .cimt-icon svg {
+         width: 56px;
+         height: 56px;
+     }
+     .cimt-icon-title {
+         font-size: 0.8em; /* Lidt større titel evt.? */
+     }
+     .tooltip {
+         font-size: 1.2em; /* Lidt større tooltip tekst */
+         width: 360px;
+     }
+
+     /* Info boks */
+     .info-box h2 { font-size: 1.5em; }
+     .info-box p { font-size: 1.2em; }
+     .info-box-container {
+         width: 80%;
+         max-width: 1000px; /* Max bredde for info */
+     }
+     #info-significance p { font-size: 1.2em; } /* Opdateret ID */
+
+    /* Modal */
+     #modal-title { font-size: 1.7em; }
+     #modal-text { font-size: 1.1em; }
 }
-/* ... (Resten af media queries uændret) ... */
+
+@media (min-width: 1600px) {
+     /* Juster max bredde for bånd og info boks container */
+     #cimt-band, #trends-band {
+         max-width: 1600px; /* Sæt en max bredde for båndene */
+     }
+     .info-box-container {
+         max-width: 1100px; /* Lidt bredere info boks */
+     }
+     #modal-content {
+         max-width: 750px; /* Lidt bredere modal */
+     }
+}
