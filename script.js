@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const fadeableWorkflowSteps = document.querySelectorAll('#workflow-layer .workflow-step'); // Kun workflow steps til fade
     const fadeableCimtIcons = document.querySelectorAll('#cimt-band .cimt-icon'); // Kun CIMT ikoner til fade
-    const dynamicTooltipContainer = document.getElementById('dynamic-tooltip-container'); // Til trend eksempler
+    // const dynamicTooltipContainer = document.getElementById('dynamic-tooltip-container'); // Fjernet
 
     // Elementer og state for 'Betydning' visualisering
     const significanceListItems = significanceInfoBox?.querySelectorAll('li[data-visual]');
@@ -31,13 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let unifiedEffortLine = null;
 
     // State variable
-    let activeLines = []; // <<< Bruges igen til CIMT-linjer
+    let activeLines = [];
     let currentVisibleInfoBox = null;
     let currentHighlightedStep = null;
     let currentVisibleTooltip = null;
     let currentTrendFocusIcon = null;
-    let currentCimtFocusIcon = null; // Holder ID på aktivt CIMT ikon for fade
+    let currentCimtFocusIcon = null;
     let currentTrendExampleTooltip = null;
+    let hideTooltipTimeoutId = null; // <<< Tilføjet for tooltip delay
 
     // LeaderLine Options
     const defaultLineOptions = { color: 'rgba(120, 120, 120, 0.5)', size: 2, path: 'fluid', startSocket: 'bottom', endSocket: 'top' };
@@ -59,8 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             timeout = setTimeout(later, wait);
         };
     }
-    // -------------------------------------------------------
-
 
     // --- Funktioner til rydning og state management ---
     function clearCimtFocus() {
@@ -80,11 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
             trendIndicators.forEach(indicator => indicator.classList.remove('visible'));
             hideTrendExampleTooltip();
             currentTrendFocusIcon = null;
-            // updateAllButtonTexts(); // Kaldes typisk af den funktion der kalder clearTrendFocus
+            // updateAllButtonTexts(); // Ikke nødvendig her, kaldes af den funktion, der kalder denne
         }
     }
 
-    // Skjul alle info bokse (Workflow + Significance) og ryd fokus
     function hideAllInfoAndFocus() {
         let wasBoxVisible = false;
         infoBoxes.forEach(box => { if (box.classList.contains('visible')) { box.classList.remove('visible'); wasBoxVisible = true; } });
@@ -99,13 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
          }
     }
 
-
-    // Opdateret til at håndtere activeLines igen
     function removeAllLines() {
-        // Fjern individuelle CIMT linjer
         activeLines.forEach(line => { try { line.remove(); } catch (e) {} });
         activeLines = [];
-        // Fjern samlet linje
         hideUnifiedEffortLine();
     }
 
@@ -113,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let wasVisible = false;
         tooltips.forEach(tip => { if (tip.classList.contains('visible')) { tip.classList.remove('visible'); wasVisible = true; } });
         if (wasVisible) {
-             removeAllLines(); // <<< Fjerner nu linjer igen
+             removeAllLines();
              clearCimtFocus();
              currentVisibleTooltip = null;
         } else {
@@ -127,19 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wasVisible) currentHighlightedStep = null;
     }
 
-    // Funktion til at tegne CIMT linjer (gen-aktiveret)
     function drawLinesForIcon(iconElement) {
         if (!iconElement || !document.contains(iconElement) || !body.classList.contains('cimt-band-visible')) return;
         const relevantStepsStr = iconElement.dataset.cimtRelevant || '';
         const relevantSteps = relevantStepsStr.split(' ');
-        // Sørg for at fjerne gamle linjer FØR nye tegnes for dette ikon
-        activeLines.forEach(line => { try { line.remove(); } catch (e) {} });
+        activeLines.forEach(line => { try { line.remove(); } catch (e) {} }); // Ryd kun gamle linjer for DENNE funktion
         activeLines = [];
-
         relevantSteps.forEach(stepId => {
             if (stepId) {
                 const stepElement = document.getElementById(stepId);
-                // Tjek om stepElement overhovedet skal være synligt ift. CIMT fokus
                 if (stepElement && stepElement.classList.contains('relevant-for-cimt') && document.contains(stepElement) && document.contains(iconElement)) {
                     try { const line = new LeaderLine(stepElement, iconElement, {...defaultLineOptions}); if (line) activeLines.push(line); }
                     catch(e) { console.error(`Error drawing line from ${stepId} to ${iconElement.id}:`, e); }
@@ -175,26 +165,53 @@ document.addEventListener('DOMContentLoaded', () => {
         activeSignificanceVisual = null;
     }
 
-    // --- Funktioner til Trend Eksempel Tooltips ---
+    // --- Funktioner til Trend Eksempel Tooltips (Opdateret) ---
     function hideTrendExampleTooltip() {
         if (currentTrendExampleTooltip) {
-            if (document.body.contains(currentTrendExampleTooltip)) { // Tjek om den findes før fjernelse
-                document.body.removeChild(currentTrendExampleTooltip);
-            }
-            currentTrendExampleTooltip = null;
+            currentTrendExampleTooltip.classList.remove('visible'); // Start fade ud
+            setTimeout(() => {
+                // Fjern kun hvis den ikke er blevet vist igen i mellemtiden OG musen ikke er over
+                if (currentTrendExampleTooltip && !currentTrendExampleTooltip.matches(':hover')) {
+                   if (document.body.contains(currentTrendExampleTooltip)) {
+                        document.body.removeChild(currentTrendExampleTooltip);
+                    }
+                   currentTrendExampleTooltip = null;
+                }
+            }, 300); // Matcher ca CSS transition
+        }
+        if (hideTooltipTimeoutId) {
+            clearTimeout(hideTooltipTimeoutId);
+            hideTooltipTimeoutId = null;
         }
     }
 
+    // Ny funktion til forsinket skjulning
+    function delayedHideTrendExampleTooltip(delay = 300) {
+         if (hideTooltipTimeoutId) { clearTimeout(hideTooltipTimeoutId); }
+         hideTooltipTimeoutId = setTimeout(() => {
+             if (currentTrendExampleTooltip && !currentTrendExampleTooltip.matches(':hover')) {
+                 hideTrendExampleTooltip();
+             }
+         }, delay);
+    }
+
+
+    // Opdateret showTrendExampleTooltip med hover listeners på tooltip
     function showTrendExampleTooltip(stepElement, text) {
-        hideTrendExampleTooltip();
+        // Ryd eksisterende timer og skjul straks evt. gammel tooltip visuelt
+        if (hideTooltipTimeoutId) { clearTimeout(hideTooltipTimeoutId); hideTooltipTimeoutId = null; }
+        if (currentTrendExampleTooltip) { currentTrendExampleTooltip.remove(); currentTrendExampleTooltip = null; }
+
+
         if (!text || !stepElement) return;
+
         const tooltipEl = document.createElement('div');
         tooltipEl.className = 'trend-example-tooltip';
         tooltipEl.textContent = text;
-        document.body.appendChild(tooltipEl); // Tilføj til body
+        document.body.appendChild(tooltipEl);
 
         const stepRect = stepElement.getBoundingClientRect();
-        tooltipEl.style.position = 'fixed'; // Brug fixed
+        tooltipEl.style.position = 'fixed';
         tooltipEl.offsetHeight; // Force reflow
 
         let top = stepRect.top + (stepRect.height / 2) - (tooltipEl.offsetHeight / 2);
@@ -208,9 +225,16 @@ document.addEventListener('DOMContentLoaded', () => {
         tooltipEl.style.top = `${top}px`;
         tooltipEl.style.left = `${left}px`;
 
-        tooltipEl.classList.add('visible');
-
+        tooltipEl.classList.add('visible'); // Gør synlig
         currentTrendExampleTooltip = tooltipEl;
+
+        // Tilføj listeners til selve tooltip'en
+        tooltipEl.addEventListener('mouseover', () => {
+             if (hideTooltipTimeoutId) { clearTimeout(hideTooltipTimeoutId); hideTooltipTimeoutId = null;} // Annuller skjulning
+        });
+        tooltipEl.addEventListener('mouseout', () => {
+             delayedHideTrendExampleTooltip(300); // Start kort timer når musen forlader tooltip
+        });
     }
 
 
@@ -223,11 +247,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const handleResize = debounce(() => {
-        removeAllLines(); // <<< Fjerner nu CIMT linjer igen ved resize
+        removeAllLines(); // Fjerner CIMT+Unified linjer
         workflowLayer?.classList.remove('workflow-frame-active');
         clearTrendFocus();
         clearCimtFocus();
-        hideTrendExampleTooltip();
+        hideTrendExampleTooltip(); // Skjul også hover tooltip
         }, 250);
 
 
@@ -286,8 +310,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         step.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { step.click(); }});
 
-        // Hover listener for trend eksempler
+        // Opdateret Hover listener for trend eksempler
         step.addEventListener('mouseover', () => {
+            // Ryd ALTID evt. igangværende skjul-timer når musen går ind over et step
+            if (hideTooltipTimeoutId) { clearTimeout(hideTooltipTimeoutId); hideTooltipTimeoutId = null;}
+
             if (body.classList.contains('trend-focus-active') && step.classList.contains('relevant-for-trend') && currentTrendFocusIcon) {
                 const examplesMapStr = currentTrendFocusIcon.dataset.examplesMap;
                 const stepId = step.id;
@@ -300,7 +327,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-        step.addEventListener('mouseout', () => { setTimeout(hideTrendExampleTooltip, 100); });
+        // Opdateret mouseout til at bruge delay
+        step.addEventListener('mouseout', () => {
+            delayedHideTrendExampleTooltip(500); // Start længere timer når musen forlader step
+        });
     });
 
     // Opdateret CIMT ikon listener (MED linjer, med fade)
@@ -310,7 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!body.classList.contains('cimt-band-visible')) return;
             const iconId = icon.id; const isClickingActiveCimt = iconId && iconId === currentCimtFocusIcon;
             hideAllInfoAndFocus(); removeAllStepHighlights();
-
             hideAllTooltips(); // Rydder også evt. eksisterende CIMT fokus FØRST
 
             if (!isClickingActiveCimt) {
@@ -321,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      const relevantSteps = icon.dataset.cimtRelevant?.split(' ') || [];
                      fadeableWorkflowSteps.forEach(el => { if (relevantSteps.includes(el.id)) { el.classList.add('relevant-for-cimt'); } });
                      tooltip.classList.add('visible'); currentVisibleTooltip = tooltip;
-                     drawLinesForIcon(icon); // <<< GEN-AKTIVERET
+                     drawLinesForIcon(icon); // Tegn linjer igen
                  }
             }
         });
@@ -391,15 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (!isInteractive) {
                let closedSomething = false;
-               if (currentVisibleInfoBox && !clickedElement.closest('.info-box-container')) {
-                    hideAllInfoAndFocus();
-                    removeAllStepHighlights();
-                    closedSomething = true;
-               }
-               if (currentVisibleTooltip && !clickedElement.closest('#cimt-band')) {
-                   hideAllTooltips();
-                   closedSomething = true;
-               }
+               if (currentVisibleInfoBox && !clickedElement.closest('.info-box-container')) { hideAllInfoAndFocus(); removeAllStepHighlights(); closedSomething = true; }
+               if (currentVisibleTooltip && !clickedElement.closest('#cimt-band')) { hideAllTooltips(); closedSomething = true; }
                if (!closedSomething && body.classList.contains('trend-focus-active')) { clearTrendFocus(); }
                else if (!closedSomething && body.classList.contains('cimt-focus-active')) { clearCimtFocus(); }
           }
