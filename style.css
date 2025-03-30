@@ -76,7 +76,8 @@ h1 {
     padding-top: 25px; /* Basis padding top */
     padding-bottom: 0; /* Basis padding bund */
     margin-bottom: 40px;
-    border-radius: 10px; /* For outline */
+    border-radius: 10px; /* Tilføjet for outline */
+    /* Overgang for padding ifm. ramme */
     transition: outline 0.4s ease-in-out, outline-offset 0.4s ease-in-out, padding 0.4s ease-in-out;
 }
 
@@ -100,7 +101,7 @@ h1 {
     border: 2px solid transparent;
     border-radius: 8px;
     transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
-    position: relative;
+    position: relative; /* Vigtigt for risk-marker og priority-number */
     width: 90%;
     max-width: 150px;
     flex-shrink: 0;
@@ -125,7 +126,7 @@ h1 {
     background-color: #e7f3ff;
 }
 
-.workflow-step svg {
+.workflow-step svg { /* Gælder for hovedikonet */
     stroke: #005f60;
     width: 48px;
     height: 48px;
@@ -218,14 +219,14 @@ body.trends-band-visible #trends-band {
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    min-width: 300px; /* Sikrer minimum bredde */
-    max-width: min(500px, 90vw); /* Basis: Max 500px, men ikke > 90% af skærm */
+    min-width: 300px;
+    max-width: min(500px, 90vw);
     background-color: #333;
     color: white;
     text-align: left;
     padding: 12px 15px;
     border-radius: 4px;
-    font-size: 0.8em; /* Mindre skrift */
+    font-size: 0.8em;
     line-height: 1.4;
     z-index: 150;
     opacity: 0;
@@ -329,7 +330,6 @@ body.trends-band-visible #trends-band {
 /* Styling for Betydning Visualiseringer */
 .priority-number {
     position: absolute;
-    /* Justeret top for at tage højde for workflow padding ændring */
     top: -12px;
     right: -5px;
     display: inline-block;
@@ -357,15 +357,38 @@ body.trends-band-visible #trends-band {
      top: -8px; /* Flyt lidt op igen når der er ekstra padding */
 }
 
-
-.cimt-icon.risk-focus-highlight {
-    outline: 3px solid #ffc107;
-    outline-offset: 2px;
-    box-shadow: 0 0 8px rgba(255, 193, 7, 0.7);
-    border-radius: 5px;
-    background-color: rgba(255, 193, 7, 0.1);
-    transition: outline 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+/* NYT: Styling for Risiko Markører */
+.risk-marker {
+    position: absolute;
+    top: -2px; /* Juster position */
+    left: -2px; /* Juster position */
+    width: 24px; /* Matcher SVG størrelse */
+    height: 24px;
+    z-index: 16; /* Over priority number? */
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.5) rotate(-15deg); /* Start lille og roteret */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effekt */
+    pointer-events: none;
 }
+.risk-marker svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    fill: #dc3545; /* Rød fyldfarve */
+    stroke: #fff; /* Hvid kant for kontrast */
+    stroke-width: 1;
+}
+.risk-marker.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) rotate(0deg); /* Slut normal størrelse/rotation */
+}
+
+/* FJERNET: .cimt-icon.risk-focus-highlight er ikke længere i brug */
+/*
+.cimt-icon.risk-focus-highlight { ... }
+*/
 
 
 /* Styling for LeaderLine */
@@ -481,13 +504,13 @@ body.trends-band-visible #trends-band {
     .workflow-step svg { width: 48px; height: 48px; }
     .workflow-step p { font-size: 0.8em; }
     .priority-number { top: -10px; right: 0px; width: 22px; height: 22px; line-height: 22px; font-size: 0.8em; }
-    #workflow-layer.workflow-frame-active .priority-number { top: -8px; } /* Justering for ramme */
+    #workflow-layer.workflow-frame-active .priority-number { top: -8px; }
+    .risk-marker { top: -4px; left: -4px; width: 28px; height: 28px; } /* Lidt større risiko markør */
 
     #cimt-band, #trends-band { width: 95%; padding: 15px 10px; min-height: 90px; gap: 15px; margin-top: 80px; }
     .cimt-icon { width: 90px; }
     .cimt-icon svg { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
-    /* Tooltip justeringer for 768px+ */
     .tooltip {
         font-size: 0.9em;
         max-width: 600px;
@@ -511,15 +534,14 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.9em; }
      .arrow svg { width: 44px; height: 44px; }
      .priority-number { top: -12px; width: 24px; height: 24px; line-height: 24px; font-size: 0.85em; }
-    #workflow-layer.workflow-frame-active .priority-number { top: -10px; } /* Justering for ramme */
-
+    #workflow-layer.workflow-frame-active .priority-number { top: -10px; }
+    .risk-marker { top: -5px; left: -5px; width: 30px; height: 30px; }
 
      #cimt-band, #trends-band { min-height: 100px; gap: 15px; max-width: none; width: 98%; padding: 10px 5px; justify-content: center; }
      #trends-band { gap: 25px; }
      .cimt-icon { width: 100px; margin: 0; }
      .cimt-icon svg { width: 56px; height: 56px; }
      .cimt-icon-title { font-size: 0.8em; }
-     /* Tooltip justeringer for 1200px+ */
      .tooltip {
         font-size: 1.0em;
         max-width: 700px;
@@ -538,7 +560,6 @@ body.trends-band-visible #trends-band {
      #cimt-band, #trends-band { max-width: 1600px; }
      .info-box-container { max-width: 1100px; }
      #modal-content { max-width: 750px; }
-     /* Tooltip justeringer for 1600px+ */
      .tooltip {
          max-width: 750px;
       }
