@@ -64,6 +64,7 @@ h1 {
     z-index: 10;
 }
 
+/* Opdateret med transition for padding */
 #workflow-layer {
     display: flex;
     flex-direction: column; /* Mobil først */
@@ -72,21 +73,20 @@ h1 {
     width: 95%;
     max-width: 1600px;
     margin: 0 auto;
-    padding-top: 25px; /* Original padding */
-    padding-bottom: 0; /* Original padding */
+    padding-top: 25px; /* Basis padding top */
+    padding-bottom: 0; /* Basis padding bund */
     margin-bottom: 40px;
-    border-radius: 10px; /* Tilføjet for outline */
-    /* Overgang for padding ifm. ramme */
+    border-radius: 10px; /* For outline */
     transition: outline 0.4s ease-in-out, outline-offset 0.4s ease-in-out, padding 0.4s ease-in-out;
 }
 
-/* NYT: Ramme omkring workflow for "Samlet Indsats" */
+/* Opdateret ramme-styling */
 #workflow-layer.workflow-frame-active {
-    outline: 4px dashed #005f60; /* Tydelig stiplet ramme i primærfarven */
-    outline-offset: 12px; /* Lidt luft mellem ramme og ikoner */
-    /* Juster padding dynamisk for at undgå overlap med ramme/offset */
-    padding-top: calc(25px + 12px + 4px); /* Original + offset + outline */
-    padding-bottom: calc(12px + 4px); /* Lidt ekstra plads i bunden pga ramme */
+    outline: 3px dashed #005f60; /* Lidt tyndere ramme */
+    outline-offset: 10px; /* Lidt tættere på */
+    /* Justeret padding for at kompensere */
+    padding-top: calc(25px + 10px + 3px); /* Original + offset + outline */
+    padding-bottom: calc(10px + 3px); /* Plads i bunden pga ramme */
 }
 
 
@@ -329,7 +329,8 @@ body.trends-band-visible #trends-band {
 /* Styling for Betydning Visualiseringer */
 .priority-number {
     position: absolute;
-    top: -12px; /* Justeret lidt ned igen pga. workflow padding ændring */
+    /* Justeret top for at tage højde for workflow padding ændring */
+    top: -12px;
     right: -5px;
     display: inline-block;
     width: 20px;
@@ -343,7 +344,7 @@ body.trends-band-visible #trends-band {
     border-radius: 50%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease, top 0.4s ease-in-out; /* Tilføjet top transition */
+    transition: opacity 0.4s ease, visibility 0.4s ease, top 0.4s ease-in-out;
     z-index: 15;
     pointer-events: none;
 }
@@ -490,7 +491,6 @@ body.trends-band-visible #trends-band {
     .tooltip {
         font-size: 0.9em;
         max-width: 600px;
-        /* min-width arves fra basisreglen */
      }
 
      .info-box-container { width: 85%; margin-top: 30px; }
@@ -523,7 +523,6 @@ body.trends-band-visible #trends-band {
      .tooltip {
         font-size: 1.0em;
         max-width: 700px;
-        /* min-width arves fra basisreglen */
      }
 
      .info-box h2 { font-size: 1.5em; }
@@ -542,6 +541,5 @@ body.trends-band-visible #trends-band {
      /* Tooltip justeringer for 1600px+ */
      .tooltip {
          max-width: 750px;
-         /* min-width arves fra basisreglen */
       }
 }
