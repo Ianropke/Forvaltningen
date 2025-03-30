@@ -18,7 +18,7 @@ body {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
+    position: relative; /* Vigtigt for absolut positionering af dynamisk tooltip */
 }
 
 h1 {
@@ -253,18 +253,18 @@ body.trends-band-visible #trends-band {
 
 /* Dynamisk tooltip til trend eksempler */
 .trend-example-tooltip {
-    position: absolute;
+    position: absolute; /* Positioneres af JS */
     display: block;
-    width: auto;
-    max-width: 250px;
-    background-color: #555;
+    width: auto; /* Tilpasser sig indhold */
+    max-width: 250px; /* Begræns bredden */
+    background-color: #555; /* Lidt lysere end alm tooltip */
     color: white;
     text-align: left;
     padding: 6px 10px;
     border-radius: 4px;
-    font-size: 0.75em;
+    font-size: 0.75em; /* Lidt mindre end alm tooltip */
     line-height: 1.3;
-    z-index: 160;
+    z-index: 160; /* Over alm tooltips */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease;
@@ -285,9 +285,9 @@ body.trends-band-visible #trends-band {
     position: relative;
     z-index: 100;
     clear: both;
-    height: auto !important; /* <<< Tving auto højde */
-    max-height: none !important; /* <<< Tving ingen max højde */
-    overflow: visible !important; /* <<< Tving synligt overflow */
+    height: auto; /* Fjernet !important */
+    max-height: none; /* Fjernet !important */
+    overflow: visible; /* Fjernet !important */
     min-height: 50px;
 }
 .info-box {
@@ -301,10 +301,13 @@ body.trends-band-visible #trends-band {
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     text-align: left;
-    height: auto !important; /* <<< Tving auto højde */
-    max-height: none !important; /* <<< Tving ingen max højde */
-    overflow: visible !important; /* <<< Tving synligt overflow */
+    height: auto; /* Fjernet !important */
+    max-height: none; /* Fjernet !important */
+    overflow: visible; /* Fjernet !important */
 }
+/* Specifik boks til Trends er fjernet */
+/* #info-trend {...} */
+
 .info-box.visible {
     display: block;
     opacity: 1;
@@ -404,6 +407,7 @@ body.trends-band-visible #trends-band {
     transform: scale(1) rotate(0deg);
 }
 
+/* Styling for Trend Indikator Ikoner */
 .trend-indicator {
     position: absolute;
     top: -4px;
@@ -434,6 +438,7 @@ body.trends-band-visible #trends-band {
     visibility: visible;
     transform: scale(1);
 }
+/* Specifikke farver for trend ikoner */
 .trend-indicator.trend-icon-tech svg { fill: #17a2b8; stroke: #fff; }
 .trend-indicator.trend-icon-security svg { fill: #ffc107; stroke: #333; }
 .trend-indicator.trend-icon-region svg { fill: #6f42c1; stroke: #fff; }
@@ -446,11 +451,11 @@ body.trends-band-visible #trends-band {
     pointer-events: none;
 }
 
-/* Fokus Effekt (Fade/Highlight) - FULD VERSION GENINDSAT */
+/* Fokus Effekt (Fade/Highlight) - KORRIGERET LOGIK */
 #workflow-layer > .workflow-step,
 #cimt-band > .cimt-icon {
     transition: opacity 0.4s ease, transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
-    opacity: 1; /* Sørg for de er synlige som standard */
+    opacity: 1; /* Standard synlighed */
     pointer-events: auto;
 }
 
@@ -466,44 +471,26 @@ body.cimt-focus-active #workflow-layer > .workflow-step:not(.relevant-for-cimt) 
     opacity: 0.3;
     pointer-events: none;
 }
-/* Man kunne tilføje en lignende regel for CIMT ikoner her, hvis man ønsker at fade dem også, undtagen den valgte */
+/* NYT: Fade også irrelevante CIMT ikoner når CIMT fokus er aktiv */
+body.cimt-focus-active #cimt-band > .cimt-icon:not(.cimt-focus-icon) {
+    opacity: 0.3;
+    pointer-events: none;
+}
 
 
-/* Ophæv fade for relevante elementer (gælder begge fokus modes) */
+/* Ophæv fade for relevante elementer */
 body.trend-focus-active .relevant-for-trend,
-body.cimt-focus-active .relevant-for-cimt { /* Klassen .relevant-for-cimt tilføjes kun til steps pt. */
-    opacity: 1 !important;
+body.cimt-focus-active .relevant-for-cimt, /* Gælder steps i CIMT fokus */
+body.cimt-focus-active .cimt-focus-icon /* Gælder det aktive CIMT ikon */ {
+    opacity: 1 !important; /* Brug !important for at sikre override */
     pointer-events: auto;
 }
 
-/* EKSTRA REGLER FOR AT TVINGE CIMT IKONER SYNLIGE */
-body.cimt-band-visible #cimt-band .cimt-icon {
-    display: flex !important;
-    opacity: 1 !important; /* Sæt til 1 når båndet er synligt, medmindre trend/cimt fokus overskriver */
-    visibility: visible !important;
-    height: auto !important;
-    width: 75px !important; /* Brug basis bredde */
-}
-body.cimt-band-visible #cimt-band .cimt-icon svg.icon {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    width: 36px !important; /* Brug basis størrelse */
-    height: 36px !important;
-}
-/* Gendan opacity for ikoner i CIMT bånd, hvis trend-fokus er aktivt samtidig */
-body.cimt-band-visible.trend-focus-active #cimt-band .cimt-icon.relevant-for-trend {
-     opacity: 1 !important;
-     pointer-events: auto;
-}
-/* Sørg for at CIMT ikoner er synlige når CIMT fokus er aktiv (overskriver evt. trend fade) */
-body.cimt-focus-active #cimt-band .cimt-icon {
-    opacity: 1 !important; /* Vis alle CIMT ikoner ved CIMT fokus (indtil vi evt. fader irrelevante) */
-    pointer-events: auto;
-}
+/* Fjernet de ekstra !important regler for CIMT ikoner */
 
 
 /* --- Media Queries --- */
+/* Indeholder justeringer for tooltip bredde og ikon størrelser */
 
 @media (min-width: 768px) {
     body { padding: 20px; }
@@ -527,11 +514,12 @@ body.cimt-focus-active #cimt-band .cimt-icon {
 
     #cimt-band, #trends-band { width: 95%; padding: 15px 10px; min-height: 90px; gap: 15px; margin-top: 80px; }
     .cimt-icon { width: 90px; }
-    /* Opdateret til at tvinge synlighed for CIMT ikoner på større skærme også */
-     body.cimt-band-visible #cimt-band .cimt-icon { width: 90px !important; }
-     body.cimt-band-visible #cimt-band .cimt-icon svg.icon { width: 48px !important; height: 48px !important; }
+    .cimt-icon svg.icon { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
-    .tooltip { font-size: 0.9em; max-width: 700px; }
+    .tooltip {
+        font-size: 0.9em;
+        max-width: 700px; /* <<< Sidste bredde justering */
+     }
 
      .info-box-container { width: 85%; margin-top: 30px; }
      .info-box { padding: 15px 20px; }
@@ -555,11 +543,12 @@ body.cimt-focus-active #cimt-band .cimt-icon {
      #cimt-band, #trends-band { min-height: 100px; gap: 15px; max-width: none; width: 98%; padding: 10px 5px; justify-content: center; }
      #trends-band { gap: 25px; }
      .cimt-icon { width: 100px; margin: 0; }
-     /* Opdateret til at tvinge synlighed for CIMT ikoner på større skærme også */
-     body.cimt-band-visible #cimt-band .cimt-icon { width: 100px !important; }
-     body.cimt-band-visible #cimt-band .cimt-icon svg.icon { width: 56px !important; height: 56px !important; }
+     .cimt-icon svg.icon { width: 56px; height: 56px; }
      .cimt-icon-title { font-size: 0.8em; }
-     .tooltip { font-size: 1.0em; max-width: 850px; }
+     .tooltip {
+        font-size: 1.0em;
+        max-width: 850px; /* <<< Sidste bredde justering */
+     }
 
      .info-box h2 { font-size: 1.5em; }
      .info-box p { font-size: 1.2em; }
@@ -571,7 +560,9 @@ body.cimt-focus-active #cimt-band .cimt-icon {
 @media (min-width: 1600px) {
      #cimt-band, #trends-band { max-width: 1600px; }
      .info-box-container { max-width: 1100px; }
-     .tooltip { max-width: 900px; }
+     .tooltip {
+         max-width: 900px; /* <<< Sidste bredde justering */
+      }
      .risk-marker { top: -6px; left: -6px; width: 32px; height: 32px; }
      .trend-indicator { top: -7px; left: -7px; width: 24px; height: 24px; }
 }
