@@ -72,7 +72,7 @@ h1 {
     width: 95%;
     max-width: 1600px;
     margin: 0 auto;
-    padding-top: 10px;
+    padding-top: 25px; /* Mere plads over til prio-numre */
     margin-bottom: 40px;
 }
 
@@ -134,7 +134,7 @@ h1 {
 /* Bånd Styling */
 #cimt-band,
 #trends-band {
-    display: none; /* <<< RETTELSE: Sikrer de er skjult som standard */
+    display: none; /* <<< SKAL være skjult som standard */
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
@@ -161,7 +161,7 @@ body.trends-band-visible #trends-band {
 
 /* Ikon og Titel Styling */
 .cimt-icon {
-    position: relative;
+    position: relative; /* Kritisk for tooltip */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -204,8 +204,8 @@ body.trends-band-visible #trends-band {
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    /* width: 380px; */  /* <<< RETTELSE: Fjernet fast bredde */
-    max-width: 320px; /* Justeret max-width */
+    /* width: 380px; */  /* Fjernet fast bredde */
+    max-width: 320px; /* Fleksibel max bredde */
     background-color: #333;
     color: white;
     text-align: left;
@@ -241,14 +241,17 @@ body.trends-band-visible #trends-band {
 
 /* Info-boks container */
 .info-box-container {
-    width: 100%;
-    max-width: 900px;
-    min-height: auto; /* <<< RETTELSE: Sikrer den kan vokse */
-    height: auto; /* <<< RETTELSE: Sikrer ingen fast højde */
-    max-height: none; /* <<< RETTELSE: Sikrer ingen max højde */
-    overflow: visible; /* <<< RETTELSE: Sikrer indhold ikke skjules */
-    margin: 20px auto 0 auto;
+    width: 100%; /* Tager fuld bredde af sin parent */
+    max-width: 900px; /* Max bredde for indhold */
+    margin: 20px auto 0 auto; /* Top margin, centreret vandret */
+    position: relative; /* Sikrer normal placering i flowet */
     z-index: 100;
+    /* Fjern eventuelle 'float', 'position: absolute/fixed' herfra hvis de findes */
+    /* Sørg for at den har plads under diagrammet/båndene */
+    clear: both; /* Hvis der bruges floats et andet sted */
+    height: auto; /* <<< Sikring mod fast højde */
+    max-height: none; /* <<< Sikring mod max højde */
+    overflow: visible; /* <<< Sikring mod skjult overflow */
 }
 .info-box {
     display: none;
@@ -261,12 +264,13 @@ body.trends-band-visible #trends-band {
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     text-align: left;
-    height: auto; /* <<< RETTELSE: Sikrer ingen fast højde */
-    max-height: none; /* <<< RETTELSE: Sikrer ingen max højde */
-    overflow: visible; /* <<< RETTELSE: Sikrer indhold ikke skjules */
+    /* Fjern eventuelle 'float', 'position: absolute/fixed' herfra */
+    height: auto; /* <<< Sikring mod fast højde */
+    max-height: none; /* <<< Sikring mod max højde */
+    overflow: visible; /* <<< Sikring mod skjult overflow */
 }
 .info-box.visible {
-    display: block;
+    display: block; /* Vigtigt: skal være block for normalt flow */
     opacity: 1;
     visibility: visible;
 }
@@ -280,6 +284,7 @@ body.trends-band-visible #trends-band {
     font-size: 0.95em;
     line-height: 1.5;
     color: #333;
+    /* Sørg for at p-tag ikke har mærkelige margin/padding/height */
 }
 
 /* Styling for 'Betydning' boksen */
@@ -311,8 +316,8 @@ body.trends-band-visible #trends-band {
 /* Styling for Betydning Visualiseringer */
 .priority-number {
     position: absolute;
-    top: -8px;
-    right: -5px;
+    top: -8px; /* Juster evt. op/ned */
+    right: -5px; /* Juster evt. højre/venstre */
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -434,7 +439,6 @@ body.trends-band-visible #trends-band {
 
 
 /* --- Media Queries --- */
-/* (Indeholder de samme regler som før, men sikrer at rettelserne ovenfor ikke konflikter) */
 
 @media (min-width: 768px) {
     body { padding: 20px; }
@@ -463,7 +467,7 @@ body.trends-band-visible #trends-band {
     .cimt-icon { width: 90px; }
     .cimt-icon svg { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
-    .tooltip { font-size: 1.1em; max-width: 300px; /* Justeret max-width her også */ }
+    .tooltip { font-size: 1.1em; max-width: 300px; }
 
      .info-box-container { width: 85%; margin-top: 30px; }
      .info-box { padding: 15px 20px; }
@@ -489,7 +493,7 @@ body.trends-band-visible #trends-band {
      .cimt-icon { width: 100px; margin: 0; }
      .cimt-icon svg { width: 56px; height: 56px; }
      .cimt-icon-title { font-size: 0.8em; }
-     .tooltip { font-size: 1.2em; max-width: 360px; /* Lidt bredere max-width her */ }
+     .tooltip { font-size: 1.2em; max-width: 360px; }
 
      .info-box h2 { font-size: 1.5em; }
      .info-box p { font-size: 1.2em; }
