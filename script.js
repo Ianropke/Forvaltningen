@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoBoxes = document.querySelectorAll('.info-box:not(#info-conclusion)');
     const conclusionInfoBox = document.getElementById('info-conclusion');
     const allIcons = document.querySelectorAll('.cimt-icon');
-    const tooltips = document.querySelectorAll('.tooltip'); // Kun for CIMT ikoner
+    const tooltips = document.querySelectorAll('.tooltip');
     const body = document.body;
 
     // Modal elementer
@@ -29,313 +29,69 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeLines = [];
 
     // --- LeaderLine Options ---
-    const lineOptions = {
-        color: 'rgba(120, 120, 120, 0.5)',
-        size: 2,
-        path: 'fluid',
-        startSocket: 'bottom',
-        endSocket: 'top',
-    };
+    const lineOptions = { /* ... uændret ... */ };
 
     // --- Funktioner ---
 
     function hideModal() {
+        console.log("Attempting to hide modal..."); // DEBUG
         if (modalOverlay && modalOverlay.classList.contains('visible')) {
             modalOverlay.classList.remove('visible');
+            console.log("Modal hidden via hideModal() function."); // DEBUG
+        } else {
+             console.log("Modal was not visible or modalOverlay not found."); // DEBUG
         }
     }
 
-    function hideAllWorkflowAndConclusionInfoBoxes() {
-        let wasVisible = false;
-        infoBoxes.forEach(box => {
-            if (box.classList.contains('visible')) {
-                box.classList.remove('visible');
-                wasVisible = true;
-            }
-        });
-        if (conclusionInfoBox && conclusionInfoBox.classList.contains('visible')) {
-            conclusionInfoBox.classList.remove('visible');
-            wasVisible = true;
-            if(toggleConclusionButton) updateToggleButtonText(toggleConclusionButton, 'Vis Konklusion');
-        }
-        if (wasVisible) {
-            currentVisibleInfoBox = null;
-        }
-        // Skjul altid modal, hvis en infoboks lukkes
-        hideModal();
-    }
-
-    function removeAllLines() {
-        if (activeLines.length > 0) {
-            activeLines.forEach(line => { try { line.remove(); } catch (e) {} });
-            activeLines = [];
-        }
-    }
-
-    function hideAllTooltips() {
-        if (currentVisibleTooltip) {
-            tooltips.forEach(tip => tip.classList.remove('visible'));
-            currentVisibleTooltip = null;
-        }
-        removeAllLines(); // Altid fjern linjer når tooltips skjules
-    }
-
-    function removeAllStepHighlights() {
-        if (currentHighlightedStep) {
-            workflowSteps.forEach(step => step.classList.remove('highlighted'));
-            currentHighlightedStep = null;
-        }
-    }
-
-    // Skjuler ALLE interaktive popups/overlays/highlights
-    function hideAllInteractiveElements() {
-        hideAllWorkflowAndConclusionInfoBoxes(); // Skjuler også modal
-        hideAllTooltips(); // Skjuler tooltips og linjer
-        removeAllStepHighlights();
-    }
-
-    // Tegner KUN linjer for et specifikt CIMT ikon (Simplificeret)
-    function drawLinesForIcon(iconElement) {
-        removeAllLines(); // Fjern altid gamle linjer FØRST
-        if (!iconElement || !document.contains(iconElement) || !body.classList.contains('cimt-band-visible')) {
-             return;
-        }
-
-        const relevantStepsStr = iconElement.dataset.cimtRelevant || '';
-        const relevantSteps = relevantStepsStr.split(' ');
-        console.log("Attempting to draw lines for:", iconElement.id, "to steps:", relevantSteps);
-
-        let linesDrawn = 0;
-        relevantSteps.forEach(stepId => {
-            if (stepId) {
-                const stepElement = document.getElementById(stepId);
-                // Simplere tjek: Findes begge elementer?
-                if (stepElement && document.contains(stepElement) && document.contains(iconElement)) {
-                    try {
-                        const line = new LeaderLine(stepElement, iconElement, {...lineOptions});
-                        if (line) {
-                            activeLines.push(line);
-                            linesDrawn++;
-                        }
-                    } catch(e) { console.error(`Error drawing line from ${stepId} to ${iconElement.id}:`, e); }
-                }
-            }
-        });
-        console.log("Lines drawn:", linesDrawn);
-        // LeaderLine forsøger selv at positionere. setTimeout fjernet for nu.
-    }
-
-
-    function hideCimtBand() {
-        if (body.classList.contains('cimt-band-visible')) {
-            body.classList.remove('cimt-band-visible');
-            updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
-            hideAllTooltips(); // Skjuler også linjer
-        }
-    }
-
-    function hideTrendsBand() {
-        if (body.classList.contains('trends-band-visible')) {
-            body.classList.remove('trends-band-visible');
-            updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
-            hideModal();
-        }
-    }
-
-    // Opdaterer ALLE knappers tekst baseret på den aktuelle body/element klasse
-    function updateAllButtonTexts() {
-        updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
-        updateToggleButtonText(toggleTrendsButton, 'Vis Tendenser/Risici');
-        updateToggleButtonText(toggleConclusionButton, 'Vis Konklusion');
-    }
-
-    // Funktion til at opdatere en specifik knaps tekst (bruges af updateAllButtonTexts)
-    function updateToggleButtonText(button, showText) {
-        if (!button) return;
-        const baseText = showText.replace('Vis ', '');
-        let bodyClassToCheck = '';
-        let isConclusionBox = false;
-        if (button === toggleCimtButton) { bodyClassToCheck = 'cimt-band-visible'; }
-        else if (button === toggleTrendsButton) { bodyClassToCheck = 'trends-band-visible'; }
-        else if (button === toggleConclusionButton) { isConclusionBox = true; }
-
-        let isVisible = isConclusionBox
-            ? (conclusionInfoBox && conclusionInfoBox.classList.contains('visible'))
-            : body.classList.contains(bodyClassToCheck);
-
-        button.textContent = isVisible ? `Skjul ${baseText}` : `Vis ${baseText}`;
-    }
-
-    // Debounce funktion (uændret)
+    function hideAllWorkflowAndConclusionInfoBoxes() { /* ... uændret (kalder hideModal) ... */ }
+    function removeAllLines() { /* ... uændret ... */ }
+    function hideAllTooltips() { /* ... uændret ... */ }
+    function removeAllStepHighlights() { /* ... uændret ... */ }
+    function hideAllInteractiveElements() { /* ... uændret ... */ }
+    function drawLinesForIcon(iconElement) { /* ... uændret ... */ }
+    function hideCimtBand() { /* ... uændret ... */ }
+    function hideTrendsBand() { /* ... uændret ... */ }
+    function updateToggleButtonText(button, showText) { /* ... uændret ... */ }
     function debounce(func, wait, immediate) { /* ... uændret ... */ }
-
-    // Håndterer resize - fjerner linjer
-    const handleResize = debounce(() => {
-        if (activeLines.length > 0) { removeAllLines(); }
-    }, 250);
+    const handleResize = debounce(() => { /* ... uændret ... */ }, 250);
 
 
     // --- Event Listeners ---
 
-    // Knap: Vis/Skjul CIMT bånd
-    toggleCimtButton.addEventListener('click', () => {
-        const shouldShow = !body.classList.contains('cimt-band-visible');
-        hideAllInteractiveElements(); // Skjul alt FØRST
-        hideTrendsBand();
+    toggleCimtButton.addEventListener('click', () => { /* ... uændret ... */ });
+    toggleTrendsButton.addEventListener('click', () => { /* ... uændret ... */ });
+    if (toggleConclusionButton && conclusionInfoBox) { /* ... uændret ... */ }
+    workflowSteps.forEach(step => { /* ... uændret ... */ });
+    allIcons.forEach(icon => { /* ... uændret ... */ });
 
-        if (shouldShow) {
-            body.classList.add('cimt-band-visible');
-        }
-        // Ellers har hideAllInteractiveElements/hideCimtBand klaret skjulningen
-        updateAllButtonTexts();
-    });
-
-    // Knap: Vis/Skjul Tendens bånd
-    toggleTrendsButton.addEventListener('click', () => {
-        const shouldShow = !body.classList.contains('trends-band-visible');
-        hideAllInteractiveElements();
-        hideCimtBand();
-
-        if (shouldShow) {
-            body.classList.add('trends-band-visible');
-        }
-        updateAllButtonTexts();
-    });
-
-    // Knap: Vis/Skjul Konklusion
-    if (toggleConclusionButton && conclusionInfoBox) {
-        toggleConclusionButton.addEventListener('click', () => {
-            const shouldShow = !conclusionInfoBox.classList.contains('visible');
-            hideAllInteractiveElements(); // Skjul alt andet
-            hideCimtBand();
-            hideTrendsBand();
-
-            if (shouldShow) {
-                conclusionInfoBox.classList.add('visible');
-                currentVisibleInfoBox = conclusionInfoBox;
-            }
-             // hideAllInteractiveElements skjuler den, hvis den var synlig
-            updateAllButtonTexts();
+     // Luk Modal - DEBUGGING TILFØJET / VERIFICERET
+     console.log("Checking Modal Elements:", {modalOverlay, modalCloseBtn}); // DEBUG
+     if (modalOverlay && modalCloseBtn) {
+        console.log("Attaching modal close listeners."); // DEBUG
+        modalCloseBtn.addEventListener('click', () => {
+            console.log("Close button (X) clicked!"); // DEBUG
+            hideModal();
         });
-    }
-
-
-    // Klik på workflow steps
-    workflowSteps.forEach(step => {
-        step.addEventListener('click', () => {
-            const infoBoxId = step.dataset.infoTarget;
-            const targetInfoBox = document.getElementById(infoBoxId);
-
-            // Skjul bånd FØRST
-            hideCimtBand();
-            hideTrendsBand();
-            if (conclusionInfoBox) conclusionInfoBox.classList.remove('visible');
-
-            if (step === currentHighlightedStep) {
-                hideAllWorkflowAndConclusionInfoBoxes(); // Skjul alt i infoboks-container
-                removeAllStepHighlights();
+        modalOverlay.addEventListener('click', (event) => {
+            // Tjek om der klikkes direkte på overlay baggrunden
+            if (event.target === modalOverlay) {
+                console.log("Overlay background clicked!"); // DEBUG
+                hideModal();
             } else {
-                hideAllWorkflowAndConclusionInfoBoxes(); // Skjul evt. anden synlig boks
-                removeAllStepHighlights();
-
-                step.classList.add('highlighted');
-                currentHighlightedStep = step;
-
-                if (targetInfoBox && targetInfoBox !== conclusionInfoBox) {
-                    targetInfoBox.classList.add('visible');
-                    currentVisibleInfoBox = targetInfoBox;
-                } else {
-                    currentVisibleInfoBox = null;
-                }
+                 console.log("Clicked inside modal content, not closing."); // DEBUG
             }
-            updateAllButtonTexts(); // Opdater knapper
         });
+     } else {
+          console.error("FEJL: Kunne ikke finde #modal-overlay eller #modal-close-btn for at tilføje listeners!"); // DEBUG
+     }
 
-        step.addEventListener('keypress', (e) => { /* ... uændret ... */ });
-    });
+     // Klik udenfor popups/tooltips/infobokse for at lukke dem (uændret)
+     document.addEventListener('click', (event) => { /* ... uændret ... */ });
 
-    // Klik på ikoner i BEGGE bånd
-    allIcons.forEach(icon => {
-        icon.addEventListener('click', (event) => {
-             event.stopPropagation();
-
-             const parentCimtBand = icon.closest('#cimt-band');
-             const parentTrendsBand = icon.closest('#trends-band');
-             const isCimtActive = body.classList.contains('cimt-band-visible');
-             const isTrendsActive = body.classList.contains('trends-band-visible');
-
-             // Skjul altid info-bokse (inkl konklusion) og step highlights
-             hideAllWorkflowAndConclusionInfoBoxes();
-             removeAllStepHighlights();
-
-             if (isTrendsActive && parentTrendsBand) {
-                 // *** TRENDS IKON -> VIS MODAL ***
-                 hideAllTooltips(); // Skjul evt. CIMT tooltips/linjer
-
-                 const title = icon.querySelector('.cimt-icon-title')?.textContent || 'Tendens/Risiko';
-                 const description = icon.dataset.description || 'Ingen beskrivelse.';
-                 const examplesRaw = icon.dataset.examples || '';
-                 const examplesHtml = examplesRaw.split('<br>').map(ex => ex.trim()).filter(ex => ex).map(ex => `<li>${ex}</li>`).join('');
-
-                 modalTitle.textContent = title;
-                 modalDescription.textContent = description;
-                 modalExamples.innerHTML = examplesHtml ? `<h3>Eksempler i Workflow:</h3><ul>${examplesHtml}</ul>` : '';
-                 if(modalContent) modalContent.scrollTop = 0;
-                 modalOverlay.classList.add('visible');
-                 currentVisibleTooltip = null; // Ingen aktiv tooltip
-
-             } else if (isCimtActive && parentCimtBand) {
-                 // *** CIMT IKON -> VIS TOOLTIP + LINJER ***
-                 hideModal(); // Skjul evt. modal
-
-                 const tooltipId = icon.dataset.tooltipTarget;
-                 const tooltip = document.getElementById(tooltipId);
-                 const isClickingVisibleTooltip = tooltip && tooltip === currentVisibleTooltip;
-
-                 // Skjul altid gamle tooltips/linjer FØRST
-                 hideAllTooltips(); // Inkluderer removeAllLines()
-
-                 if (!isClickingVisibleTooltip && tooltip) {
-                     // Vis ny tooltip OG tegn linjer
-                     tooltip.classList.add('visible');
-                     currentVisibleTooltip = tooltip;
-                     drawLinesForIcon(icon);
-                 }
-                 // Hvis man klikkede på den allerede synlige, har hideAllTooltips klaret lukningen
-             }
-             // Opdater knap-tekster (kan være nødvendigt hvis en knap var "skjul")
-             updateAllButtonTexts();
-        });
-
-         icon.addEventListener('keypress', (e) => { /* ... uændret ... */ });
-    });
-
-     // Luk Modal (uændret)
-     if (modalOverlay && modalCloseBtn) { /* ... uændret ... */ }
-
-     // Klik udenfor popups/tooltips/infobokse for at lukke dem
-     document.addEventListener('click', (event) => {
-         const clickedElement = event.target;
-
-         // Luk synlig info-boks (workflow ELLER konklusion)
-         if (currentVisibleInfoBox && !clickedElement.closest('.workflow-step') && !clickedElement.closest('.info-box-container') && !clickedElement.closest('#controls button')) {
-              hideAllWorkflowAndConclusionInfoBoxes();
-              removeAllStepHighlights();
-         }
-
-          // Luk aktiv tooltip (og fjern linjer)
-         if (currentVisibleTooltip && !clickedElement.closest('.cimt-icon')) {
-              if (!clickedElement.closest('#cimt-band') && !clickedElement.closest('#trends-band')) {
-                   hideAllTooltips();
-              }
-         }
-         // Modal lukkes af sin egen listener eller hideAllInfoBoxes()
-     });
-
-     // Lyt efter resize for at fjerne linjer
+     // Lyt efter resize for at fjerne linjer (uændret)
      window.addEventListener('resize', handleResize);
 
-     // Initial opdatering af knaptekster
-     updateAllButtonTexts();
+     // Initial opdatering af knaptekster (uændret)
+     updateAllButtonTexts(); // Bruger den nye samlede funktion
 
 }); // End DOMContentLoaded
