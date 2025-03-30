@@ -70,6 +70,7 @@ h1 {
     align-items: center;
     gap: 15px;
     width: 95%;
+    max-width: 1600px; /* Sæt max bredde for bedre centrering */
     margin: 0 auto;
     padding-top: 10px;
     margin-bottom: 40px;
@@ -125,13 +126,13 @@ h1 {
 #trends-band {
     display: none;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; /* Centrer som standard */
     align-items: flex-start;
     padding: 10px;
     background-color: #e9ecef;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    margin: 60px auto 0 auto; /* Øget top-margin */
+    margin: 60px auto 0 auto;
     width: 100%; /* Mobil: Fuld bredde */
     border-radius: 5px;
     min-height: auto;
@@ -147,6 +148,7 @@ body.cimt-band-visible #cimt-band {
 body.trends-band-visible #trends-band {
     display: flex;
 }
+
 
 /* Ikon og Titel Styling */
 .cimt-icon {
@@ -186,7 +188,7 @@ body.trends-band-visible #trends-band {
     min-height: auto;
 }
 
-/* Tooltips (KUN for CIMT-ikoner nu) */
+/* Tooltips (KUN for CIMT ikoner) */
 .tooltip {
     display: none;
     position: absolute;
@@ -282,22 +284,22 @@ body.trends-band-visible #trends-band {
     pointer-events: none;
 }
 
-/* NYT: Styling for Modal Popup */
+/* Modal Popup Styling */
 #modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Mørkere overlay */
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 200; /* Højeste z-index */
+    z-index: 200;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    padding: 15px; /* Giver lidt plads på små skærme */
+    padding: 15px;
     box-sizing: border-box;
 }
 
@@ -310,12 +312,12 @@ body.trends-band-visible #trends-band {
     background-color: #fff;
     padding: 25px 30px;
     border-radius: 5px;
-    max-width: 650px; /* Max bredde for modal */
-    width: 95%; /* Bredde ift. overlay */
+    max-width: 650px;
+    width: 95%; /* Mobil først */
     position: relative;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-height: 80vh; /* Max højde */
-    overflow-y: auto; /* Tillad scroll i modal hvis indhold er højt */
+    max-height: 85vh; /* Lidt højere */
+    overflow-y: auto;
 }
 
 #modal-close-btn {
@@ -324,7 +326,7 @@ body.trends-band-visible #trends-band {
     right: 15px;
     background: none;
     border: none;
-    font-size: 2em; /* Større lukke-knap */
+    font-size: 2em;
     line-height: 1;
     color: #aaa;
     cursor: pointer;
@@ -348,10 +350,10 @@ body.trends-band-visible #trends-band {
 }
 
 #modal-description {
-    margin-bottom: 1.5em; /* Afstand mellem beskrivelse og eksempler */
+    margin-bottom: 1.5em;
 }
 
-#modal-examples h3 { /* Styling til Eksempel-overskrift */
+#modal-examples h3 {
     font-size: 1.1em;
     font-weight: bold;
     color: #555;
@@ -371,7 +373,7 @@ body.trends-band-visible #trends-band {
 }
 
 
-/* --- Media Queries --- */
+/* --- Media Queries for Større Skærme --- */
 
 @media (min-width: 768px) {
     body { padding: 20px; }
@@ -380,6 +382,7 @@ body.trends-band-visible #trends-band {
     .center-text { font-size: 0.9em; }
     #controls button { padding: 10px 20px; font-size: 1em; }
 
+    /* Vandret workflow */
     #workflow-layer {
         flex-direction: row;
         align-items: flex-start;
@@ -392,21 +395,23 @@ body.trends-band-visible #trends-band {
     .workflow-step svg { width: 48px; height: 48px; }
     .workflow-step p { font-size: 0.8em; }
 
+    /* Bånd styling */
     #cimt-band, #trends-band { width: 95%; padding: 15px 10px; min-height: 90px; gap: 15px; margin-top: 80px; }
     .cimt-icon { width: 90px; }
     .cimt-icon svg { width: 48px; height: 48px; }
     .cimt-icon-title { font-size: 0.8em; }
     .tooltip { font-size: 1.1em; width: 300px; }
 
-    .info-box-container { width: 85%; margin-top: 30px;}
-    .info-box { padding: 15px 20px; }
-    .info-box h2 { font-size: 1.3em; }
-    .info-box p { font-size: 1.05em; }
+    /* Info boks */
+     .info-box-container { width: 85%; margin-top: 30px;}
+     .info-box { padding: 15px 20px; }
+     .info-box h2 { font-size: 1.3em; }
+     .info-box p { font-size: 1.05em; }
 
-    #modal-content { padding: 30px 35px; }
-    #modal-title { font-size: 1.6em; }
-    #modal-text { font-size: 1.05em; }
-    #modal-examples h3 { font-size: 1.15em; }
+     #modal-content { width: 85%; padding: 30px 35px; }
+     #modal-title { font-size: 1.6em; }
+     #modal-text { font-size: 1.05em; }
+     #modal-examples h3 { font-size: 1.15em; }
 }
 
 @media (min-width: 1200px) {
@@ -414,9 +419,19 @@ body.trends-band-visible #trends-band {
      .workflow-step p { font-size: 0.9em; }
      .arrow svg { width: 44px; height: 44px; }
 
-     #cimt-band, #trends-band { min-height: 100px; gap: 15px; max-width: none; width: 98%; padding: 10px 5px; justify-content: center; }
+     #cimt-band, #trends-band {
+        min-height: 100px;
+        gap: 15px;
+        max-width: 1600px; /* Max bredde for bånd */
+        width: 95%; /* Tilpasser sig container */
+        padding: 10px 5px;
+        justify-content: center; /* Centrér */
+        margin-left: auto; /* Centrér bånd */
+        margin-right: auto; /* Centrér bånd */
+     }
      #trends-band { gap: 25px; }
-     .cimt-icon { width: 100px; margin: 0; }
+
+     .cimt-icon { width: 100px; }
      .cimt-icon svg { width: 56px; height: 56px; }
      .cimt-icon-title { font-size: 0.8em; }
      .tooltip { font-size: 1.2em; width: 360px; }
@@ -430,7 +445,6 @@ body.trends-band-visible #trends-band {
 }
 
 @media (min-width: 1600px) {
-    #cimt-band, #trends-band { max-width: 1600px; }
-    .info-box-container { max-width: 1100px; }
-     #modal-content { max-width: 750px; } /* Lidt bredere modal */
+     .info-box-container { max-width: 1100px; }
+     #modal-content { max-width: 750px; }
 }
