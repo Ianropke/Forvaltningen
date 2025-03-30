@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const trendsBand = document.getElementById('trends-band');
     const workflowSteps = document.querySelectorAll('.workflow-step');
     const workflowLayer = document.getElementById('workflow-layer');
+    const infoBoxContainer = document.querySelector('.info-box-container'); // Tilføjet for linje anker
     const infoBoxes = document.querySelectorAll('.info-box:not(#info-significance)');
     const significanceInfoBox = document.getElementById('info-significance');
     const allIcons = document.querySelectorAll('.cimt-icon');
@@ -38,7 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // LeaderLine Options
     const defaultLineOptions = { color: 'rgba(120, 120, 120, 0.5)', size: 2, path: 'fluid', startSocket: 'bottom', endSocket: 'top' };
-    const unifiedLineOptions = { color: 'rgba(0, 95, 96, 0.7)', size: 6, path: 'straight', startSocket: 'top', endSocket: 'bottom', startPlug: 'square', endPlug: 'arrow2', startPlugSize: 2, endPlugSize: 1.5, outline: true, outlineColor: 'rgba(255, 255, 255, 0.5)', outlineSize: 0.5, dash: { animation: true, len: 12, gap: 6 } };
+    // Opdaterede options for den samlede linje (tyndere, ikke stiplet, blød kurve)
+    const unifiedLineOptions = {
+        color: 'rgba(0, 95, 96, 0.7)',
+        size: 4, // Tyndere
+        path: 'arc', // Blød kurve
+        startSocket: 'top', // Start fra toppen af start element
+        endSocket: 'bottom', // Slut ved bunden af slut element
+        // Fjernet start/slut plugs og dash animation
+    };
+
 
     // --- Funktioner ---
     function hideModal() { if (modalOverlay?.classList.contains('visible')) { modalOverlay.classList.remove('visible'); } }
@@ -87,13 +97,34 @@ document.addEventListener('DOMContentLoaded', () => {
     function hidePriorityNumbers() { priorityNumberElements.forEach(el => el.classList.remove('visible')); }
     function showPriorityNumbers() { hideAllSignificanceVisuals(); priorityNumberElements.forEach(el => el.classList.add('visible')); activeSignificanceVisual = 'priority'; }
     function hideUnifiedEffortLine() { if (unifiedEffortLine) { try { unifiedEffortLine.remove(); } catch(e) {} unifiedEffortLine = null; } }
+
+    // Opdateret funktion for samlet linje
     function showUnifiedEffortLine() {
-        hideAllSignificanceVisuals(); hideAllTooltips();
-        if (cimtBand && workflowLayer && document.contains(cimtBand) && document.contains(workflowLayer)) {
-            try { unifiedEffortLine = new LeaderLine( LeaderLine.areaAnchor(cimtBand, {x: '50%', y: '0%'}), LeaderLine.areaAnchor(workflowLayer, {x: '50%', y: '100%'}), {...unifiedLineOptions}); activeSignificanceVisual = 'unified'; }
-            catch (e) { console.error("Error drawing unified effort line:", e); hideUnifiedEffortLine(); }
-        } else { console.error("Cannot draw unified line: cimtBand or workflowLayer not found/visible."); }
+        hideAllSignificanceVisuals(); // Skjul andre først
+        hideAllTooltips(); // Skjul alm. tooltips/linjer
+
+        // Definer start- og slut-elementer mere robust
+        const startElement = infoBoxContainer; // Starter fra toppen af info-boks containeren
+        const endElement = workflowLayer; // Slutter ved bunden af workflow laget
+
+        if (startElement && endElement && document.contains(startElement) && document.contains(endElement)) {
+            try {
+                // Tegn linjen mellem de definerede elementer
+                unifiedEffortLine = new LeaderLine(
+                    startElement, // Start element
+                    endElement,   // Slut element
+                    {...unifiedLineOptions} // Brug de justerede options
+                );
+                 activeSignificanceVisual = 'unified';
+            } catch (e) {
+                console.error("Error drawing unified effort line:", e);
+                hideUnifiedEffortLine(); // Ryd op hvis fejl
+            }
+        } else {
+            console.error("Cannot draw unified line: start element (.info-box-container) or end element (#workflow-layer) not found/visible.");
+        }
     }
+
     function hideRiskFocusHighlight() { allCimtIcons.forEach(icon => icon.classList.remove('risk-focus-highlight')); }
     function showRiskFocusHighlight() { hideAllSignificanceVisuals(); allCimtIcons.forEach(icon => icon.classList.add('risk-focus-highlight')); activeSignificanceVisual = 'risk'; }
 
