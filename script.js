@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoBoxContainer = document.querySelector('.info-box-container');
     const infoBoxes = document.querySelectorAll('.info-box:not(#info-significance)');
     const significanceInfoBox = document.getElementById('info-significance');
-    // const trendInfoBox = // Fjernet
     const allIcons = document.querySelectorAll('.cimt-icon');
     const allCimtIcons = document.querySelectorAll('#cimt-band .cimt-icon');
     const trendIcons = document.querySelectorAll('#trends-band .cimt-icon');
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const fadeableWorkflowSteps = document.querySelectorAll('#workflow-layer .workflow-step');
     const fadeableCimtIcons = document.querySelectorAll('#cimt-band .cimt-icon');
-    const dynamicTooltipContainer = document.getElementById('dynamic-tooltip-container');
+    // const dynamicTooltipContainer = document.getElementById('dynamic-tooltip-container'); // Fjernet
 
     // Elementer og state for 'Betydning' visualisering
     const significanceListItems = significanceInfoBox?.querySelectorAll('li[data-visual]');
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let unifiedEffortLine = null;
 
     // State variable
-    let activeLines = []; // <<< Bruges igen til CIMT-linjer
+    let activeLines = [];
     let currentVisibleInfoBox = null;
     let currentHighlightedStep = null;
     let currentVisibleTooltip = null;
@@ -41,7 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // LeaderLine Options
     const defaultLineOptions = { color: 'rgba(120, 120, 120, 0.5)', size: 2, path: 'fluid', startSocket: 'bottom', endSocket: 'top' };
-    const unifiedLineOptions = { color: 'rgba(0, 95, 96, 0.7)', size: 4, path: 'arc', endPlug: 'arrow1', endPlugSize: 1.5 };
+    // Opdateret "almindelig" bue-pil
+    const unifiedLineOptions = {
+        color: 'rgba(0, 95, 96, 0.7)',
+        size: 4, // Tyndere pil
+        path: 'arc', // Bue sti
+        endPlug: 'arrow1', // Simpel pilespids
+        endPlugSize: 1.5, // Standard størrelse
+    };
 
     // --- Debounce Funktion ---
     function debounce(func, wait) {
@@ -52,8 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             timeout = setTimeout(later, wait);
         };
     }
-    // -------------------------------------------------------
-
 
     // --- Funktioner til rydning og state management ---
     function clearCimtFocus() {
@@ -73,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
             trendIndicators.forEach(indicator => indicator.classList.remove('visible'));
             hideTrendExampleTooltip();
             currentTrendFocusIcon = null;
-            // updateAllButtonTexts(); // Kaldes typisk af den funktion der kalder clearTrendFocus
         }
     }
 
@@ -91,13 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
          }
     }
 
-
-    // Opdateret til at håndtere activeLines igen
+    // Opdateret til KUN at fjerne unified line (da CIMT linjer er fjernet)
     function removeAllLines() {
-        // Fjern individuelle CIMT linjer
-        activeLines.forEach(line => { try { line.remove(); } catch (e) {} });
-        activeLines = [];
-        // Fjern samlet linje
+        // activeLines.forEach(line => { try { line.remove(); } catch (e) {} }); // Fjernet
+        // activeLines = []; // Fjernet
         hideUnifiedEffortLine();
     }
 
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let wasVisible = false;
         tooltips.forEach(tip => { if (tip.classList.contains('visible')) { tip.classList.remove('visible'); wasVisible = true; } });
         if (wasVisible) {
-             removeAllLines(); // <<< Fjerner nu linjer igen
+             // removeAllLines(); // Kaldes ikke længere her, da kun unified line fjernes
              clearCimtFocus();
              currentVisibleTooltip = null;
         } else {
@@ -119,26 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wasVisible) currentHighlightedStep = null;
     }
 
-    // Funktion til at tegne CIMT linjer (uændret, men bruges igen)
-    function drawLinesForIcon(iconElement) {
-        if (!iconElement || !document.contains(iconElement) || !body.classList.contains('cimt-band-visible')) return;
-        const relevantStepsStr = iconElement.dataset.cimtRelevant || '';
-        const relevantSteps = relevantStepsStr.split(' ');
-        // Sørg for at fjerne gamle linjer FØR nye tegnes for dette ikon
-        activeLines.forEach(line => { try { line.remove(); } catch (e) {} });
-        activeLines = [];
-
-        relevantSteps.forEach(stepId => {
-            if (stepId) {
-                const stepElement = document.getElementById(stepId);
-                // Tjek om stepElement overhovedet skal være synligt ift. CIMT fokus
-                if (stepElement && stepElement.classList.contains('relevant-for-cimt') && document.contains(stepElement) && document.contains(iconElement)) {
-                    try { const line = new LeaderLine(stepElement, iconElement, {...defaultLineOptions}); if (line) activeLines.push(line); }
-                    catch(e) { console.error(`Error drawing line from ${stepId} to ${iconElement.id}:`, e); }
-                }
-            }
-        });
-    }
+    // drawLinesForIcon er fjernet
 
     // --- Funktioner til 'Betydning' Visualiseringer ---
     function hidePriorityNumbers() { priorityNumberElements.forEach(el => el.classList.remove('visible')); }
@@ -170,30 +151,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Funktioner til Trend Eksempel Tooltips ---
     function hideTrendExampleTooltip() {
         if (currentTrendExampleTooltip) {
-            currentTrendExampleTooltip.remove();
+            // Fjern fra body
+             if (document.body.contains(currentTrendExampleTooltip)) {
+                document.body.removeChild(currentTrendExampleTooltip);
+            }
             currentTrendExampleTooltip = null;
         }
     }
 
     function showTrendExampleTooltip(stepElement, text) {
         hideTrendExampleTooltip();
-        if (!text || !stepElement || !dynamicTooltipContainer) return;
+        if (!text || !stepElement) return;
         const tooltipEl = document.createElement('div');
         tooltipEl.className = 'trend-example-tooltip';
         tooltipEl.textContent = text;
-        dynamicTooltipContainer.appendChild(tooltipEl);
+        // Tilføj til body
+        document.body.appendChild(tooltipEl);
+
+        // Brug fixed position
         const stepRect = stepElement.getBoundingClientRect();
-        const containerRect = dynamicTooltipContainer.getBoundingClientRect();
-        tooltipEl.style.position = 'absolute';
+        tooltipEl.style.position = 'fixed';
         tooltipEl.offsetHeight; // Force reflow
-        let top = stepRect.top - containerRect.top - (tooltipEl.offsetHeight / 2) + (stepRect.height / 2) ;
-        let left = stepRect.right - containerRect.left + 10;
-         if (left + tooltipEl.offsetWidth > containerRect.width - 10) { left = stepRect.left - containerRect.left - tooltipEl.offsetWidth - 10; }
-         if (top < 0) { top = 5; }
-         if (top + tooltipEl.offsetHeight > containerRect.height) { top = containerRect.height - tooltipEl.offsetHeight - 5; }
+
+        let top = stepRect.top + (stepRect.height / 2) - (tooltipEl.offsetHeight / 2);
+        let left = stepRect.right + 10;
+
+        if (left + tooltipEl.offsetWidth > window.innerWidth - 10) { left = stepRect.left - tooltipEl.offsetWidth - 10; }
+        if (top < 5) { top = 5; }
+        if (top + tooltipEl.offsetHeight > window.innerHeight - 5) { top = window.innerHeight - tooltipEl.offsetHeight - 5; }
+        if (left < 5) { left = 5; }
+
         tooltipEl.style.top = `${top}px`;
         tooltipEl.style.left = `${left}px`;
-        setTimeout(() => { if (dynamicTooltipContainer.contains(tooltipEl)) { tooltipEl.classList.add('visible'); } }, 50);
+
+        tooltipEl.classList.add('visible'); // Gør synlig
+
         currentTrendExampleTooltip = tooltipEl;
     }
 
@@ -207,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const handleResize = debounce(() => {
-        removeAllLines(); // <<< Fjerner nu CIMT linjer igen ved resize
+        removeAllLines(); // Fjerner unified line
         workflowLayer?.classList.remove('workflow-frame-active');
         clearTrendFocus();
         clearCimtFocus();
@@ -270,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         step.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { step.click(); }});
 
+        // Hover listener for trend eksempler
         step.addEventListener('mouseover', () => {
             if (body.classList.contains('trend-focus-active') && step.classList.contains('relevant-for-trend') && currentTrendFocusIcon) {
                 const examplesMapStr = currentTrendFocusIcon.dataset.examplesMap;
@@ -286,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         step.addEventListener('mouseout', () => { setTimeout(hideTrendExampleTooltip, 100); });
     });
 
-    // Opdateret CIMT ikon listener til at håndtere fade OG tegne linjer igen
+    // Opdateret CIMT ikon listener (uden linjer, med fade)
     allCimtIcons.forEach(icon => {
         icon.addEventListener('click', (event) => {
             event.stopPropagation();
@@ -298,15 +291,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isClickingActiveCimt) {
                  const tooltipId = icon.dataset.tooltipTarget; const tooltip = document.getElementById(tooltipId);
                  if (tooltip) {
-                     // Sæt nyt CIMT fokus
                      currentCimtFocusIcon = iconId; body.classList.add('cimt-focus-active');
                      icon.classList.add('cimt-focus-icon'); // Marker aktivt ikon
-                     // Markér relevante steps
                      const relevantSteps = icon.dataset.cimtRelevant?.split(' ') || [];
                      fadeableWorkflowSteps.forEach(el => { if (relevantSteps.includes(el.id)) { el.classList.add('relevant-for-cimt'); } });
-                     // Vis tooltip og linjer
                      tooltip.classList.add('visible'); currentVisibleTooltip = tooltip;
-                     drawLinesForIcon(icon); // <<< LINIEN TILFØJET IGEN
+                     // drawLinesForIcon(icon); // <<< LINJER ER FJERNET
                  }
             }
         });
@@ -345,21 +335,24 @@ document.addEventListener('DOMContentLoaded', () => {
         significanceListItems.forEach(item => {
             item.addEventListener('click', (event) => {
                 event.stopPropagation(); const visualType = item.dataset.visual;
-                hideAllInfoAndFocus(); hideAllTooltips(); removeAllStepHighlights();
+                const wasActive = item.classList.contains('active-visual'); // Tjek om den *var* aktiv
 
-                if (visualType === activeSignificanceVisual) {
-                     hideAllSignificanceVisuals();
-                } else {
-                    hideAllSignificanceVisuals();
-                    switch (visualType) {
+                hideAllInfoAndFocus(); hideAllTooltips(); removeAllStepHighlights();
+                hideAllSignificanceVisuals(); // Ryd alle betydning visuals
+
+                if (!wasActive) { // Hvis den ikke var aktiv før, så vis den nye
+                     switch (visualType) {
                         case 'priority': showPriorityNumbers(); break;
                         case 'unified': showUnifiedEffortLine(); break;
                         case 'risk': showRiskMarkers(); break;
                         default: console.warn("Unknown visual type:", visualType);
                     }
                     item.classList.add('active-visual');
+                    // activeSignificanceVisual sættes i showXxx funktionerne
                 }
-                 if (significanceInfoBox) {
+                // Hvis den *var* aktiv, gør intet (da alt blev ryddet)
+
+                 if (significanceInfoBox) { // Vis boksen igen (hvis den blev skjult af hideAllInfo...)
                     significanceInfoBox.classList.add('visible');
                     currentVisibleInfoBox = significanceInfoBox;
                  }
@@ -391,6 +384,6 @@ document.addEventListener('DOMContentLoaded', () => {
      });
 
      window.addEventListener('resize', handleResize);
-     updateAllButtonTexts();
+     updateAllButtonTexts(); // Initial opdatering
 
 }); // End DOMContentLoaded
