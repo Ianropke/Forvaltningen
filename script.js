@@ -39,17 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // LeaderLine Options
     const defaultLineOptions = { color: 'rgba(120, 120, 120, 0.5)', size: 2, path: 'fluid', startSocket: 'bottom', endSocket: 'top' };
-    // Opdaterede options for den samlede linje (tykkere, pil, offset)
+
+    // Opdaterede options for "almindelig" pil
     const unifiedLineOptions = {
-        color: 'rgba(0, 95, 96, 0.7)',
-        size: 10, // Tyk linje/pil
-        path: 'arc', // Blød kurve
-        startSocket: 'top', // Start fra toppen af start element
-        endSocket: 'bottom', // Slut ved bunden af slut element
-        startSocketOffsetY: 15, // Skubber startpunkt 15px ned
-        endSocketOffsetY: -15, // Skubber slutpunkt 15px op
-        endPlug: 'arrow2', // Tilføjer pilespids
-        endPlugSize: 2, // Størrelse på pilespids
+        color: 'rgba(0, 95, 96, 0.7)', // Beholder farven
+        size: 4, // <<< Tyndere pil
+        path: 'straight', // <<< Lige linje
+        // startSocketOffsetY fjernet
+        // endSocketOffsetY fjernet
+        endPlug: 'arrow1', // <<< Enkel standard pilespids
+        endPlugSize: 1.5, // <<< Standard pilespids størrelse
+        // Ingen dash, ingen startPlug
     };
 
 
@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hideAllSignificanceVisuals(); // Skjul andre først
         hideAllTooltips(); // Skjul alm. tooltips/linjer
 
-        const startElement = infoBoxContainer; // Starter fra toppen af info-boks containeren
-        const endElement = workflowLayer; // Slutter ved bunden af workflow laget
+        const startElement = infoBoxContainer; // Starter fra info-boks containeren
+        const endElement = workflowLayer; // Slutter ved workflow laget
 
         if (startElement && endElement && document.contains(startElement) && document.contains(endElement)) {
             // Tilføj ramme-klassen til workflow-laget
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 unifiedEffortLine = new LeaderLine(
                     startElement, // Start element
                     endElement,   // Slut element
-                    {...unifiedLineOptions} // Brug de justerede options
+                    {...unifiedLineOptions} // Brug de opdaterede, simple options
                 );
                  activeSignificanceVisual = 'unified';
             } catch (e) {
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 250);
 
     // --- Event Listeners ---
-    // (Resten af event listeners forbliver uændrede fra forrige version)
+    // (Resten af event listeners forbliver uændrede)
      if (toggleCimtButton) {
         toggleCimtButton.addEventListener('click', () => {
             const shouldShow = !body.classList.contains('cimt-band-visible');
