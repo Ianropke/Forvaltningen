@@ -10,7 +10,9 @@
 
     <div id="infographic-container">
         <h1>Sammen om forvaltningen i CIMT</h1>
-        <p class="center-text"><em>Klik på trinene i blodprøvens rejse for detaljer. Aktiver knapperne nedenfor for at se CIMT funktioner (med linjer/tooltip/fokus), Tendenser/Risici (med fokus-effekt) eller Betydning for CIMT (med visuelle pointer). Klik på ikonerne i båndene eller punkterne i 'Betydning' for info.</em></p> <div id="controls">
+        <p class="center-text"><em>Klik på trinene i blodprøvens rejse for detaljer. Aktiver knapperne nedenfor for at se CIMT funktioner (med linjer/tooltip/fokus), Tendenser/Risici (med fokus-effekt) eller Betydning for CIMT (med visuelle pointer). Klik på ikonerne i båndene eller punkterne i 'Betydning' for info.</em></p>
+
+        <div id="controls">
             <button id="toggle-cimt">Vis CIMT Understøttelse</button>
             <button id="toggle-trends">Vis Tendenser/Risici</button>
             <button id="toggle-significance">Vis Betydning for CIMT</button>
@@ -76,15 +78,12 @@
                     <p>Kliniker og patientadgang</p>
                 </div>
             </div> </div> <div id="cimt-band">
-             </div> <div id="trends-band">
+             </div>
+
+        <div id="trends-band">
              <div class="cimt-icon" id="trend-tech"
                   data-description="Cloud-LIMS for skala/sikkerhed. AI/Automation for effektivitet/kvalitet. IoT/Robotter for automatisering. Nye brugerinterfaces (mobil, etc.)."
-                  data-examples-map='{
-                      "step-analyse": "AI/IoT på udstyr",
-                      "step-resultat-sp": "Cloud-muligheder",
-                      "step-andre-analyser": "Automatisering/robotter",
-                      "Generelt": "Integration af IoT"
-                  }'
+                  data-examples-map='{"step-analyse": "AI/IoT på udstyr","step-resultat-sp": "Cloud-muligheder","step-andre-analyser": "Automatisering/robotter","Generelt": "Integration af IoT"}'
                   data-relevant-steps="step-analyse step-andre-analyser step-resultat-sp"
                   data-relevant-cimt="cimt-icon-infra cimt-icon-medico cimt-icon-forvaltning cimt-icon-strategi cimt-icon-arkitekt"
                   tabindex="0" aria-label="Tendens/Risiko: Ny Teknologi">
@@ -92,13 +91,7 @@
              </div>
              <div class="cimt-icon" id="trend-security"
                   data-description="Øget cybertrussel (ransomware). Strengere lovgivning (NIS2, GDPR). Fokus på etik & Privacy by Design."
-                  data-examples-map='{
-                      "step-analyse": "Malware-risiko på udstyr/net",
-                      "step-resultat-sp": "Krav til kryptering/logning",
-                      "step-kliniker-adgang": "Phishing/MFA",
-                      "step-proevetagning": "Datasikkerhed ved registrering",
-                      "Generelt": "Overholdelse af NIS2/GDPR"
-                  }'
+                  data-examples-map='{"step-analyse": "Malware-risiko på udstyr/net","step-resultat-sp": "Krav til kryptering/logning","step-kliniker-adgang": "Phishing/MFA","step-proevetagning": "Datasikkerhed ved registrering","Generelt": "Overholdelse af NIS2/GDPR"}'
                   data-relevant-steps="step-proevetagning step-transport step-analyse step-andre-analyser step-resultat-sp step-kliniker-adgang"
                   data-relevant-cimt="cimt-icon-opsec cimt-icon-infosec cimt-icon-infra cimt-icon-arkitekt"
                   tabindex="0" aria-label="Trend/Risiko: Sikkerhed & Krav">
@@ -106,13 +99,7 @@
               </div>
              <div class="cimt-icon" id="trend-region"
                   data-description="Fusion RH/RS (~60k ansatte) giver IT-kompleksitet (konsolidering/integration)."
-                  data-examples-map='{
-                      "step-resultat-sp": "Harmonisering af data/formater",
-                      "step-analyse": "Konsolidering af LIMS?",
-                      "step-kliniker-adgang": "Fælles adgang/SP",
-                      "step-transport": "Fælles infrastruktur (rørpost?)",
-                      "Generelt": "Behov for standarder & governance"
-                  }'
+                  data-examples-map='{"step-resultat-sp": "Harmonisering af data/formater","step-analyse": "Konsolidering af LIMS?","step-kliniker-adgang": "Fælles adgang/SP","step-transport": "Fælles infrastruktur (rørpost?)","Generelt": "Behov for standarder & governance"}'
                   data-relevant-steps="step-proevetagning step-transport step-analyse step-andre-analyser step-resultat-sp step-kliniker-adgang"
                   data-relevant-cimt="cimt-icon-infra cimt-icon-forvaltning cimt-icon-strategi cimt-icon-arkitekt cimt-icon-servicedesk cimt-icon-lokalsys"
                   tabindex="0" aria-label="Trend/Risiko: Region Øst">
@@ -120,12 +107,7 @@
               </div>
              <div class="cimt-icon" id="trend-growth"
                   data-description="Stigende prøvemængder/kompleksitet & flere brugere/enheder. Øget behov for systemintegration (interoperabilitet, FHIR/HL7)."
-                  data-examples-map='{
-                      "step-analyse": "Skalerbarhed af udstyr/LIMS",
-                      "step-resultat-sp": "Flere integrationer (FHIR/HL7)",
-                      "step-kliniker-adgang": "Øget bruger-support",
-                      "Generelt": "Kapacitetsplanlægning"
-                  }'
+                  data-examples-map='{"step-analyse": "Skalerbarhed af udstyr/LIMS","step-resultat-sp": "Flere integrationer (FHIR/HL7)","step-kliniker-adgang": "Øget bruger-support","Generelt": "Kapacitetsplanlægning"}'
                   data-relevant-steps="step-analyse step-andre-analyser step-resultat-sp step-kliniker-adgang"
                   data-relevant-cimt="cimt-icon-infra cimt-icon-forvaltning cimt-icon-arkitekt cimt-icon-opsec cimt-icon-servicedesk"
                   tabindex="0" aria-label="Trend/Risiko: Vækst & Integration">
