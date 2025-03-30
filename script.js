@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const trendsBand = document.getElementById('trends-band');
     const workflowSteps = document.querySelectorAll('.workflow-step');
     const infoBoxes = document.querySelectorAll('.info-box');
-    const cimtIcons = document.querySelectorAll('#cimt-band .cimt-icon');
-    const allIcons = document.querySelectorAll('.cimt-icon');
+    const cimtIcons = document.querySelectorAll('#cimt-band .cimt-icon'); // Kun CIMT ikoner (til linjetegning)
+    const allIcons = document.querySelectorAll('.cimt-icon'); // Alle ikoner (til tooltip)
     const tooltips = document.querySelectorAll('.tooltip');
     const body = document.body;
 
@@ -21,12 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LeaderLine Options ---
     const lineOptions = {
-        color: 'rgba(120, 120, 120, 0.5)', // Hold farven diskret
-        size: 3,                          // NYT: Lidt tykkere linje
-        path: 'fluid',                    // Behold fluid for kurver/undgåelse
+        color: 'rgba(120, 120, 120, 0.5)', // Diskret grå
+        size: 2,                          // Tilbage til tykkelse 2
+        path: 'fluid',                    // Kurvede linjer
         startSocket: 'bottom',
         endSocket: 'top',
-        // Ingen pil for et renere look med kurver
+        // endPlug: 'arrow1',             // Ingen pil
     };
 
 
@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (body.classList.contains('cimt-band-visible')) {
             body.classList.remove('cimt-band-visible');
             updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
-            removeAllLines();
-            hideAllTooltips();
+            removeAllLines(); // Fjern linjer når båndet skjules
+            hideAllTooltips(); // Skjul også tooltips
         }
     }
 
@@ -149,15 +149,18 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    // Håndterer resize (behøves sandsynligvis ikke med click-baserede linjer)
-    // const handleResize = debounce(() => {
-    //     if (body.classList.contains('cimt-band-visible') && activeLines.length > 0) {
-    //          // Måske bare fjerne linjer ved resize?
-    //          // removeAllLines();
-    //          // Eller forsøge at repositionere?
-    //          // activeLines.forEach(l => { try { l.position(); } catch(e){} });
-    //     }
-    // }, 250);
+    // Håndterer resize
+    const handleResize = debounce(() => {
+        // Hvis CIMT-båndet er synligt og der er aktive linjer, gen-tegn dem
+        // (eller bare fjern dem, hvis gen-tegning giver problemer)
+        if (body.classList.contains('cimt-band-visible') && activeLines.length > 0) {
+             // Gen-tegning kan være nødvendig for 'fluid' path ved resize
+             // Find det ikon, hvis linjer er aktive (kræver at gemme info om hvilket ikon der er aktivt)
+             // Simplere: Bare fjern linjer ved resize, brugeren må klikke igen.
+             removeAllLines();
+             // Alternativt, hvis vi gemmer 'activeIcon': drawLinesForIcon(activeIcon);
+        }
+    }, 250);
 
 
     // --- Event Listeners ---
@@ -251,16 +254,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const tooltip = document.getElementById(tooltipId);
             const isCurrentTooltip = tooltip && tooltip.classList.contains('visible');
 
-            hideAllTooltips(); // Inkluderer removeAllLines()
-
-            if (!isCurrentTooltip) {
-                if (tooltip) {
-                    tooltip.classList.add('visible');
+            // Altid fjern gamle linjer og tooltips FØR vi gør noget nyt
+            // MEN: Hvis vi klikker på samme ikon igen for at lukke tooltip, skal hideAllTooltips() kaldes *efter* tjekket
+            if(isCurrentTooltip) {
+                 hideAllTooltips(); // Lukker tooltip og fjerner linjer
+            } else {
+                 hideAllTooltips(); // Skjuler andre tooltips og fjerner evt. andre linjer
+                 if (tooltip) {
+                    tooltip.classList.add('visible'); // Viser ny tooltip
                     currentVisibleTooltip = tooltip;
-                }
-                if (isCimtVisible) {
-                     drawLinesForIcon(icon); // Tegn nye linjer
-                }
+                 }
+                 // Tegn KUN linjer hvis det er et ikon i CIMT båndet
+                 if (isCimtVisible) {
+                      drawLinesForIcon(icon); // Tegn nye linjer for dette ikon
+                 }
             }
         });
 
@@ -298,7 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
          }
      });
 
-     // window.removeEventListener('resize', handleResize); // Fjerner resize listener
+     // Lyt efter resize for at fjerne/gentegne linjer
+     window.addEventListener('resize', handleResize);
 
      // Initial opdatering af knaptekster
      updateToggleButtonText(toggleCimtButton, 'Vis CIMT Understøttelse');
