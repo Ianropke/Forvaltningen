@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const trendsBand = document.getElementById('trends-band');
     const workflowSteps = document.querySelectorAll('.workflow-step');
     const workflowLayer = document.getElementById('workflow-layer');
-    const infoBoxContainer = document.querySelector('.info-box-container'); // Tilføjet for linje anker
+    const infoBoxContainer = document.querySelector('.info-box-container');
     const infoBoxes = document.querySelectorAll('.info-box:not(#info-significance)');
     const significanceInfoBox = document.getElementById('info-significance');
-    const allIcons = document.querySelectorAll('.cimt-icon');
-    const allCimtIcons = document.querySelectorAll('#cimt-band .cimt-icon');
+    const allIcons = document.querySelectorAll('.cimt-icon'); // Bruges stadig til Trends/CIMT ikoner
+    // const allCimtIcons = document.querySelectorAll('#cimt-band .cimt-icon'); // Ikke længere nødvendig for 'risk'
     const tooltips = document.querySelectorAll('.tooltip');
     const body = document.body;
 
@@ -28,28 +28,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Elementer og state for 'Betydning' visualisering
     const significanceListItems = significanceInfoBox?.querySelectorAll('li[data-visual]');
     const priorityNumberElements = document.querySelectorAll('.priority-number');
+    const riskMarkers = document.querySelectorAll('.risk-marker'); // NYT: Vælger risiko markører
     let activeSignificanceVisual = null;
     let unifiedEffortLine = null;
 
     // State variable
-    let activeLines = []; // For normale CIMT linjer
+    let activeLines = [];
     let currentVisibleInfoBox = null;
     let currentHighlightedStep = null;
     let currentVisibleTooltip = null;
 
     // LeaderLine Options
     const defaultLineOptions = { color: 'rgba(120, 120, 120, 0.5)', size: 2, path: 'fluid', startSocket: 'bottom', endSocket: 'top' };
-
     // Opdaterede options for "almindelig" pil
     const unifiedLineOptions = {
-        color: 'rgba(0, 95, 96, 0.7)', // Beholder farven
-        size: 4, // <<< Tyndere pil
-        path: 'straight', // <<< Lige linje
-        // startSocketOffsetY fjernet
-        // endSocketOffsetY fjernet
-        endPlug: 'arrow1', // <<< Enkel standard pilespids
-        endPlugSize: 1.5, // <<< Standard pilespids størrelse
-        // Ingen dash, ingen startPlug
+        color: 'rgba(0, 95, 96, 0.7)',
+        size: 4, // Tyndere pil
+        path: 'straight', // Lige linje
+        endPlug: 'arrow1', // Enkel standard pilespids
+        endPlugSize: 1.5, // Standard pilespids størrelse
     };
 
 
@@ -66,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function removeAllLines() {
         activeLines.forEach(line => { try { line.remove(); } catch (e) {} });
         activeLines = [];
-        hideUnifiedEffortLine(); // Sørg også for at fjerne den samlede linje
+        hideUnifiedEffortLine();
     }
 
     function hideAllTooltips() {
@@ -101,43 +98,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function showPriorityNumbers() { hideAllSignificanceVisuals(); priorityNumberElements.forEach(el => el.classList.add('visible')); activeSignificanceVisual = 'priority'; }
     function hideUnifiedEffortLine() { if (unifiedEffortLine) { try { unifiedEffortLine.remove(); } catch(e) {} unifiedEffortLine = null; } }
 
-    // Opdateret funktion for samlet linje med ramme-logik
     function showUnifiedEffortLine() {
-        hideAllSignificanceVisuals(); // Skjul andre først
-        hideAllTooltips(); // Skjul alm. tooltips/linjer
-
-        const startElement = infoBoxContainer; // Starter fra info-boks containeren
-        const endElement = workflowLayer; // Slutter ved workflow laget
-
+        hideAllSignificanceVisuals(); hideAllTooltips();
+        const startElement = infoBoxContainer; const endElement = workflowLayer;
         if (startElement && endElement && document.contains(startElement) && document.contains(endElement)) {
-            // Tilføj ramme-klassen til workflow-laget
             workflowLayer?.classList.add('workflow-frame-active');
-            try {
-                // Tegn linjen mellem de definerede elementer
-                unifiedEffortLine = new LeaderLine(
-                    startElement, // Start element
-                    endElement,   // Slut element
-                    {...unifiedLineOptions} // Brug de opdaterede, simple options
-                );
-                 activeSignificanceVisual = 'unified';
-            } catch (e) {
-                console.error("Error drawing unified effort line:", e);
-                workflowLayer?.classList.remove('workflow-frame-active'); // Fjern ramme ved fejl
-                hideUnifiedEffortLine(); // Ryd op hvis fejl
-            }
-        } else {
-            console.error("Cannot draw unified line: start element (.info-box-container) or end element (#workflow-layer) not found/visible.");
-        }
+            try { unifiedEffortLine = new LeaderLine( startElement, endElement, {...unifiedLineOptions}); activeSignificanceVisual = 'unified'; }
+            catch (e) { console.error("Error drawing unified effort line:", e); workflowLayer?.classList.remove('workflow-frame-active'); hideUnifiedEffortLine(); }
+        } else { console.error("Cannot draw unified line: start or end element not found/visible."); }
     }
 
-    function hideRiskFocusHighlight() { allCimtIcons.forEach(icon => icon.classList.remove('risk-focus-highlight')); }
-    function showRiskFocusHighlight() { hideAllSignificanceVisuals(); allCimtIcons.forEach(icon => icon.classList.add('risk-focus-highlight')); activeSignificanceVisual = 'risk'; }
+    // NYT: Funktioner til risiko markører
+    function hideRiskMarkers() {
+        riskMarkers.forEach(marker => marker.classList.remove('visible'));
+    }
+    function showRiskMarkers() {
+        hideAllSignificanceVisuals(); // Skjul andre visuals først
+        riskMarkers.forEach(marker => marker.classList.add('visible'));
+        activeSignificanceVisual = 'risk';
+    }
 
-    // Opdateret funktion til at skjule alle visuals inkl. ramme
+    // Opdateret funktion til at skjule alle visuals inkl. ramme OG risiko markører
     function hideAllSignificanceVisuals() {
         hidePriorityNumbers();
-        hideUnifiedEffortLine(); // Denne fjerner selve linjen
-        hideRiskFocusHighlight();
+        hideUnifiedEffortLine();
+        hideRiskMarkers(); // <<< NYT: Skjul risiko markører
         // Fjern ramme-klassen fra workflow-laget
         workflowLayer?.classList.remove('workflow-frame-active');
         significanceListItems?.forEach(li => li.classList.remove('active-visual'));
@@ -153,14 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function debounce(func, wait) { let timeout; return function executedFunction(...args) { const later = () => { clearTimeout(timeout); func(...args); }; clearTimeout(timeout); timeout = setTimeout(later, wait); }; }
     const handleResize = debounce(() => {
-        // Fjern alle linjer ved resize
         removeAllLines();
-        // Skjul også workflow rammen hvis den var aktiv
         workflowLayer?.classList.remove('workflow-frame-active');
         }, 250);
 
     // --- Event Listeners ---
-    // (Resten af event listeners forbliver uændrede)
      if (toggleCimtButton) {
         toggleCimtButton.addEventListener('click', () => {
             const shouldShow = !body.classList.contains('cimt-band-visible');
@@ -225,12 +207,31 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { icon.click(); } });
     });
 
+    // Opdateret Listener for Betydning List Items
     if (significanceListItems) {
         significanceListItems.forEach(item => {
             item.addEventListener('click', (event) => {
-                event.stopPropagation(); const visualType = item.dataset.visual;
-                if (visualType === activeSignificanceVisual) { hideAllSignificanceVisuals(); }
-                else { hideAllSignificanceVisuals(); switch (visualType) { case 'priority': showPriorityNumbers(); break; case 'unified': showUnifiedEffortLine(); break; case 'risk': showRiskFocusHighlight(); break; default: console.warn("Unknown visual type:", visualType); } item.classList.add('active-visual'); }
+                event.stopPropagation();
+                const visualType = item.dataset.visual;
+                if (visualType === activeSignificanceVisual) {
+                    hideAllSignificanceVisuals(); // Klik på aktiv = skjul
+                } else {
+                    hideAllSignificanceVisuals(); // Skjul altid først
+                    switch (visualType) {
+                        case 'priority':
+                            showPriorityNumbers();
+                            break;
+                        case 'unified':
+                            showUnifiedEffortLine();
+                            break;
+                        case 'risk': // <<< Ændret handling
+                            showRiskMarkers();
+                            break;
+                        default:
+                            console.warn("Unknown visual type:", visualType);
+                    }
+                    item.classList.add('active-visual'); // Marker den nu aktive
+                }
             });
             item.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { item.click(); } });
         });
