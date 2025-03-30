@@ -132,7 +132,7 @@ h1 {
     background-color: #e9ecef;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    margin: 60px auto 0 auto; /* Øget top-margin */
+    margin: 60px auto 0 auto;
     width: 100%; /* Mobil: Fuld bredde */
     border-radius: 5px;
     min-height: auto;
@@ -203,7 +203,7 @@ body.trends-band-visible #trends-band {
     border-radius: 4px;
     font-size: 1.275em;
     line-height: 1.4;
-    z-index: 150; /* Under modal overlay (200) */
+    z-index: 150;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -243,7 +243,8 @@ body.trends-band-visible #trends-band {
     color: #aaa;
     cursor: pointer;
     padding: 0;
-    z-index: 210; /* NYT: Sikrer at knappen er øverst */
+    z-index: 210; /* Sikrer knap er øverst */
+    pointer-events: auto; /* NYT: Eksplicit sat */
 }
 #modal-close-btn:hover { color: #333; }
 #modal-title { margin-top: 0; margin-bottom: 15px; color: #005f60; font-size: 1.4em; }
@@ -264,7 +265,7 @@ body.trends-band-visible #trends-band {
     #controls button { padding: 10px 20px; font-size: 1em; }
 
     /* Vandret & Centreret workflow */
-    #workflow-layer { flex-direction: row; justify-content: center; align-items: flex-start; gap: 0; width: 95%; max-width: 1600px; margin-bottom: 60px; }
+    #workflow-layer { flex-direction: row; justify-content: center; align-items: flex-start; gap: 0; width: auto; max-width: 1600px; margin-bottom: 60px; }
     .arrow { display: flex; width: 36px; height: 36px; }
     .workflow-step { width: 110px; padding: 10px; box-shadow: none; }
     .workflow-step svg { width: 48px; height: 48px; }
