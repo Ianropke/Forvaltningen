@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Skjul alle info bokse (Workflow + Significance) og ryd fokus
     function hideAllInfoAndFocus() {
         let wasBoxVisible = false;
         infoBoxes.forEach(box => { if (box.classList.contains('visible')) { box.classList.remove('visible'); wasBoxVisible = true; } });
@@ -96,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             removeAllStepHighlights();
          }
     }
+
 
     // Opdateret til at håndtere activeLines igen
     function removeAllLines() {
@@ -207,12 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function showTrendExampleTooltip(stepElement, text) {
         // Ryd eksisterende timer og skjul straks evt. gammel tooltip visuelt
         if (hideTooltipTimeoutId) { clearTimeout(hideTooltipTimeoutId); hideTooltipTimeoutId = null;}
-        if (currentTrendExampleTooltip) {
-             if (document.body.contains(currentTrendExampleTooltip)){
-                 document.body.removeChild(currentTrendExampleTooltip);
-             }
-             currentTrendExampleTooltip = null;
+        // Undgå at genskabe hvis den allerede er vist for dette step
+        if (currentTrendExampleTooltip && currentTrendExampleTooltip.dataset.step === stepElement.id) {
+            return;
         }
+        hideTrendExampleTooltip(); // Skjul evt. tidligere fra andet step
 
 
         if (!text || !stepElement) return;
@@ -220,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tooltipEl = document.createElement('div');
         tooltipEl.className = 'trend-example-tooltip';
         tooltipEl.textContent = text;
+        tooltipEl.dataset.step = stepElement.id; // Marker hvilket step den hører til
         document.body.appendChild(tooltipEl); // Tilføj til body
 
         const stepRect = stepElement.getBoundingClientRect();
