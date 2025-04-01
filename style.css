@@ -1,164 +1,91 @@
-/* Grundlæggende styling */
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 10px;
-    background-color: #f4f7f6;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-}
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiv Infografik - Sammen om forvaltningen i CIMT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="infographic-container">
+        <h1>Sammen om forvaltningen i CIMT</h1>
+        <p class="center-text"><em>Klik på trinene i blodprøvens rejse for detaljer. Aktiver knapperne nedenfor for at se CIMT funktioner (med tooltip/fokus), Tendenser/Risici (med fokus-effekt) eller Betydning for CIMT (med visuelle pointer). Klik på ikonerne i båndene eller punkterne i 'Betydning' for info.</em></p>
+        <div id="controls">
+            <button id="toggle-cimt">Vis CIMT Understøttelse</button>
+            <button id="toggle-trends">Vis Tendenser/Risici</button>
+            <button id="toggle-significance">Vis Betydning for CIMT</button>
+        </div>
+        <div id="main-diagram">
+            <div id="workflow-layer">
+                 <div class="workflow-step" id="step-proevetagning" data-info-target="info-proevetagning" tabindex="0" aria-label="Trin 1: Prøvetagning">
+                    <span class="priority-number">3</span>
+                    <span class="risk-marker"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 1.669l10.36 18.644a1.006 1.006 0 0 1 -.877 1.504h-20.967a1.006 1.006 0 0 1 -.876 -1.504l10.36 -18.644a1.006 1.006 0 0 1 1.754 0z" stroke-width="0" fill="currentColor" /><path d="M12 16a1 1 0 1 0 0 2a1 1 0 0 0 0 -2z" stroke-width="0" fill="#ffffff" /><path d="M12 6a1 1 0 0 0 -.993 .883l-.007 .117v6l.007 .117a1 1 0 0 0 1.993 0l.007 -.117v-6l-.007 -.117a1 1 0 0 0 -.993 -.883z" stroke-width="0" fill="#ffffff" /></svg> </span>
+                    <span class="trend-indicator trend-icon-security"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-check" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -5.006a12 12 0 0 0 8.5 5.006a12 12 0 0 1 -.46 14.841" /><path d="M9 12l2 2l4 -4" /></svg> </span>
+                    <span class="trend-indicator trend-icon-region"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg> </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-needle-thread" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17.026 11.893l-1.01 -1.01a1.414 1.414 0 0 0 -2 0l-6.061 6.061a1.414 1.414 0 0 0 0 2l1.01 1.01c.544 .544 1.29 .806 2.026 .806s1.482 -.262 2.026 -.806l6.061 -6.061a1.414 1.414 0 0 0 0 -2z" /><path d="M17 12l2.5 -2.5" /><path d="M12 17l-2.5 2.5" /><path d="M4 16l3 -3" /><path d="M15 5l-4.878 4.878a2.828 2.828 0 0 0 -.824 1.989v1.268m3.553 -5.135l2.121 -2.121a1.414 1.414 0 0 0 -2 -2l-2.121 2.121" /><path d="M18 8a3 3 0 1 0 -3 -3" /></svg>
+                    <p>Prøvetagning</p>
+                </div>
+                <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
+                <div class="workflow-step" id="step-transport" data-info-target="info-transport" tabindex="0" aria-label="Trin 2: Transport (Rørpost)">
+                    <span class="priority-number">5</span>
+                    <span class="trend-indicator trend-icon-security"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-check" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -5.006a12 12 0 0 0 8.5 5.006a12 12 0 0 1 -.46 14.841" /><path d="M9 12l2 2l4 -4" /></svg> </span>
+                    <span class="trend-indicator trend-icon-region"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg> </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-submarine" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 11v6h2l1 -1.5l3 1.5h10v-6h-10l-3 1.5l-1 -1.5h-2z" /><path d="M17 11l-1 -3h-5l-1 3" /><path d="M13 8v-2a1 1 0 0 1 1 -1h1" /></svg>
+                    <p>Transport</p>
+                </div>
+                <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
+                <div class="workflow-step" id="step-analyse" data-info-target="info-analyse" tabindex="0" aria-label="Trin 3: Primær Analyse">
+                     <span class="priority-number">1</span>
+                     <span class="risk-marker"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 1.669l10.36 18.644a1.006 1.006 0 0 1 -.877 1.504h-20.967a1.006 1.006 0 0 1 -.876 -1.504l10.36 -18.644a1.006 1.006 0 0 1 1.754 0z" stroke-width="0" fill="currentColor" /><path d="M12 16a1 1 0 1 0 0 2a1 1 0 0 0 0 -2z" stroke-width="0" fill="#ffffff" /><path d="M12 6a1 1 0 0 0 -.993 .883l-.007 .117v6l.007 .117a1 1 0 0 0 1.993 0l.007 -.117v-6l-.007 -.117a1 1 0 0 0 -.993 -.883z" stroke-width="0" fill="#ffffff" /></svg> </span>
+                     <span class="trend-indicator trend-icon-tech"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-atom-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 21l0 -6" /><path d="M3.634 15.366l1.827 -1.133" /><path d="M20.366 15.366l-1.827 -1.133" /><path d="M12 3l0 6" /><path d="M20.366 8.634l-1.827 1.133" /><path d="M3.634 8.634l1.827 1.133" /></svg> </span>
+                     <span class="trend-indicator trend-icon-security"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-check" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -5.006a12 12 0 0 0 8.5 5.006a12 12 0 0 1 -.46 14.841" /><path d="M9 12l2 2l4 -4" /></svg> </span>
+                     <span class="trend-indicator trend-icon-region"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg> </span>
+                     <span class="trend-indicator trend-icon-growth"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-activity" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h4l3 8l4 -16l3 8h4" /></svg> </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flask-2" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.1 15h11.8" /><path d="M14 3v7.342a6 6 0 0 1 1.318 10.658h-6.635a6 6 0 0 1 1.317 -10.66v-7.34h4z" /><path d="M9 3h6" /></svg>
+                    <p>Primær Analyse</p>
+                </div>
+                <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
+                <div class="workflow-step" id="step-andre-analyser" data-info-target="info-andre-analyser" tabindex="0" aria-label="Trin 4: Videresendelse / Andre Analyser">
+                     <span class="priority-number">4</span>
+                     <span class="trend-indicator trend-icon-tech"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-atom-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 21l0 -6" /><path d="M3.634 15.366l1.827 -1.133" /><path d="M20.366 15.366l-1.827 -1.133" /><path d="M12 3l0 6" /><path d="M20.366 8.634l-1.827 1.133" /><path d="M3.634 8.634l1.827 1.133" /></svg> </span>
+                     <span class="trend-indicator trend-icon-security"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-check" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -5.006a12 12 0 0 0 8.5 5.006a12 12 0 0 1 -.46 14.841" /><path d="M9 12l2 2l4 -4" /></svg> </span>
+                     <span class="trend-indicator trend-icon-region"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg> </span>
+                     <span class="trend-indicator trend-icon-growth"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-activity" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h4l3 8l4 -16l3 8h4" /></svg> </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-forklift" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M2 12h3a1 1 0 0 1 1 1v5a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-5a1 1 0 0 1 1 -1z" /><path d="M12 19v-11h-4" /><path d="M8 13h7" /><path d="M13 19h4a1 1 0 0 0 1 -1v-7a1 1 0 0 0 -1 -1h-1" /><path d="M14 11v-5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v5" /><path d="M5 15h-1" /><path d="M16 14l2 0" /></svg>
+                    <p>Videresendelse</p>
+                </div>
+                <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
+                <div class="workflow-step" id="step-resultat-sp" data-info-target="info-resultat-sp" tabindex="0" aria-label="Trin 5: Resultat til Sundhedsplatformen og nationale baser">
+                     <span class="priority-number">2</span>
+                     <span class="risk-marker"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 1.669l10.36 18.644a1.006 1.006 0 0 1 -.877 1.504h-20.967a1.006 1.006 0 0 1 -.876 -1.504l10.36 -18.644a1.006 1.006 0 0 1 1.754 0z" stroke-width="0" fill="currentColor" /><path d="M12 16a1 1 0 1 0 0 2a1 1 0 0 0 0 -2z" stroke-width="0" fill="#ffffff" /><path d="M12 6a1 1 0 0 0 -.993 .883l-.007 .117v6l.007 .117a1 1 0 0 0 1.993 0l.007 -.117v-6l-.007 -.117a1 1 0 0 0 -.993 -.883z" stroke-width="0" fill="#ffffff" /></svg> </span>
+                     <span class="trend-indicator trend-icon-tech"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-atom-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 21l0 -6" /><path d="M3.634 15.366l1.827 -1.133" /><path d="M20.366 15.366l-1.827 -1.133" /><path d="M12 3l0 6" /><path d="M20.366 8.634l-1.827 1.133" /><path d="M3.634 8.634l1.827 1.133" /></svg> </span>
+                     <span class="trend-indicator trend-icon-security"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-lock" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M12 11m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M10 14a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg> </span>
+                     <span class="trend-indicator trend-icon-region"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg> </span>
+                     <span class="trend-indicator trend-icon-growth"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-activity" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h4l3 8l4 -16l3 8h4" /></svg> </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-database-export" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" /><path d="M4 6v6c0 1.657 3.582 3 8 3s8 -1.343 8 -3v-6" /><path d="M4 12v6c0 1.657 3.582 3 8 3c.157 0 .312 -.002 .466 -.005" /><path d="M15 15h6v6" /><path d="M21 15l-6 6" /></svg>
+                    <p>Resultat til SP og nationale baser</p>
+                </div>
+                <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
+                <div class="workflow-step" id="step-kliniker-adgang" data-info-target="info-kliniker-adgang" tabindex="0" aria-label="Trin 6: Kliniker og patientadgang (via SP)">
+                     <span class="priority-number">6</span>
+                     <span class="trend-indicator trend-icon-security"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-lock" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M12 11m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M10 14a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg> </span>
+                     <span class="trend-indicator trend-icon-region"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-join-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7h5l3.5 5h9.5" /><path d="M3 17h5l3.5 -5h9.5" /><path d="M18 15l3 -3l-3 -3" /></svg> </span>
+                     <span class="trend-indicator trend-icon-growth"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-activity" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="#6c757d" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h4l3 8l4 -16l3 8h4" /></svg> </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="64" height="64" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h1.5" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M20.2 20.2l1.8 1.8" /></svg>
+                    <p>Kliniker og patientadgang</p>
+                </div>
+            </div> </div> <div id="cimt-band">
+            </div>
 
-#infographic-container {
-    width: 100%;
-    max-width: 1800px;
-    padding: 15px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* Vigtigt for absolut positionering */
-}
+        <div id="trends-band">
+             </div>
 
-h1 { text-align: center; color: #005f60; margin-bottom: 10px; font-size: 1.5em; }
-.center-text { text-align: center; font-size: 0.85em; color: #555; margin-bottom: 25px; }
-#controls { text-align: center; margin-bottom: 30px; }
-#controls button { padding: 8px 15px; font-size: 0.9em; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: background-color 0.3s ease; margin: 5px; }
-#controls button:hover { background-color: #0056b3; }
+        <div class="info-box-container">
+           <div class="info-box" id="info-significance">
+                </div>
+        </div> <div id="dynamic-tooltip-container"></div>
 
-/* Diagram layout */
-#main-diagram { position: relative; width: 100%; margin-bottom: 20px; z-index: 10; }
-
-#workflow-layer { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 95%; max-width: 1600px; margin: 0 auto; padding-top: 25px; padding-bottom: 0; margin-bottom: 40px; border-radius: 10px; transition: outline 0.4s ease-in-out, outline-offset 0.4s ease-in-out, padding 0.4s ease-in-out; }
-/* Ramme styling er her, men vil ikke blive aktiveret af den simple JS */
-#workflow-layer.workflow-frame-active { outline: 3px dashed #005f60; outline-offset: 10px; padding-top: calc(25px + 10px + 3px); padding-bottom: calc(10px + 3px); }
-
-.workflow-step { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; padding: 8px; border: 2px solid transparent; border-radius: 8px; transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, opacity 0.4s ease; position: relative; width: 90%; max-width: 150px; flex-shrink: 0; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.workflow-step p { margin-top: 4px; font-size: 0.8em; font-weight: bold; min-height: auto; line-height: 1.2; }
-.workflow-step:hover { transform: scale(1.02); }
-.workflow-step.highlighted { border-color: #007bff; background-color: #e7f3ff; }
-.workflow-step svg.icon { stroke: #005f60; width: 48px; height: 48px; }
-
-.arrow { display: none; align-items: center; justify-content: center; flex-shrink: 0; padding: 0 5px; }
-.arrow svg { width: 36px; height: 36px; stroke: #888; }
-
-/* Bånd Styling */
-#cimt-band,
-#trends-band { display: none; flex-wrap: wrap; justify-content: center; align-items: flex-start; padding: 10px; background-color: #e9ecef; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin: 60px auto 0 auto; width: 100%; border-radius: 5px; min-height: auto; position: relative; z-index: 50; gap: 10px; }
-body.cimt-band-visible #cimt-band { display: flex; }
-body.trends-band-visible #trends-band { display: flex; }
-
-/* Ikon og Titel Styling */
-.cimt-icon { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.3s ease, opacity 0.4s ease; flex-shrink: 0; width: 75px; text-align: center; z-index: 51; padding: 5px 0; opacity: 1; /* Sikrer synlighed */ }
-.cimt-icon svg.icon { display: block; width: 36px; height: 36px; stroke: #555; margin-bottom: 3px; fill: none; transition: opacity 0.4s ease; opacity: 1; } /* Sikrer synlighed */
-.cimt-icon:hover { transform: scale(1.05); }
-.cimt-icon-title { font-size: 0.7em; font-weight: bold; color: #333; line-height: 1.1; margin: 0; word-wrap: break-word; overflow-wrap: break-word; min-height: auto; }
-
-/* Tooltips (vil ikke blive vist med den simple JS) */
-.tooltip { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); min-width: 300px; max-width: min(600px, 90vw); background-color: #333; color: white; text-align: left; padding: 12px 15px; border-radius: 4px; font-size: 0.8em; line-height: 1.4; z-index: 150; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; pointer-events: none; box-shadow: 0 2px 4px rgba(0,0,0,0.5); box-sizing: border-box; }
-.tooltip p { margin: 0; }
-.tooltip p strong { display: block; margin-bottom: 4px; color: #eee; }
-.tooltip::after { content: ""; position: absolute; bottom: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: transparent transparent #333 transparent; }
-.tooltip.visible { display: block; opacity: 1; visibility: visible; }
-
-/* Dynamisk tooltip til trend eksempler (vil ikke blive vist med den simple JS) */
-.trend-example-tooltip { position: fixed; display: block; width: auto; max-width: 280px; background-color: #555; color: white; text-align: left; padding: 8px 12px; border-radius: 4px; font-size: 0.8em; line-height: 1.4; z-index: 210; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease; pointer-events: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-.trend-example-tooltip.visible { opacity: 1; visibility: visible; }
-
-/* Info-boks container */
-.info-box-container { width: 100%; max-width: 900px; margin: 20px auto 0 auto; position: relative; z-index: 100; clear: both; height: auto; max-height: none; overflow: visible; min-height: 50px; }
-.info-box { display: none; padding: 12px 15px; background-color: #f8f9fa; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; text-align: left; height: auto; max-height: none; overflow: visible; }
-.info-box.visible { display: block; opacity: 1; visibility: visible; }
-.info-box h2 { margin-top: 0; font-size: 1.2em; color: #005f60; margin-bottom: 0.6em; }
-.info-box p { font-size: 0.95em; line-height: 1.5; color: #333; }
-
-/* Styling for 'Betydning' boksen */
-#info-significance ul.significance-list { list-style: disc; padding-left: 25px; margin-top: 0.5em; margin-bottom: 1em; }
-#info-significance ul.significance-list li { margin-bottom: 0.6em; cursor: pointer; padding: 4px 6px; border-radius: 4px; transition: background-color 0.2s ease, color 0.2s ease; }
-#info-significance ul.significance-list li:hover { background-color: #e9ecef; }
-#info-significance ul.significance-list li.active-visual { font-weight: bold; color: #005f60; }
-#info-significance p em { color: #555; }
-
-/* Styling for Betydning Visualiseringer (vil ikke blive vist med den simple JS) */
-.priority-number { position: absolute; top: -12px; right: -5px; display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; font-size: 0.7em; font-weight: bold; color: white; background-color: #dc3545; border-radius: 50%; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease, top 0.4s ease-in-out; z-index: 15; pointer-events: none; }
-.priority-number.visible { opacity: 1; visibility: visible; }
-#workflow-layer.workflow-frame-active .priority-number { top: -8px; }
-
-.risk-marker { position: absolute; top: -2px; left: -2px; width: 24px; height: 24px; z-index: 16; opacity: 0; visibility: hidden; transform: scale(0.5) rotate(-15deg); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); pointer-events: none; }
-.risk-marker svg { display: block; width: 100%; height: 100%; fill: #dc3545; stroke: #fff; stroke-width: 1; }
-.risk-marker.visible { opacity: 1; visibility: visible; transform: scale(1) rotate(0deg); }
-
-/* Opdateret styling for Trend Indikator Ikoner (Større + Renere) */
-.trend-indicator { position: absolute; top: -8px; left: -8px; width: 32px; height: 32px; z-index: 17; opacity: 0; visibility: hidden; transform: scale(0.5); transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s, transform 0.3s ease 0.1s; pointer-events: none; display: flex; justify-content: center; align-items: center; }
-.trend-indicator svg { display: block; width: 100%; height: 100%; stroke-width: 1.5; fill: none; stroke: #fff; }
-.trend-indicator.visible { opacity: 1; visibility: visible; transform: scale(1); }
-.trend-indicator.trend-icon-tech svg { fill: #17a2b8; stroke: none; }
-.trend-indicator.trend-icon-security svg { fill: #ffc107; stroke: #333; stroke-width: 1; }
-.trend-indicator.trend-icon-region svg { fill: none; stroke: #6f42c1; }
-.trend-indicator.trend-icon-growth svg { fill: none; stroke: #28a745; stroke-width: 2.5; }
-
-/* Styling for LeaderLine (vil ikke blive brugt af den simple JS) */
-/* .leader-line { z-index: 60; pointer-events: none; } */
-
-/* Fokus Effekt (Fade/Highlight) er fjernet i denne test */
-
-
-/* --- Media Queries --- */
-@media (min-width: 768px) {
-    body { padding: 20px; }
-    #infographic-container { padding: 20px; }
-    h1 { font-size: 1.8em; }
-    .center-text { font-size: 0.9em; }
-    #controls button { padding: 10px 20px; font-size: 1em; }
-    #workflow-layer { flex-direction: row; justify-content: center; align-items: flex-start; gap: 0; width: auto; max-width: 1600px; margin-bottom: 60px; }
-    .arrow { display: flex; }
-    .arrow svg { width: 36px; height: 36px; }
-    .workflow-step { width: 110px; padding: 10px; box-shadow: none; }
-    .workflow-step svg.icon { width: 48px !important; height: 48px !important; }
-    .workflow-step p { font-size: 0.8em; }
-    /* .priority-number { ... } */
-    /* #workflow-layer.workflow-frame-active .priority-number { ... } */
-    /* .risk-marker { ... } */
-    .trend-indicator { top: -9px; left: -9px; width: 34px; height: 34px; } /* Større ikon */
-    #cimt-band, #trends-band { width: 95%; padding: 15px 10px; min-height: 90px; gap: 15px; margin-top: 80px; }
-    .cimt-icon { width: 90px !important; }
-    .cimt-icon svg.icon { width: 48px !important; height: 48px !important; }
-    .cimt-icon-title { font-size: 0.8em; }
-    /* .tooltip { ... } */
-    /* .trend-example-tooltip { ... } */
-     .info-box-container { width: 85%; margin-top: 30px; }
-     .info-box { padding: 15px 20px; }
-     .info-box h2 { font-size: 1.3em; }
-     .info-box p { font-size: 1.05em; }
-     #info-significance ul.significance-list li { margin-bottom: 0.7em; }
-     #info-significance p { font-size: 1.05em; }
-}
-@media (min-width: 1200px) {
-     .workflow-step svg.icon { width: 64px !important; height: 64px !important; }
-     .workflow-step p { font-size: 0.9em; }
-     .arrow svg { width: 44px; height: 44px; }
-     /* .priority-number { ... } */
-    /* #workflow-layer.workflow-frame-active .priority-number { ... } */
-    /* .risk-marker { ... } */
-    .trend-indicator { top: -10px; left: -10px; width: 36px; height: 36px; } /* Større ikon */
-     #cimt-band, #trends-band { min-height: 100px; gap: 15px; max-width: none; width: 98%; padding: 10px 5px; justify-content: center; }
-     #trends-band { gap: 25px; }
-     .cimt-icon { width: 100px !important; margin: 0; }
-     .cimt-icon svg.icon { width: 56px !important; height: 56px !important; }
-     .cimt-icon-title { font-size: 0.8em; }
-     /* .tooltip { ... } */
-     /* .trend-example-tooltip { ... } */
-     .info-box h2 { font-size: 1.5em; }
-     .info-box p { font-size: 1.2em; }
-     .info-box-container { width: 80%; max-width: 1000px; }
-     #info-significance p { font-size: 1.2em; }
-}
-@media (min-width: 1600px) {
-     #cimt-band, #trends-band { max-width: 1600px; }
-     .info-box-container { max-width: 1100px; }
-     /* .tooltip { ... } */
-     /* .risk-marker { ... } */
-     .trend-indicator { top: -11px; left: -11px; width: 38px; height: 38px; } /* Større ikon */
-     /* .trend-example-tooltip { ... } */
-}
+    </div> <script src="https://cdn.jsdelivr.net/npm/leader-line-new@1.1.9/leader-line.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
