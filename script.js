@@ -1,61 +1,76 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Element Selektorer ---
     const toggleCimtButton = document.getElementById('toggle-cimt');
-    const toggleTrendsButton = document.getElementById('toggle-trends');
-    const toggleSignificanceButton = document.getElementById('toggle-significance');
+    // Omdøbt knap og variabel
+    const toggleContextButton = document.getElementById('toggle-context');
+    // toggleSignificanceButton fjernet
 
     const cimtBand = document.getElementById('cimt-band');
-    const trendsBand = document.getElementById('trends-band');
+    const trendsBand = document.getElementById('trends-band'); // Bruges nu som Kontekst-bånd
     const workflowSteps = document.querySelectorAll('.workflow-step');
     const workflowLayer = document.getElementById('workflow-layer');
     const infoBoxContainer = document.querySelector('.info-box-container');
-    const allInfoBoxes = document.querySelectorAll('.info-box'); // Inkl. workflow, cimt, trends, significance
-    const significanceInfoBox = document.getElementById('info-significance');
+    const allInfoBoxes = document.querySelectorAll('.info-box'); // Inkl. workflow, cimt, trends
+    // significanceInfoBox fjernet
     const allCimtIcons = document.querySelectorAll('#cimt-band .cimt-icon');
-    const trendIcons = document.querySelectorAll('#trends-band .cimt-icon');
+    // Vælger nu ALLE ikoner i trends/kontekst-båndet
+    const allContextIcons = document.querySelectorAll('#trends-band .cimt-icon');
     const body = document.body;
 
     // Fadeable elements
     const fadeableWorkflowSteps = document.querySelectorAll('#workflow-layer .workflow-step');
     const fadeableCimtIcons = document.querySelectorAll('#cimt-band .cimt-icon');
-    const fadeableTrendIcons = document.querySelectorAll('#trends-band .cimt-icon');
+    const fadeableContextIcons = document.querySelectorAll('#trends-band .cimt-icon'); // Opdateret
 
-    // Elementer for 'Betydning' visualisering
-    const significanceListItems = significanceInfoBox?.querySelectorAll('li[data-visual]');
+    // Elementer for 'Betydning' visualisering (findes stadig på diagrammet)
     const priorityNumberElements = document.querySelectorAll('.priority-number');
     const riskMarkers = document.querySelectorAll('.risk-marker');
-    const trendIndicators = document.querySelectorAll('.trend-indicator');
+    const trendIndicators = document.querySelectorAll('.trend-indicator'); // Bruges stadig for trends
 
     // --- State Variabler ---
-    let activeSignificanceVisual = null;
+    let activeSignificanceVisual = null; // Bruges stadig til at tracke aktiv visual
     let unifiedEffortLine = null;
     let activeLines = []; // For CIMT lines
-    let currentVisibleInfoBox = null;
+    let currentVisibleInfoBox = null; // Kan være step, cimt eller trend info boks
     let currentHighlightedStep = null;
     let currentHighlightedCimtIcon = null;
-    let currentHighlightedTrendIcon = null;
-    let currentTrendFocusIcon = null;
+    let currentHighlightedContextIcon = null; // Erstatter Trend og Significance highlight
+    let currentTrendFocusIcon = null; // Bruges stadig til at vide HVILKEN trend der er aktiv for fade/indicators
     let currentCimtFocusIconId = null;
 
-    // --- LeaderLine Options ---
+    // --- LeaderLine Options --- (uændret)
     const cimtLineOptions = { color: 'rgba(80, 80, 80, 0.6)', size: 2, path: 'fluid', startSocket: 'auto', endSocket: 'auto', startSocketGravity: [0, -50], endSocketGravity: [0, 100], dash: { animation: true, len: 8, gap: 4 } };
     const unifiedLineOptions = { color: 'rgba(0, 95, 96, 0.7)', size: 4, path: 'arc', startSocket: 'auto', endSocket: 'auto', endPlug: 'arrow1', endPlugSize: 1.5, outline: true, outlineColor: 'rgba(0, 95, 96, 0.2)', outlineSize: 1.5 };
 
-    // --- Debounce Funktion ---
-    function debounce(func, wait) {
+    // --- Debounce Funktion --- (uændret)
+    function debounce(func, wait) { /* ... */
         let timeout;
         return function executedFunction(...args) {
             const later = () => { clearTimeout(timeout); func(...args); };
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
-    }
+     }
 
     // --- Funktioner til rydning og state management ---
     function removeAllLines() { activeLines.forEach(line => { try { line.remove(); } catch (e) {} }); activeLines = []; hideUnifiedEffortLine(); }
     function removeAllStepHighlights() { if (currentHighlightedStep) { currentHighlightedStep.classList.remove('highlighted'); currentHighlightedStep = null; } }
     function removeCimtIconHighlight() { if (currentHighlightedCimtIcon) { currentHighlightedCimtIcon.classList.remove('highlighted'); currentHighlightedCimtIcon = null; } }
-    function removeTrendIconHighlight() { if (currentHighlightedTrendIcon) { currentHighlightedTrendIcon.classList.remove('highlighted'); currentHighlightedTrendIcon = null; } }
+    function removeContextIconHighlight() { if (currentHighlightedContextIcon) { currentHighlightedContextIcon.classList.remove('highlighted'); currentHighlightedContextIcon = null; } } // Opdateret
+
+    // Rydder significance visuals (flyttet ud fra hideAllInfoAndFocus)
+    function hideAllSignificanceVisuals() {
+        hidePriorityNumbers();
+        hideUnifiedEffortLine();
+        hideRiskMarkers();
+        // Fjern highlight fra betydning-ikoner i kontekst-båndet
+        allContextIcons.forEach(icon => {
+            if (icon.dataset.betydningVisual) { // Hvis det er et betydning-ikon
+                icon.classList.remove('highlighted'); // Fjern specifik highlight for disse
+            }
+        });
+        activeSignificanceVisual = null;
+    }
 
     function clearCimtFocus() {
         if (body.classList.contains('cimt-focus-active')) {
@@ -64,53 +79,44 @@ document.addEventListener('DOMContentLoaded', () => {
             fadeableCimtIcons.forEach(el => el.classList.remove('cimt-focus-icon'));
             currentCimtFocusIconId = null;
         }
-        removeAllLines();
+        removeAllLines(); // Fjerner kun CIMT linjer nu
         removeCimtIconHighlight();
     }
 
-    function clearTrendFocus() {
+    function clearTrendFocus() { // Nu "Kontekst" fokus for fade/indicators
         if (body.classList.contains('trend-focus-active')) {
             body.classList.remove('trend-focus-active');
             fadeableWorkflowSteps.forEach(el => el.classList.remove('relevant-for-trend'));
             fadeableCimtIcons.forEach(el => el.classList.remove('relevant-for-trend'));
-            fadeableTrendIcons.forEach(el => el.classList.remove('relevant-for-trend'));
+            fadeableContextIcons.forEach(el => el.classList.remove('relevant-for-trend')); // Ryd context ikoner
             trendIndicators.forEach(indicator => indicator.classList.remove('visible'));
             currentTrendFocusIcon = null;
         }
-         removeTrendIconHighlight();
+         removeContextIconHighlight(); // Fjerner highlight fra det aktive kontekst ikon
     }
 
-    function hideAllSignificanceVisuals() { // Denne kaldes nu altid fra hideAllInfoAndFocus
-        hidePriorityNumbers();
-        hideUnifiedEffortLine();
-        hideRiskMarkers();
-        significanceListItems?.forEach(li => li.classList.remove('active-visual'));
-        activeSignificanceVisual = null;
-    }
 
-    // Opdateret funktion:
+    // Skjuler alle info-bokse og fjerner alle fokus-tilstande/linjer/visuals
     function hideAllInfoAndFocus() {
         let wasInfoBoxVisible = false;
         allInfoBoxes.forEach(box => { if (box.classList.contains('visible')) { box.classList.remove('visible'); wasInfoBoxVisible = true; } });
 
-        // *** ÆNDRING HER: Kald ALTID hideAllSignificanceVisuals ***
-        hideAllSignificanceVisuals();
-        // *** SLUT ÆNDRING ***
+        hideAllSignificanceVisuals(); // Ryd altid significance visuals
+        clearTrendFocus(); // Ryd trend/kontekst fokus (fade, indicators, highlight)
+        clearCimtFocus(); // Ryd CIMT fokus (fade, lines, highlight)
 
-        clearTrendFocus();
-        clearCimtFocus();
         if (wasInfoBoxVisible) { currentVisibleInfoBox = null; }
         removeAllStepHighlights();
+        // Ikon highlights ryddes af clearXxxFocus
     }
 
 
-    // --- Funktioner til 'Betydning' Visualiseringer ---
+    // --- Funktioner til 'Betydning' Visualiseringer (ryddet op, da de nu kaldes direkte) ---
     function hidePriorityNumbers() { priorityNumberElements.forEach(el => el.classList.remove('visible')); }
-    function showPriorityNumbers() { hideAllSignificanceVisuals(); priorityNumberElements.forEach(el => el.classList.add('visible')); activeSignificanceVisual = 'priority'; }
+    function showPriorityNumbers() { /* hideAll... kaldes FØR denne */ priorityNumberElements.forEach(el => el.classList.add('visible')); activeSignificanceVisual = 'priority'; }
     function hideUnifiedEffortLine() { if (unifiedEffortLine) { try { unifiedEffortLine.remove(); } catch(e) {} unifiedEffortLine = null; } workflowLayer?.classList.remove('workflow-frame-active'); }
-    function showUnifiedEffortLine() {
-        hideAllSignificanceVisuals();
-        const startElement = infoBoxContainer; const endElement = workflowLayer;
+    function showUnifiedEffortLine() { /* hideAll... kaldes FØR denne */
+        const startElement = infoBoxContainer; const endElement = workflowLayer; // Start fra bunden, peg op
         if (startElement && endElement && document.contains(startElement) && document.contains(endElement)) {
              workflowLayer?.classList.add('workflow-frame-active');
             try { unifiedEffortLine = new LeaderLine(startElement, endElement, unifiedLineOptions); activeSignificanceVisual = 'unified'; setTimeout(() => { if (unifiedEffortLine) unifiedEffortLine.position(); }, 50); }
@@ -118,12 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else { console.error("Cannot draw unified effort line: start or end element not found/visible."); workflowLayer?.classList.remove('workflow-frame-active'); }
     }
     function hideRiskMarkers() { riskMarkers.forEach(marker => marker.classList.remove('visible')); }
-    function showRiskMarkers() { hideAllSignificanceVisuals(); riskMarkers.forEach(marker => marker.classList.add('visible')); activeSignificanceVisual = 'risk'; }
+    function showRiskMarkers() { /* hideAll... kaldes FØR denne */ riskMarkers.forEach(marker => marker.classList.add('visible')); activeSignificanceVisual = 'risk'; }
 
-
-    // --- Funktion til at tegne linjer for CIMT Ikon ---
+    // --- Funktion til at tegne linjer for CIMT Ikon (uændret) ---
     function drawLinesForIcon(iconElement) {
-        // removeAllLines() kaldes nu FØR denne funktion i klik-handleren for CIMT ikoner
+        // removeAllLines() kaldes FØR denne i klik-handleren
         const relevantStepIds = iconElement.dataset.cimtRelevant?.split(' ') || [];
         relevantStepIds.forEach(stepId => {
             const stepElement = document.getElementById(stepId);
@@ -138,51 +143,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Event Listeners ---
     function updateAllButtonTexts() {
         if (toggleCimtButton) { toggleCimtButton.textContent = body.classList.contains('cimt-band-visible') ? 'Skjul CIMT Understøttelse' : 'Vis CIMT Understøttelse'; }
-        if (toggleTrendsButton) { toggleTrendsButton.textContent = body.classList.contains('trends-band-visible') ? 'Skjul Tendenser/Risici' : 'Vis Tendenser/Risici'; }
-        if (toggleSignificanceButton) { toggleSignificanceButton.textContent = significanceInfoBox?.classList.contains('visible') ? 'Skjul Betydning for CIMT' : 'Vis Betydning for CIMT'; }
+        // Opdateret knaptekst og klasse
+        if (toggleContextButton) { toggleContextButton.textContent = body.classList.contains('context-band-visible') ? 'Skjul Kontekst & Tendenser' : 'Vis Kontekst & Tendenser'; }
+        // toggleSignificanceButton fjernet
     }
 
-    const handleResize = debounce(() => {
-        removeAllLines(); clearTrendFocus(); clearCimtFocus();
-        hideAllInfoAndFocus(); removeAllStepHighlights();
-        updateAllButtonTexts();
-    }, 250);
+    const handleResize = debounce(() => { removeAllLines(); clearTrendFocus(); clearCimtFocus(); hideAllInfoAndFocus(); removeAllStepHighlights(); updateAllButtonTexts(); }, 250);
 
-    // --- Klik-Listeners for Kontrolknapper ---
+    // --- Klik-Listeners for Kontrolknapper (Opdateret) ---
     if (toggleCimtButton) {
         toggleCimtButton.addEventListener('click', () => {
             const shouldShow = !body.classList.contains('cimt-band-visible');
-            hideAllInfoAndFocus(); removeAllStepHighlights(); body.classList.remove('trends-band-visible');
-            if (shouldShow) { body.classList.add('cimt-band-visible'); } else { body.classList.remove('cimt-band-visible'); }
+            hideAllInfoAndFocus(); removeAllStepHighlights();
+            body.classList.remove('context-band-visible'); // Sørg for at kontekst-bånd er skjult
+            if (shouldShow) { body.classList.add('cimt-band-visible'); }
+            else { body.classList.remove('cimt-band-visible'); }
             updateAllButtonTexts();
         });
     }
-    if (toggleTrendsButton) {
-        toggleTrendsButton.addEventListener('click', () => {
-            const shouldShow = !body.classList.contains('trends-band-visible');
-            hideAllInfoAndFocus(); removeAllStepHighlights(); body.classList.remove('cimt-band-visible');
-            if (shouldShow) { body.classList.add('trends-band-visible'); } else { body.classList.remove('trends-band-visible'); }
+    // Opdateret listener for Kontekst-knap
+    if (toggleContextButton) {
+        toggleContextButton.addEventListener('click', () => {
+            const shouldShow = !body.classList.contains('context-band-visible');
+            hideAllInfoAndFocus(); removeAllStepHighlights();
+            body.classList.remove('cimt-band-visible'); // Sørg for at CIMT-bånd er skjult
+            if (shouldShow) { body.classList.add('context-band-visible'); }
+            else { body.classList.remove('context-band-visible'); }
             updateAllButtonTexts();
         });
     }
-     if (toggleSignificanceButton && significanceInfoBox) {
-        toggleSignificanceButton.addEventListener('click', () => {
-            const shouldShow = !significanceInfoBox.classList.contains('visible');
-            hideAllInfoAndFocus(); removeAllStepHighlights(); body.classList.remove('cimt-band-visible'); body.classList.remove('trends-band-visible');
-            if (shouldShow) { significanceInfoBox.classList.add('visible'); currentVisibleInfoBox = significanceInfoBox; }
-            else { currentVisibleInfoBox = null; }
-            updateAllButtonTexts();
-        });
-    }
+     // toggleSignificanceButton listener fjernet
 
-    // --- Klik/Keypress Listeners for Workflow Steps ---
+    // --- Klik/Keypress Listeners for Workflow Steps (uændret) ---
     workflowSteps.forEach(step => {
         step.addEventListener('click', () => {
             const infoBoxId = step.dataset.infoTarget; const targetInfoBox = document.getElementById(infoBoxId);
             if (step === currentHighlightedStep) { hideAllInfoAndFocus(); removeAllStepHighlights(); }
             else {
                 hideAllInfoAndFocus(); removeAllStepHighlights();
-                body.classList.remove('cimt-band-visible'); body.classList.remove('trends-band-visible');
+                body.classList.remove('cimt-band-visible'); body.classList.remove('context-band-visible'); // Opdateret klasse
                 step.classList.add('highlighted'); currentHighlightedStep = step;
                 if (targetInfoBox) { targetInfoBox.classList.add('visible'); currentVisibleInfoBox = targetInfoBox; }
             }
@@ -192,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }); // End workflowSteps.forEach
 
 
-    // --- Klik/Keypress Listeners for CIMT Ikoner ---
+    // --- Klik/Keypress Listeners for CIMT Ikoner (uændret logik) ---
     allCimtIcons.forEach(icon => {
         icon.addEventListener('click', (event) => {
             event.stopPropagation(); if (!body.classList.contains('cimt-band-visible')) return;
@@ -206,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
                      const relevantSteps = icon.dataset.cimtRelevant?.split(' ') || [];
                      fadeableWorkflowSteps.forEach(el => { if (relevantSteps.includes(el.id)) { el.classList.add('relevant-for-cimt'); } });
                      targetInfoBox.classList.add('visible');
-                     // Kald drawLines EFTER oprydning og FØR delay er slut
                      removeAllLines(); // Fjern gamle linjer før nye tegnes
                      setTimeout(() => { drawLinesForIcon(icon); }, 50);
                  } else { clearCimtFocus(); }
@@ -217,82 +215,105 @@ document.addEventListener('DOMContentLoaded', () => {
     }); // End allCimtIcons.forEach
 
 
-    // --- Klik/Keypress Listeners for Trend Ikoner ---
-    trendIcons.forEach(icon => {
+    // --- Klik/Keypress Listeners for Kontekst Ikoner (Trends + Betydning) ---
+    allContextIcons.forEach(icon => {
          icon.addEventListener('click', (event) => {
-            event.stopPropagation(); if (!body.classList.contains('trends-band-visible')) return;
-            const trendId = icon.id; const infoBoxId = icon.dataset.infoTarget; const targetInfoBox = document.getElementById(infoBoxId);
-            const isClickingActiveTrend = icon.classList.contains('highlighted');
-             if (isClickingActiveTrend) { hideAllInfoAndFocus(); currentVisibleInfoBox = null; currentTrendFocusIcon = null; currentHighlightedTrendIcon = null; }
-             else {
-                 hideAllInfoAndFocus(); removeAllStepHighlights();
-                 if (targetInfoBox && trendId) {
-                     currentTrendFocusIcon = icon; currentVisibleInfoBox = targetInfoBox; currentHighlightedTrendIcon = icon;
-                     body.classList.add('trend-focus-active'); icon.classList.add('highlighted');
-                     const relevantSteps = icon.dataset.relevantSteps?.split(' ') || []; const relevantCimt = icon.dataset.relevantCimt?.split(' ') || [];
-                     fadeableWorkflowSteps.forEach(el => { if (relevantSteps.includes(el.id)) { el.classList.add('relevant-for-trend'); } });
-                     fadeableCimtIcons.forEach(el => { if (relevantCimt.includes(el.id)) { el.classList.add('relevant-for-trend'); } });
-                     fadeableTrendIcons.forEach(el => { if (!el.classList.contains('highlighted')) { el.classList.add('relevant-for-trend');} });
-                     trendIndicators.forEach(indicator => { const parentStep = indicator.closest('.workflow-step'); if (indicator.classList.contains(`trend-icon-${trendId.replace('trend-', '')}`) && parentStep?.classList.contains('relevant-for-trend')) { indicator.classList.add('visible'); } });
-                     targetInfoBox.classList.add('visible');
-                 } else { clearTrendFocus(); }
+            event.stopPropagation(); if (!body.classList.contains('context-band-visible')) return;
+
+            const isClickingActive = icon.classList.contains('highlighted');
+            const infoBoxId = icon.dataset.infoTarget; // For Trend ikoner
+            const betydningVisual = icon.dataset.betydningVisual; // For Betydning ikoner
+
+            // Håndter klik på samme ikon for at lukke/fjerne
+             if (isClickingActive) {
+                 hideAllInfoAndFocus(); // Lukker info boks, fjerner fokus, highlight, visuals
+                 currentVisibleInfoBox = null;
+                 currentTrendFocusIcon = null;
+                 currentHighlightedContextIcon = null;
+                 activeSignificanceVisual = null; // Sørg for at nulstille denne også
+             } else {
+                 // Ryd altid andre visninger/fokus FØRST
+                 hideAllInfoAndFocus();
+                 removeAllStepHighlights();
+
+                 // Vis nyt fokus/visual
+                 currentHighlightedContextIcon = icon; // Sæt highlight på det klikkede ikon
+                 icon.classList.add('highlighted');
+
+                 // Håndter TREND ikoner
+                 if (infoBoxId) {
+                     const targetInfoBox = document.getElementById(infoBoxId);
+                     if (targetInfoBox) {
+                         currentTrendFocusIcon = icon; // Gem reference til data-ikon
+                         currentVisibleInfoBox = targetInfoBox; // Sæt denne som aktiv boks
+
+                         body.classList.add('trend-focus-active'); // Aktiver fade-effekt
+
+                         // Find og marker relevante steps og CIMT ikoner (for fade-effekt)
+                         const relevantSteps = icon.dataset.relevantSteps?.split(' ') || [];
+                         const relevantCimt = icon.dataset.relevantCimt?.split(' ') || [];
+                         fadeableWorkflowSteps.forEach(el => { if (relevantSteps.includes(el.id)) { el.classList.add('relevant-for-trend'); } });
+                         fadeableCimtIcons.forEach(el => { if (relevantCimt.includes(el.id)) { el.classList.add('relevant-for-trend'); } });
+                         fadeableContextIcons.forEach(el => { if (!el.classList.contains('highlighted') && !el.dataset.betydningVisual) { el.classList.add('relevant-for-trend');} }); // Fade andre trend ikoner
+
+                         // Vis de små trend-indikator-ikoner
+                         trendIndicators.forEach(indicator => {
+                              const parentStep = indicator.closest('.workflow-step');
+                              if (indicator.classList.contains(`trend-icon-${icon.id.replace('trend-', '')}`) && parentStep?.classList.contains('relevant-for-trend')) {
+                                   indicator.classList.add('visible');
+                              }
+                         });
+
+                         targetInfoBox.classList.add('visible'); // Vis info-boksen
+                     } else {
+                         clearTrendFocus(); // Ryd op hvis info-boks ikke findes
+                     }
+                 }
+                 // Håndter BETYDNING ikoner
+                 else if (betydningVisual) {
+                     // HideAllInfoAndFocus har allerede ryddet visuals, så vi skal bare vise den nye
+                     switch (betydningVisual) {
+                        case 'priority': showPriorityNumbers(); break;
+                        case 'unified': showUnifiedEffortLine(); break;
+                        case 'risk': showRiskMarkers(); break;
+                        default: console.warn("Unknown visual type:", betydningVisual);
+                    }
+                    // activeSignificanceVisual sættes i showXxx funktionerne
+                    // Ingen info-boks at vise for disse
+                    currentVisibleInfoBox = null;
+                     // Ingen fade effekt for betydning visuals
+                 }
              }
              updateAllButtonTexts();
-         });
+         }); // End click listener
+
         icon.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); icon.click(); } });
-    }); // End trendIcons.forEach
+    }); // End allContextIcons.forEach
 
+    // Listener for significanceListItems er fjernet
 
-    // --- Klik/Keypress Listeners for Betydning List Items ---
-    if (significanceListItems) {
-        significanceListItems.forEach(item => {
-            item.addEventListener('click', (event) => {
-                event.stopPropagation(); if (!significanceInfoBox?.classList.contains('visible')) return;
-                const visualType = item.dataset.visual; const wasActive = item.classList.contains('active-visual');
-                // Ryd FØRST - men kald IKKE hideAllInfoAndFocus, da significance boksen skal forblive åben
-                clearTrendFocus(); clearCimtFocus(); removeAllStepHighlights();
-                body.classList.remove('cimt-band-visible'); body.classList.remove('trends-band-visible');
-                hideAllSignificanceVisuals(); // Ryd kun significance visuals
-
-                if (!wasActive && visualType) {
-                     switch (visualType) { case 'priority': showPriorityNumbers(); break; case 'unified': showUnifiedEffortLine(); break; case 'risk': showRiskMarkers(); break; default: console.warn("Unknown visual type:", visualType); }
-                    item.classList.add('active-visual');
-                }
-                // Gen-vis significance boksen hvis den blev skjult ved et uheld (burde ikke ske nu)
-                 if (significanceInfoBox && !significanceInfoBox.classList.contains('visible')) {
-                     significanceInfoBox.classList.add('visible');
-                     currentVisibleInfoBox = significanceInfoBox;
-                 } else if (significanceInfoBox) {
-                      // Sørg for at den stadig er markeret som den synlige boks
-                      currentVisibleInfoBox = significanceInfoBox;
-                 }
-                 updateAllButtonTexts();
-            });
-            item.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); } });
-        });
-    }
-
-
-     // --- Global Click Listener ---
+    // --- Global Click Listener (Opdateret) ---
      document.addEventListener('click', (event) => {
           const clickedElement = event.target;
-          const isInteractive = clickedElement.closest('#controls button, #cimt-band .cimt-icon, #trends-band .cimt-icon, .workflow-step, #info-significance li[data-visual], .leader-line');
+          // Opdateret selector til at inkludere context-bånd ikoner
+          const isInteractive = clickedElement.closest('#controls button, #cimt-band .cimt-icon, #trends-band .cimt-icon, .workflow-step, .leader-line');
           const isInsideInfoBox = clickedElement.closest('.info-box-container');
 
           if (!isInteractive && !isInsideInfoBox) {
                let closedSomething = false;
                if (currentVisibleInfoBox) {
-                    // Hvis den synlige boks er significance, skjul kun dens visuals ved klik udenfor
-                    if (currentVisibleInfoBox === significanceInfoBox) {
-                        hideAllSignificanceVisuals();
-                    } else {
-                        // Ellers skjul boksen og ryd alt fokus/highlight
-                        hideAllInfoAndFocus();
-                        currentVisibleInfoBox = null;
+                   hideAllInfoAndFocus(); // Skjul info boksen og ryd alt
+                   closedSomething = true;
+                   currentVisibleInfoBox = null;
+               } else { // Hvis ingen info boks var synlig
+                    // Hvis kun en Betydning visual var aktiv
+                    if (activeSignificanceVisual) {
+                       hideAllSignificanceVisuals(); // Skjul kun den
+                       removeContextIconHighlight(); // Fjern highlight fra Betydning-ikonet
+                       closedSomething = true;
                     }
-                    closedSomething = true;
-               } else {
-                   if (body.classList.contains('trend-focus-active')) { clearTrendFocus(); closedSomething = true; }
+                    // Ellers ryd resterende fokus (burde være dækket af hideAllInfoAndFocus hvis boks var synlig)
+                   else if (body.classList.contains('trend-focus-active')) { clearTrendFocus(); closedSomething = true; }
                    else if (body.classList.contains('cimt-focus-active')) { clearCimtFocus(); closedSomething = true; }
                }
                if (closedSomething) { updateAllButtonTexts(); }
