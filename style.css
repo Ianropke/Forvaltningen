@@ -93,7 +93,7 @@ h1 {
     max-width: 1600px;
 [source: 74] /* Max bredde på selve workflowet */
     margin: 0 auto;
-    padding-top: 25px; /* Giver plads over steps for overlays */
+    padding-top: 25px;
     padding-bottom: 0;
     margin-bottom: 40px;
 [source: 75] /* Afstand ned til bånd */
@@ -109,9 +109,9 @@ h1 {
 [source: 78] /* Mørk cyan stiplet ramme */
     outline-offset: 10px;
 [source: 79] /* Lidt afstand */
-    padding-top: calc(25px + 10px + 3px); /* Juster padding for at rumme rammen */
-    padding-bottom: calc(10px + 3px); /* Juster padding for at rumme rammen */
+    padding-top: calc(25px + 10px + 3px);
 [source: 80] /* Juster padding for at rumme rammen */
+    padding-bottom: calc(10px + 3px);
 [source: 81] }
 
 .workflow-step {
@@ -134,10 +134,10 @@ h1 {
     background-color: #fff;
     box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     box-sizing: border-box;
-    margin-top: 15px; /* Giver lidt luft over steps */
+    margin-top: 15px;
 [source: 87] /* NYT: Lidt ekstra top margin for at give plads til større indikator */
 }
-#workflow-layer { padding-top: 10px; /* Reducer start padding, hvis margin-top tilføjes */
+#workflow-layer { padding-top: 10px;
 [source: 88] } /* Reducer start padding for at kompensere */
 
 
@@ -176,7 +176,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     padding: 0 5px;
-    margin-top: 15px; /* Matcher margin på steps */
+    margin-top: 15px;
 [source: 95] /* Matcher margin på steps */
 }
 
@@ -206,7 +206,7 @@ h1 {
 [source: 101] border-radius: 5px;
     min-height: auto;
     position: relative;
-    z-index: 50; /* Skal være over workflow, men under infobokse/linjer */
+    z-index: 50;
     gap: 10px 15px;
 [source: 102] /* Standard mellemrum for Trends */
     box-sizing: border-box;
@@ -216,15 +216,13 @@ h1 {
 #cimt-band {
     flex-wrap: nowrap;
     overflow-x: auto;
-    justify-content: center; /* Centrer ikoner, når der er plads */
-    /* justify-content: flex-start; <-- Brug denne hvis de skal starte fra venstre */
+    justify-content: center;
 [source: 104] /* Tilbage til center */
-    padding-bottom: 20px; /* Plads til scrollbar */
-    -webkit-overflow-scrolling: touch; /* Smooth scroll på iOS */
-    gap: 10px 4px; /* Mellemrum mellem ikoner (top/bund, venstre/højre) */
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+    gap: 10px 4px;
 [source: 105] /* Bevar det reducerede gap */
 }
-/* Styling af scrollbar */
 #cimt-band::-webkit-scrollbar { height: 8px; }
 #cimt-band::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
 #cimt-band::-webkit-scrollbar-thumb { background: #ccc;
@@ -240,65 +238,63 @@ body.trends-band-visible #trends-band {
 
 /* --- Ikon & Titel Styling (i bånd) --- */
 .cimt-icon {
-    position: relative; /* Nødvendig for tooltips/overlays hvis de tilføjes */
+    position: relative;
     display: flex;
     flex-direction: column;
 [source: 108] align-items: center;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.4s ease, background-color 0.2s ease;
-    flex-shrink: 0; /* Forhindr ikoner i at blive klemt i flex-nowrap */
+    flex-shrink: 0;
     text-align: center;
-    z-index: 51; /* Lige over båndets baggrund */
-[source: 109] padding: 8px 5px; /* Padding omkring ikon+titel */
+    z-index: 51;
+[source: 109] padding: 8px 5px;
     border-radius: 4px;
-    width: 90px; /* Fast bredde for ensartethed */
-    margin: 0; /* Nulstil evt. browser default margin */
+    width: 90px;
+    margin: 0;
 }
 
 .cimt-icon.highlighted {
-    background-color: rgba(0, 123, 255, 0.1); /* Lys blå baggrund */
-[source: 110] /* Indre skygge for at markere tydeligere */
-    box-shadow: inset 0 0 0 2px rgba(0, 123, 255, 0.3);
+    background-color: rgba(0, 123, 255, 0.1);
+[source: 110] box-shadow: inset 0 0 0 2px rgba(0, 123, 255, 0.3);
 [source: 111] }
 
 
-/* Ikon SVG størrelse i CIMT-båndet */
+/* Ikon SVG størrelse i CIMT-båndet (stor) */
 #cimt-band .cimt-icon svg.icon { width: 52px; height: 52px; margin-bottom: 4px; stroke: #555;
 [source: 112] fill: none; transition: opacity 0.4s ease; }
-#cimt-band .cimt-icon { width: 100px; } /* Lidt bredere for CIMT ikoner */
-#cimt-band .cimt-icon-title { font-size: 0.8em; min-height: 2.4em; /* Plads til 2 linjer */
+#cimt-band .cimt-icon { width: 100px; }
+#cimt-band .cimt-icon-title { font-size: 0.8em; min-height: 2.4em;
 [source: 113] }
 
-/* Ikon SVG størrelse i Trends-båndet */
-#trends-band .cimt-icon svg.icon { display: block; /* Nogle SVGs kan være inline */ width: 52px; height: 52px;
+/* Ikon SVG størrelse i Trends-båndet (også stor nu) */
+#trends-band .cimt-icon svg.icon { display: block; width: 52px; height: 52px;
 [source: 114] stroke: #555; margin-bottom: 4px; fill: none; transition: opacity 0.4s ease; }
-#trends-band .cimt-icon { width: 100px; } /* Samme bredde som CIMT for konsistens */
+#trends-band .cimt-icon { width: 100px; }
 #trends-band .cimt-icon-title { font-size: 0.8em;
-[source: 115] min-height: 2.4em; /* Plads til 2 linjer */ }
+[source: 115] min-height: 2.4em; }
 
 
 .cimt-icon:hover { transform: scale(1.03); background-color: rgba(0, 0, 0, 0.03); }
 
 .cimt-icon-title { font-weight: 600; color: #333; line-height: 1.15;
-[source: 116] margin: 0; word-wrap: break-word; overflow-wrap: break-word; display: flex; align-items: center; /* Vertikal centrering hvis højde er sat */ justify-content: center; /* Horisontal centrering */ margin-top: 2px; /* Lidt luft over teksten */
+[source: 116] margin: 0; word-wrap: break-word; overflow-wrap: break-word; display: flex; align-items: center; justify-content: center; margin-top: 2px;
 [source: 117] }
 
 
 /* --- Info-boks Container & Bokse --- */
-.info-box-container { width: 100%; max-width: 900px; margin: 30px auto 0 auto; position: relative; /* For evt. absolut positionerede elementer indeni */
-[source: 118] z-index: 100; /* Højere end bånd og diagram */ clear: both; /* Sikrer at den ikke overlapper floatende elementer (ikke relevant her) */ height: auto; max-height: none; overflow: visible; /* Indhold må gerne gå ud over */ min-height: 50px; /* Minimum højde så containeren ikke kollapser helt */ box-sizing: border-box; }
-.info-box { display: none; /* Skjult som standard */
-[source: 119] padding: 15px 20px; background-color: #f8f9fa; /* Meget lys grå */ border: 1px solid #d6dbe0; /* Lys kant */ border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* Diskret skygge */ opacity: 0; visibility: hidden; /* For fade effekt */
+.info-box-container { width: 100%; max-width: 900px; margin: 30px auto 0 auto; position: relative;
+[source: 118] z-index: 100; clear: both; height: auto; max-height: none; overflow: visible; min-height: 50px; box-sizing: border-box; }
+.info-box { display: none;
+[source: 119] padding: 15px 20px; background-color: #f8f9fa; border: 1px solid #d6dbe0; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); opacity: 0; visibility: hidden;
 [source: 120] transition: opacity 0.4s ease, visibility 0.4s ease; text-align: left; height: auto; max-height: none; overflow: visible; box-sizing: border-box;
 [source: 121] }
 .info-box.visible { display: block; opacity: 1; visibility: visible; }
 .info-box h2 { margin-top: 0; font-size: 1.3em; color: #005f60; margin-bottom: 0.7em;
 [source: 122] font-weight: 600; }
 .info-box p { font-size: 1em; line-height: 1.6; color: #333; margin-bottom: 0.5em; }
-.info-box p:last-child { margin-bottom: 0; /* Ingen ekstra bundmargin på sidste afsnit */
+.info-box p:last-child { margin-bottom: 0;
 [source: 123] }
-.info-box p strong { font-weight: 600; color: #004c4d; /* Lidt mørkere end h2 */ }
-/* Styling for den kursive tekst (ofte brugt til instruktioner i boksen) */
+.info-box p strong { font-weight: 600; color: #004c4d; }
 .info-box p em { color: #555; font-size: 0.9em; display: block; margin-top: 1em;
 [source: 124] }
 
@@ -307,314 +303,194 @@ body.trends-band-visible #trends-band {
 #info-significance ul.significance-list { list-style: none; padding-left: 0; margin-top: 0.5em; margin-bottom: 1.2em;
 [source: 125] }
 #info-significance ul.significance-list li { margin-bottom: 0.8em; cursor: pointer; padding: 6px 10px; border-radius: 4px; transition: background-color 0.2s ease, color 0.2s ease;
-[source: 126] position: relative; /* For ::before */ padding-left: 25px; /* Plads til ikon */ font-size: 0.95em; }
-/* Standard ikon */
-#info-significance ul.significance-list li::before { content: "➔"; /* Standard pil */ position: absolute; left: 8px; top: 5px; font-size: 1.1em;
+[source: 126] position: relative; padding-left: 25px; font-size: 0.95em; }
+#info-significance ul.significance-list li::before { content: "➔"; position: absolute; left: 8px; top: 5px; font-size: 1.1em;
 [source: 127] color: #007bff; transition: color 0.2s ease; }
-/* Specifikke ikoner baseret på data-visual */
 #info-significance ul.significance-list li[data-visual="priority"]::before { content: "🔢"; left: 6px; top: 5px;
 [source: 128] font-size: 1em;}
 #info-significance ul.significance-list li[data-visual="unified"]::before { content: "🤝"; left: 6px; top: 5px; font-size: 1em;}
 #info-significance ul.significance-list li[data-visual="risk"]::before { content: "⚠️"; left: 6px;
 [source: 129] top: 5px; font-size: 1em; }
-#info-significance ul.significance-list li:hover { background-color: #e9ecef; /* Lys grå hover */ }
-/* Aktivt valgt listepunkt */
-#info-significance ul.significance-list li.active-visual { font-weight: 600; color: #005f60; /* Matcher H2 farve */ background-color: #e0f2f1; /* Meget lys cyan */
+#info-significance ul.significance-list li:hover { background-color: #e9ecef; }
+#info-significance ul.significance-list li.active-visual { font-weight: 600; color: #005f60; background-color: #e0f2f1;
 [source: 130] }
-#info-significance ul.significance-list li.active-visual::before { color: #005f60; /* Ikon farve matcher tekst */ }
-/* Kursiv tekst i significance boksen */
+#info-significance ul.significance-list li.active-visual::before { color: #005f60; }
 #info-significance p em { color: #555; font-size: 0.9em; display: block; margin-top: 1em;
 [source: 131] }
 
 /* --- Styling for Betydning Visualiseringer på Diagram --- */
-
-/* Prioritets Nummer Cirkel */
-.priority-number { position: absolute; top: -12px; /* Lige over toppen af step */ right: -8px; /* Lidt til højre */ display: flex;
-[source: 132] justify-content: center; align-items: center; width: 22px; height: 22px; line-height: 22px; /* Samme som højde */ text-align: center; font-size: 0.75em; font-weight: bold; color: white; background-color: #dc3545; /* Rød */
-[source: 133] border-radius: 50%; /* Cirkel */ opacity: 0; visibility: hidden; /* Skjult som standard */ transform: scale(0.8); /* Lidt mindre i skjult tilstand */ transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; z-index: 15; /* Over step, under tooltips/linjer */
-[source: 134] pointer-events: none; /* Kan ikke klikkes */ box-shadow: 0 1px 3px rgba(0,0,0,0.3); /* Lille skygge */ }
-.priority-number.visible { opacity: 1; visibility: visible; transform: scale(1); /* Fuld størrelse */ }
-/* Juster position lidt hvis rammen er aktiv */
-#workflow-layer.workflow-frame-active .priority-number { top: -10px; /* Lidt højere op */
+.priority-number { position: absolute; top: -12px; right: -8px; display: flex;
+[source: 132] justify-content: center; align-items: center; width: 22px; height: 22px; line-height: 22px; text-align: center; font-size: 0.75em; font-weight: bold; color: white; background-color: #dc3545;
+[source: 133] border-radius: 50%; opacity: 0; visibility: hidden; transform: scale(0.8); transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; z-index: 15;
+[source: 134] pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.priority-number.visible { opacity: 1; visibility: visible; transform: scale(1); }
+#workflow-layer.workflow-frame-active .priority-number { top: -10px;
 [source: 135] }
-
-/* Risiko Markør (Advarselstrekant) */
-.risk-marker { position: absolute; top: -5px; /* Lidt over toppen */ left: -5px; /* Lidt til venstre */ width: 24px; height: 24px; z-index: 16; /* Over priority number */ opacity: 0; visibility: hidden;
-[source: 136] transform: scale(0.5) rotate(-15deg); /* Start lille og roteret */ transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effekt */ pointer-events: none;
+.risk-marker { position: absolute; top: -5px; left: -5px; width: 24px; height: 24px; z-index: 16; opacity: 0; visibility: hidden;
+[source: 136] transform: scale(0.5) rotate(-15deg); transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); pointer-events: none;
 [source: 137] }
-.risk-marker svg { display: block; width: 100%; height: 100%; fill: #ffc107; /* Gul */ stroke: #fff; /* Hvid kant for kontrast */ stroke-width: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); /* Lille skygge */
+.risk-marker svg { display: block; width: 100%; height: 100%; fill: #ffc107; stroke: #fff; stroke-width: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 [source: 138] }
-.risk-marker.visible { opacity: 1; visibility: visible; transform: scale(1) rotate(0deg); /* Fuld størrelse, ingen rotation */ }
+.risk-marker.visible { opacity: 1; visibility: visible; transform: scale(1) rotate(0deg); }
 
 /* --- ÆNDRING START: Større trend-indikatorer --- */
-/* Trend Indikator (små ikoner på steps) */
 .trend-indicator {
     position: absolute;
 [source: 139] top: -10px; /* Justeret position for større ikon */
-    left: -10px; /* Justeret position */
-    /* Placering kan justeres yderligere, fx top/right, bottom/left etc. */
+    left: -10px;
 [source: 140] /* Justeret position */
     width: 28px; /* NY STØRRELSE */
-    height: 28px; /* NY STØRRELSE */
+    height: 28px;
 [source: 141] /* NY STØRRELSE */
-    z-index: 17; /* Højeste overlay på step */
+    z-index: 17;
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.5); /* Start lille */
-[source: 142] transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s, transform 0.3s ease 0.1s; /* Lidt forsinket fade-in */
+    transform: scale(0.5);
+[source: 142] transition: opacity 0.3s ease 0.1s, visibility 0.3s ease 0.1s, transform 0.3s ease 0.1s;
     pointer-events: none;
-    display: flex; /* For at centrere SVG indeni */
+    display: flex;
     justify-content: center;
 [source: 143] align-items: center;
-    padding: 1px; /* Lille intern padding */
+    padding: 1px;
     border-radius: 4px; /* Lidt rundere */
-    /* Baggrundsfarve kan tilføjes her hvis ikonerne ikke har fill */
-    /* background-color: rgba(255, 255, 255, 0.8); */
 }
 
 .trend-indicator svg {
     display: block;
-    width: 100%; /* Fyld container */
-[source: 144] height: 100%; /* Fyld container */
+    width: 100%;
+[source: 144] height: 100%;
     stroke-width: 2; /* NYT: Lidt tykkere stroke for tydelighed */
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); /* Tydeligere skygge */
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 [source: 145] /* Tydeligere skygge */
 }
 /* --- ÆNDRING SLUT --- */
 
-.trend-indicator.visible { opacity: 1; visibility: visible; transform: scale(1); /* Fuld størrelse */
+.trend-indicator.visible { opacity: 1; visibility: visible; transform: scale(1);
 [source: 146] }
-/* Farver for forskellige trend-ikoner (baseret på SVG fill/stroke i HTML/CSS) */
-.trend-indicator.trend-icon-tech svg { fill: #17a2b8; stroke: #fff; } /* Cyan */
-.trend-indicator.trend-icon-security svg { fill: #ff8f00; stroke: #fff; } /* Orange */
-.trend-indicator.trend-icon-region svg { fill: #6f42c1; stroke: #fff; } /* Lilla */
+.trend-indicator.trend-icon-tech svg { fill: #17a2b8; stroke: #fff; }
+.trend-indicator.trend-icon-security svg { fill: #ff8f00; stroke: #fff; }
+.trend-indicator.trend-icon-region svg { fill: #6f42c1;
 [source: 147] stroke: #fff; }
-.trend-indicator.trend-icon-growth svg { fill: #28a745; stroke: #fff; } /* Grøn */
+.trend-indicator.trend-icon-growth svg { fill: #28a745; stroke: #fff; }
 
 /* --- Styling for LeaderLine --- */
-.leader-line { z-index: 120; /* Skal være over alt andet interaktivt */
-[source: 148] pointer-events: none; /* Linjen selv skal ikke kunne klikkes */ }
+.leader-line { z-index: 120;
+[source: 148] pointer-events: none; }
 
 /* --- Fokus Effekt (Fade/Highlight) --- */
-/* Generel transition for alle elementer der kan fade/highlightes */
-#workflow-layer > .workflow-step,
-#cimt-band > .cimt-icon,
-#trends-band > .cimt-icon {
-    transition: opacity 0.4s ease, transform 0.2s ease, border-color 0.3s ease, background-color 0.3s ease;
-[source: 149] opacity: 1; /* Standard: Fuldt synlig */
-    pointer-events: auto; /* Standard: Kan interageres med */
-}
-
-/* Fade irrelevante elementer når Trend fokus er aktivt */
-body.trend-focus-active #workflow-layer > .workflow-step:not(.relevant-for-trend),
-body.trend-focus-active #cimt-band > .cimt-icon:not(.relevant-for-trend) {
-    opacity: 0.3; /* Lav opacity */
-    pointer-events: none; /* Kan ikke interageres med */
+#workflow-layer > .workflow-step, #cimt-band > .cimt-icon, #trends-band > .cimt-icon { transition: opacity 0.4s ease, transform 0.2s ease, border-color 0.3s ease, background-color 0.3s ease;
+[source: 149] opacity: 1; pointer-events: auto; }
+body.trend-focus-active #workflow-layer > .workflow-step:not(.relevant-for-trend), body.trend-focus-active #cimt-band > .cimt-icon:not(.relevant-for-trend) { opacity: 0.3; pointer-events: none;
 [source: 150] }
-
-/* Fade irrelevante workflow steps når CIMT fokus er aktivt */
-body.cimt-focus-active #workflow-layer > .workflow-step:not(.relevant-for-cimt) {
-    opacity: 0.3;
-    pointer-events: none;
-}
-
-/* Fade irrelevante CIMT ikoner når CIMT fokus er aktivt (undtagen det valgte) */
-body.cimt-focus-active #cimt-band > .cimt-icon:not(.cimt-focus-icon) {
-    opacity: 0.3;
-    pointer-events: none;
+body.cimt-focus-active #workflow-layer > .workflow-step:not(.relevant-for-cimt) { opacity: 0.3; pointer-events: none; }
+body.cimt-focus-active #cimt-band > .cimt-icon:not(.cimt-focus-icon) { opacity: 0.3; pointer-events: none;
 [source: 151] }
-
-/* Fade irrelevante Trend ikoner når Trend fokus er aktivt (undtagen det valgte) */
-body.trend-focus-active #trends-band > .cimt-icon:not(.highlighted) {
-    opacity: 0.3;
-    pointer-events: none;
-}
-
-/* Sørg for at relevante elementer og det specifikt valgte ikon ALTID er fuldt synlige */
-body.trend-focus-active .relevant-for-trend,
-body.cimt-focus-active .relevant-for-cimt,
-body.cimt-focus-active .cimt-focus-icon {
-    opacity: 1 !important; /* Tving fuld opacity */
-    pointer-events: auto; /* Tving interaktivitet */
-[source: 152] }
+body.trend-focus-active #trends-band > .cimt-icon:not(.highlighted) { opacity: 0.3; pointer-events: none; }
+body.trend-focus-active .relevant-for-trend, body.cimt-focus-active .relevant-for-cimt, body.cimt-focus-active .cimt-focus-icon { opacity: 1 !important;
+[source: 152] pointer-events: auto; }
 
 
 /* --- Media Queries --- */
 
-/* Medium skærme (tablets, små laptops) */
+/* Medium skærme */
 @media (min-width: 768px) {
-    body { padding: 20px; /* Mere luft omkring */
-[source: 153] }
-    #infographic-container { padding: 20px 25px; /* Mere intern padding */ }
-    h1 { font-size: 1.9em; /* Større titel */ }
-    .center-text { font-size: 0.95em; /* Lidt større intro tekst */
-[source: 154] }
-    #controls button { padding: 10px 20px; font-size: 1em; /* Større knapper */ }
-
-    /* Workflow går til horisontalt layout */
-    #workflow-layer {
-        flex-direction: row;
-        justify-content: center; /* Centrer steps horisontalt */
-[source: 155] align-items: flex-start; /* Juster toppen af steps */
-        gap: 0; /* Nulstil gap, brug margin på steps i stedet */
-        width: auto; /* Bredde bestemmes af indhold */
-        max-width: 1600px; /* Begræns max bredde */
-        margin-bottom: 70px; /* Mere afstand ned til bånd */
-    }
-    .arrow { display: flex; /* Vis pile */
-[source: 156] margin-top: 15px;} /* Samme top margin som steps */
-    .arrow svg { width: 36px; height: 36px; /* Lidt større pile */ }
-
-    .workflow-step {
-        width: 115px; /* Lidt bredere steps */
-        padding: 10px;
-[source: 157] box-shadow: 0 1px 4px rgba(0,0,0,0.07); /* Samme skygge */
-        margin: 15px 5px 0 5px; /* Top, H/V, Bund */
-[source: 158] /* Justeret margin */
-    }
-    .workflow-step p { font-size: 0.85em; min-height: 2.5em; /* Lidt mere plads til tekst */
+    body { padding: 20px;
+[source: 153] } #infographic-container { padding: 20px 25px; } h1 { font-size: 1.9em; } .center-text { font-size: 0.95em;
+[source: 154] } #controls button { padding: 10px 20px; font-size: 1em; }
+    #workflow-layer { flex-direction: row; justify-content: center;
+[source: 155] align-items: flex-start; gap: 0; width: auto; max-width: 1600px; margin-bottom: 70px; }
+    .arrow { display: flex;
+[source: 156] margin-top: 15px;} .arrow svg { width: 36px; height: 36px; }
+    .workflow-step { width: 115px; padding: 10px;
+[source: 157] box-shadow: 0 1px 4px rgba(0,0,0,0.07); margin: 15px 5px 0 5px;
+[source: 158] /* Justeret margin */ }
+    .workflow-step p { font-size: 0.85em; min-height: 2.5em;
 [source: 159] }
-
-    /* Juster overlay positioner/størrelser */
     .priority-number { top: -10px; right: -5px; width: 24px; height: 24px; line-height: 24px; font-size: 0.8em;
-[source: 160] }
-    #workflow-layer.workflow-frame-active .priority-number { top: -8px; /* Lidt justering ift. ramme */ }
+[source: 160] } #workflow-layer.workflow-frame-active .priority-number { top: -8px; }
     .risk-marker { top: -6px; left: -6px; width: 26px; height: 26px;
 [source: 161] }
     /* Trend indikator størrelse */
-    .trend-indicator { top: -11px; left: -11px; width: 30px; /* Lidt større */
+    .trend-indicator { top: -11px; left: -11px; width: 30px;
 [source: 162] height: 30px;}
 
-    /* Bånd styling */
-    #cimt-band, #trends-band {
-        width: 95%; /* Lidt indryk fra kanten */
-        padding: 15px;
-        min-height: auto; /* Højden bestemmes af indhold */
-        gap: 10px 15px; /* Lidt mere mellemrum */
-        margin-top: 80px; /* Mere afstand fra workflow */
+    #cimt-band, #trends-band { width: 95%; padding: 15px; min-height: auto; gap: 10px 15px; margin-top: 80px;
 [source: 163] }
-    #cimt-band {
-        gap: 10px 6px; /* <<< Mindre vandret gap for CIMT, da der er mange */
-        justify-content: center; /* Sørg for centrering */
-    }
+    #cimt-band { gap: 10px 6px; /* <<< Mindre vandret gap */ }
 
-    /* Ikoner i bånd */
-    .cimt-icon { width: 100px; /* Lidt bredere */
+    .cimt-icon { width: 100px;
 [source: 164] margin: 0; }
-    #cimt-band .cimt-icon svg.icon,
-    #trends-band .cimt-icon svg.icon { width: 52px; height: 52px; /* Samme ikon størrelse */
+    #cimt-band .cimt-icon svg.icon, #trends-band .cimt-icon svg.icon { width: 52px; height: 52px;
 [source: 165] }
     .cimt-icon-title { font-size: 0.8em; min-height: 2.4em;}
 
-     /* Info boks styling */
-     .info-box-container { width: 90%; margin-top: 40px; /* Mere afstand */
-[source: 166] }
-     .info-box { padding: 18px 25px; /* Mere padding */ }
-     .info-box h2 { font-size: 1.4em; /* Større overskrift */ }
-     .info-box p { font-size: 1.05em; /* Lidt større tekst */
-[source: 167] }
-     #info-significance ul.significance-list li { margin-bottom: 0.9em; font-size: 1em; /* Lidt større listepunkter */}
-     #info-significance p em { font-size: 0.95em; /* Lidt større kursiv tekst */
+     .info-box-container { width: 90%; margin-top: 40px;
+[source: 166] } .info-box { padding: 18px 25px; } .info-box h2 { font-size: 1.4em; } .info-box p { font-size: 1.05em;
+[source: 167] } #info-significance ul.significance-list li { margin-bottom: 0.9em; font-size: 1em;} #info-significance p em { font-size: 0.95em;
 [source: 168] }
 }
 
-/* Store skærme (standard desktops) */
+/* Store skærme */
 @media (min-width: 1200px) {
-    h1 { font-size: 2.1em; /* Endnu større titel */
+    h1 { font-size: 2.1em;
 [source: 169] }
-
-    .workflow-step { width: 130px; margin: 15px 8px 0 8px; /* Mere bredde og margin */}
-    .workflow-step svg.icon { width: 60px; height: 60px; /* Større ikoner */
-[source: 170] }
-    .workflow-step p { font-size: 0.9em; }
-    .arrow svg { width: 44px; height: 44px; /* Større pile */
+    .workflow-step { width: 130px; margin: 15px 8px 0 8px;} .workflow-step svg.icon { width: 60px; height: 60px;
+[source: 170] } .workflow-step p { font-size: 0.9em; }
+    .arrow svg { width: 44px; height: 44px;
 [source: 171] }
-
-    /* Juster overlays igen */
     .priority-number { top: -12px; width: 26px; height: 26px; line-height: 26px; font-size: 0.85em;
-[source: 172] }
-    #workflow-layer.workflow-frame-active .priority-number { top: -10px; }
+[source: 172] } #workflow-layer.workflow-frame-active .priority-number { top: -10px; }
     .risk-marker { top: -8px; left: -8px; width: 28px; height: 28px;
 [source: 173] }
     /* Trend indikator størrelse */
-    .trend-indicator { top: -12px; left: -12px; width: 32px; /* Lidt større */
+    .trend-indicator { top: -12px; left: -12px; width: 32px;
 [source: 174] height: 32px; }
 
-    /* Bånd styling */
-    #cimt-band, #trends-band {
-        min-height: auto;
-        gap: 10px 20px; /* Mere mellemrum */
-        max-width: 1700px; /* Begræns max bredde */
-        width: 98%; /* Næsten fuld bredde */
-        padding: 15px;
+    #cimt-band, #trends-band { min-height: auto; gap: 10px 20px; max-width: 1700px; width: 98%; padding: 15px;
 [source: 175] }
-    #cimt-band {
-        gap: 10px 8px; /* <<< Stadig lidt mindre vandret gap for CIMT */
-        justify-content: center;
-    }
+    #cimt-band { gap: 10px 8px; /* <<< Mindre vandret gap */ }
 
-    /* Ikoner i bånd */
-    .cimt-icon { width: 110px; /* Lidt bredere */
+    .cimt-icon { width: 110px;
 [source: 176] margin: 0; }
-     #cimt-band .cimt-icon svg.icon,
-     #trends-band .cimt-icon svg.icon { width: 56px; height: 56px; /* Større ikoner */
+     #cimt-band .cimt-icon svg.icon, #trends-band .cimt-icon svg.icon { width: 56px; height: 56px;
 [source: 177] }
     .cimt-icon-title { font-size: 0.85em; }
 
-     /* Info boks styling */
-     .info-box h2 { font-size: 1.5em; /* Større overskrift */
-[source: 178] }
-     .info-box p { font-size: 1.1em; /* Lidt større tekst */ }
-     .info-box-container { width: 85%; max-width: 1000px; /* Bredere infoboks */
+     .info-box h2 { font-size: 1.5em;
+[source: 178] } .info-box p { font-size: 1.1em; }
+     .info-box-container { width: 85%; max-width: 1000px;
 [source: 179] }
-     #info-significance ul.significance-list li { font-size: 1.05em;}
-     #info-significance p em { font-size: 1em;
+     #info-significance ul.significance-list li { font-size: 1.05em;} #info-significance p em { font-size: 1em;
 [source: 180] }
 }
 
-/* Meget store skærme (wide monitors) */
+/* Meget store skærme */
 @media (min-width: 1600px) {
-    #infographic-container { padding: 25px 30px; /* Endnu mere padding */
+    #infographic-container { padding: 25px 30px;
 [source: 181] }
-
-    .workflow-step { width: 140px; margin: 15px 10px 0 10px; /* Lidt bredere steps og margin */}
-    .workflow-step svg.icon { width: 64px; height: 64px; /* Lidt større ikoner */
-[source: 182] }
-    .arrow svg { width: 48px; height: 48px; /* Lidt større pile */ }
-
-    /* Juster overlays */
-    .priority-number { top: -14px; right: -10px; width: 28px; /* Lidt større */
-[source: 183] height: 28px; line-height: 28px; font-size: 0.9em;}
-    #workflow-layer.workflow-frame-active .priority-number { top: -12px; }
-    .risk-marker { top: -10px; /* Lidt længere ned/ind */
+    .workflow-step { width: 140px; margin: 15px 10px 0 10px;} .workflow-step svg.icon { width: 64px; height: 64px;
+[source: 182] } .arrow svg { width: 48px; height: 48px; }
+    .priority-number { top: -14px; right: -10px; width: 28px;
+[source: 183] height: 28px; line-height: 28px; font-size: 0.9em;} #workflow-layer.workflow-frame-active .priority-number { top: -12px; }
+    .risk-marker { top: -10px;
 [source: 184] left: -10px; width: 30px; height: 30px;}
     /* Trend indikator størrelse */
-    .trend-indicator { top: -14px; /* Lidt længere ned/ind */
+    .trend-indicator { top: -14px;
 [source: 185] left: -14px; width: 34px; height: 34px; } /* Lidt større her */
 
-    /* Bånd styling */
-    #cimt-band, #trends-band {
-        max-width: 1600px; /* Samme max bredde som workflow */
-[source: 186] gap: 10px 25px; /* Mere horisontalt mellemrum generelt */}
-    #cimt-band {
-        gap: 10px 10px; /* <<< Lidt mere plads mellem CIMT ikoner nu */
-        justify-content: center;
-[source: 187] /* <<< Mindre vandret gap */
-    }
+    #cimt-band, #trends-band { max-width: 1600px;
+[source: 186] gap: 10px 25px;}
+    #cimt-band { gap: 10px 10px;
+[source: 187] /* <<< Mindre vandret gap */ }
 
-    /* Ikoner i bånd */
-    .cimt-icon { width: 120px; /* Bredere ikoner */ margin: 0;
+    .cimt-icon { width: 120px; margin: 0;
 [source: 188] }
-     #cimt-band .cimt-icon svg.icon,
-     #trends-band .cimt-icon svg.icon { width: 60px; height: 60px; /* Lidt større ikoner */
+     #cimt-band .cimt-icon svg.icon, #trends-band .cimt-icon svg.icon { width: 60px; height: 60px;
 [source: 189] }
-    .cimt-icon-title { font-size: 0.9em; /* Lidt større titel */ }
+    .cimt-icon-title { font-size: 0.9em; }
 
-    /* Info boks styling */
-    .info-box-container { max-width: 1100px; /* Endnu bredere infoboks */
+    .info-box-container { max-width: 1100px;
 [source: 190] }
-    .info-box h2 { font-size: 1.6em; /* Lidt større overskrift */ }
-    .info-box p { font-size: 1.15em; /* Lidt større tekst */
-[source: 191] }
-    #info-significance p em { font-size: 1.05em; }
+    .info-box h2 { font-size: 1.6em; } .info-box p { font-size: 1.15em;
+[source: 191] } #info-significance p em { font-size: 1.05em; }
 }
