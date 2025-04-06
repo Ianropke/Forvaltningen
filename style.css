@@ -1,454 +1,408 @@
-// Wait for the DOM to be fully loaded before running the script
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("===== DOM Content Loaded - Initializing Script ====="); // TEST OUTPUT
+/* General Body and Font Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa; /* Light grey background */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align container to the top */
+    min-height: 100vh;
+    color: #333; /* Default text color */
+}
 
-    // Get references to the main control buttons
-    const showCimtBtn = document.getElementById('show-cimt-btn');
-    const showTrendsBtn = document.getElementById('show-trends-btn');
-    // const showSignificanceBtn = document.getElementById('show-significance-btn'); // FJERN reference
+/* Main Container for the Infographic */
+#infographic-container {
+    background-color: #ffffff; /* White background for the main content */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 30px;
+    max-width: 1200px; /* Max width, adjust as needed */
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width calculation */
+    text-align: center; /* Center align text by default within container */
+}
 
-    // Get references to the information bands
-    const cimtBand = document.getElementById('cimt-band');
-    const trendsBand = document.getElementById('trends-band');
+/* Headings and Text */
+h1 {
+    color: #0056b3; /* Dark blue for main title */
+    margin-bottom: 15px;
+}
 
-    // Get references to all workflow steps and icons
-    const workflowSteps = document.querySelectorAll('.workflow-step');
-    const cimtIcons = document.querySelectorAll('.cimt-icon');
-    const trendIcons = document.querySelectorAll('.trend-icon');
+h2 {
+    color: #0056b3; /* Dark blue for section titles */
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee; /* Separator line */
+    padding-bottom: 5px;
+}
 
-    // Get references to all info boxes
-    const infoBoxes = document.querySelectorAll('.info-box'); // Vil ikke længere inkludere #info-significance
-    // const infoSignificanceBox = document.getElementById('info-significance'); // FJERN reference
+p {
+    line-height: 1.6;
+    color: #555; /* Slightly lighter text color for paragraphs */
+}
 
-    // Get reference to the tooltip element
-    const trendTooltip = document.getElementById('trend-tooltip');
+.center-text {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 0.9em;
+    color: #666;
+}
 
-    // Array to keep track of drawn LeaderLines
-    let lines = [];
-    // let significanceLines = []; // FJERN reference
+/* Control Buttons */
+#controls {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Space between buttons */
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
 
-    // --- Sanity Checks ---
-    if (!showCimtBtn) console.error("FEJL: Knap #show-cimt-btn ikke fundet!");
-    if (!showTrendsBtn) console.error("FEJL: Knap #show-trends-btn ikke fundet!");
-    // if (!showSignificanceBtn) console.error("FEJL: Knap #show-significance-btn ikke fundet!"); // FJERN check
-    if (!cimtBand) console.warn("Advarsel: Element #cimt-band ikke fundet!");
-    if (!trendsBand) console.warn("Advarsel: Element #trends-band ikke fundet!");
-    if (workflowSteps.length === 0) console.warn("Advarsel: Ingen .workflow-step elementer fundet!");
+#controls button {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 500;
+    background-color: #007bff; /* Standard blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#controls button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+#controls button.active {
+    background-color: #004085; /* Even darker blue when active */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Diagram and Workflow Layer */
+#main-diagram {
+    margin-bottom: 30px;
+}
+
+#workflow-layer {
+    display: flex;
+    justify-content: space-around; /* Distribute steps evenly */
+    align-items: center; /* Vertically align items */
+    flex-wrap: nowrap; /* Prevent wrapping on large screens */
+    gap: 10px; /* Small gap between steps/arrows */
+    padding: 10px 0; /* Padding top/bottom */
+}
+
+/* Individual Workflow Step */
+.workflow-step {
+    background-color: #e9ecef; /* Light grey background for steps */
+    border: 2px solid transparent; /* Default border */
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease, background-color 0.3s ease;
+    flex: 1; /* Allow steps to grow and shrink */
+    min-width: 120px; /* Minimum width for each step */
+    max-width: 150px; /* Maximum width to prevent them becoming too wide */
+    position: relative; /* Needed for positioning overlay icons */
+    overflow: hidden; /* Hide potential overflow from icons */
+}
+
+.workflow-step p {
+    margin: 10px 0 0 0; /* Space above text, no bottom margin */
+    font-weight: 500;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.workflow-step svg.icon {
+    width: 40px; /* Icon size */
+    height: 40px;
+    stroke-width: 1.5;
+    color: #007bff; /* Icon color */
+}
+
+.workflow-step:hover {
+    transform: translateY(-3px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.workflow-step.active {
+    border-color: #007bff; /* Blue border when active */
+    background-color: #d6eaff; /* Lighter blue background when active */
+}
+
+/* Arrow between steps */
+.arrow {
+    color: #adb5bd; /* Grey color for arrows */
+    flex-shrink: 0; /* Prevent arrows from shrinking */
+}
+.arrow svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- Overlay Icons (Only Trend Indicators remain relevant now) --- */
+
+/* Base style for all overlay icons (positioning) - Now mostly for Trend */
+.priority-number, .risk-marker, .trend-indicator {
+    position: absolute;
+    display: none; /* Hidden by default, shown by JS */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border-radius: 50%;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Trend Indicator specific styles */
+.trend-indicator {
+    width: 18px;
+    height: 18px;
+    bottom: 3px;
+    right: 3px;
+    border: 1px solid #ccc;
+    /* Background color/icon set dynamically or via specific classes */
+}
+/* Example colors for different trends (add more as needed) */
+.trend-indicator.trend-digitalisering { background-color: #ffc107; } /* Yellow */
+.trend-indicator.trend-automatisering { background-color: #fd7e14; } /* Orange */
+.trend-indicator.trend-interoperabilitet { background-color: #20c997; } /* Teal */
+.trend-indicator.trend-regulering { background-color: #dc3545; } /* Red */
 
 
-    console.log(`Fundet ${workflowSteps.length} workflow steps.`);
-    console.log(`Fundet ${cimtIcons.length} CIMT icons.`);
-    console.log(`Fundet ${trendIcons.length} Trend icons.`);
-    console.log(`Fundet ${infoBoxes.length} info boxes (Significance er fjernet).`);
+/* --- FJERNET: Styling for .priority-number --- */
+/* .priority-number { ... } */
+
+/* --- FJERNET: Styling for .risk-marker --- */
+/* .risk-marker { ... } */
 
 
-    // --- Helper Functions ---
+/* Info Bands (CIMT and Trends) */
+.info-band {
+    display: flex; /* Use flexbox for layout */
+    gap: 15px; /* Space between icons */
+    padding: 15px;
+    background-color: #e9ecef; /* Light grey background */
+    border-radius: 8px;
+    margin-bottom: 30px;
+    overflow-x: auto; /* Allow horizontal scroll on small screens */
+    flex-wrap: wrap; /* Allow wrapping by default */
+}
 
-    // Function to hide all dynamic info and remove focus states
-    function hideAllInfoAndFocus() {
-        console.log("--> hideAllInfoAndFocus() kaldt"); // TEST OUTPUT
-
-        // Hide all regular info boxes
-        infoBoxes.forEach(box => {
-            // Simpel nu: bare skjul alle fundne info-bokse
-            box.style.display = 'none';
-        });
-
-        // Hide info bands
-        if (cimtBand) cimtBand.style.display = 'none';
-        if (trendsBand) trendsBand.style.display = 'none';
-
-        // Remove focus classes from body
-        document.body.classList.remove('cimt-focus-active', 'trend-focus-active');
-
-        // Remove active/highlight classes from steps and icons
-        document.querySelectorAll('.workflow-step.active, .cimt-icon.active, .trend-icon.active').forEach(el => { // Fjernet .significance-item.active
-            el.classList.remove('active', 'highlight');
-        });
-        // Remove relevance classes used for fading
-        document.querySelectorAll('.relevant-for-cimt, .irrelevant-for-cimt, .relevant-for-trend, .irrelevant-for-trend').forEach(el => {
-             el.classList.remove('relevant-for-cimt', 'irrelevant-for-cimt', 'relevant-for-trend', 'irrelevant-for-trend');
-        });
-         // Ensure hidden overlay icons (kun trend-indicators nu) are hidden again unless trend is active
-         document.querySelectorAll('.trend-indicator').forEach(icon => {
-            // Skjul kun hvis trend-fokus ikke er aktivt
-            if (!document.body.classList.contains('trend-focus-active')) {
-                 icon.style.display = 'none';
-            }
-         });
+/* Specific override for CIMT band if it MUST stay on one line */
+#cimt-band {
+    flex-wrap: nowrap; /* Force CIMT icons onto one line */
+}
+#trends-band {
+     justify-content: center; /* Center trend icons if they wrap */
+}
 
 
-        // Remove existing LeaderLines
-        console.log(`Fjerner ${lines.length} linjer.`); // TEST OUTPUT
-        lines.forEach(line => {
-            try {
-                line.remove();
-            } catch (e) {
-                console.warn("Fejl ved fjernelse af linje:", e);
-            }
-        });
-        lines = [];
+/* Icons within Info Bands (CIMT and Trends) */
+.cimt-icon, .trend-icon {
+    display: flex;
+    flex-direction: column; /* Stack icon and text vertically */
+    align-items: center; /* Center items horizontally */
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    min-width: 90px; /* Minimum width for icons */
+    position: relative; /* Needed for tooltip positioning */
+}
 
-        // Hide significance-specific visuals (FUNKTION ER FJERNET)
-        // hideAllSignificanceVisuals(); // FJERN kald
+.cimt-icon p, .trend-icon p {
+    font-size: 0.8em;
+    margin: 5px 0 0 0;
+    color: #333;
+    font-weight: 500;
+}
 
-        // Hide the trend tooltip
-        hideTrendExampleTooltip();
+.cimt-icon svg, .trend-icon svg {
+    width: 36px; /* Icon size in bands */
+    height: 36px;
+    stroke-width: 1.5;
+    margin-bottom: 5px;
+}
 
-        // Deactivate buttons visually
-        document.querySelectorAll('#controls button.active').forEach(btn => btn.classList.remove('active'));
+/* Specific icon colors */
+.cimt-icon svg { color: #007bff; } /* Blue for CIMT */
+.trend-icon svg { color: #6f42c1; } /* Purple for Trends */
 
-        console.log("<-- hideAllInfoAndFocus() færdig"); // TEST OUTPUT
+.cimt-icon:hover, .trend-icon:hover {
+    background-color: #d1d9e0; /* Slightly darker grey on hover */
+    transform: translateY(-2px);
+}
+
+.cimt-icon.active, .trend-icon.active {
+    background-color: #b9c5d0; /* Darker grey when active */
+}
+
+/* Simple Tooltip for CIMT Icons */
+.cimt-icon .tooltip {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 8px;
+    position: absolute;
+    z-index: 10;
+    bottom: 110%; /* Position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.75em;
+    white-space: nowrap; /* Prevent tooltip text from wrapping */
+}
+
+.cimt-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/* Info Box Area */
+.info-box-container {
+    margin-top: 30px;
+    text-align: left; /* Align text left within info boxes */
+}
+
+.info-box {
+    display: none; /* Hidden by default */
+    padding: 20px;
+    background-color: #f1f3f5; /* Very light grey for info boxes */
+    border: 1px solid #dee2e6; /* Light border */
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.info-box ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+.info-box li {
+    margin-bottom: 8px;
+}
+
+/* --- FJERNET: Styling for #info-significance and its list items --- */
+/* #info-significance { ... } */
+/* #info-significance ul { ... } */
+/* #info-significance li { ... } */
+/* #info-significance li:hover { ... } */
+/* #info-significance li.active { ... } */
+
+
+/* Focus/Fade Effects */
+/* When CIMT focus is active, dim irrelevant steps */
+body.cimt-focus-active .workflow-step.irrelevant-for-cimt {
+    opacity: 0.4;
+    pointer-events: none; /* Optional: disable clicks on dimmed items */
+}
+/* Ensure relevant ones are fully opaque */
+body.cimt-focus-active .workflow-step.relevant-for-cimt {
+    opacity: 1;
+}
+
+/* When Trend focus is active, dim irrelevant steps AND CIMT icons */
+body.trend-focus-active .workflow-step.irrelevant-for-trend,
+body.trend-focus-active .cimt-icon.irrelevant-for-trend {
+    opacity: 0.4;
+    pointer-events: none; /* Optional */
+}
+/* Ensure relevant ones are fully opaque */
+body.trend-focus-active .workflow-step.relevant-for-trend,
+body.trend-focus-active .cimt-icon.relevant-for-trend {
+    opacity: 1;
+}
+
+/* Trend Example Tooltip */
+#trend-tooltip {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-size: 0.85em;
+    max-width: 250px; /* Limit tooltip width */
+    /* Position is set dynamically by JS */
+}
+
+/* --- FJERNET: Styling for .workflow-frame-active --- */
+/* .workflow-frame-active .workflow-step { ... } */
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 992px) {
+    #workflow-layer {
+        flex-direction: column; /* Stack workflow steps vertically */
+        align-items: center; /* Center items when stacked */
     }
-
-    // Function to show a specific info box
-    function showInfoBox(targetSelector) {
-        console.log(`--> showInfoBox() kaldt med target: ${targetSelector}`); // TEST OUTPUT
-        const targetBox = document.querySelector(targetSelector);
-        if (targetBox) {
-            // First hide all others
-            infoBoxes.forEach(box => {
-                box.style.display = 'none';
-            });
-             // Then show the target
-            targetBox.style.display = 'block';
-            console.log(`Viste info-boks: ${targetSelector}`); // TEST OUTPUT
-        } else {
-            console.error(`FEJL: Info-boks med selector "${targetSelector}" ikke fundet!`);
-        }
+    .arrow {
+        display: none; /* Hide arrows when stacked */
     }
-
-    // Function to set the active button style (RETTET TIL AT HÅNDTERE NULL)
-    function setActiveButton(buttonElement) {
-        console.log(`--> setActiveButton() kaldt for: ${buttonElement ? buttonElement.id : 'null'}`); // TEST OUTPUT (modificeret)
-        // Remove active class from all buttons first
-        document.querySelectorAll('#controls button').forEach(btn => btn.classList.remove('active'));
-        // Add active class to the clicked button ONLY if it exists
-        if (buttonElement) { // TILFØJET CHECK
-            buttonElement.classList.add('active');
-        }
+    .workflow-step {
+        width: 80%; /* Make steps wider */
+        max-width: 300px; /* Limit max width */
+        margin-bottom: 15px; /* Add space between stacked steps */
     }
-
-
-    // Function to draw lines from a CIMT icon to relevant steps
-    function drawLinesForIcon(iconElement) {
-        console.log(`--> drawLinesForIcon() kaldt for: ${iconElement.id}`); // TEST OUTPUT
-        // Remove previous lines first
-        lines.forEach(line => line.remove());
-        lines = [];
-
-        const relevantStepsAttr = iconElement.getAttribute('data-cimt-relevant');
-        if (relevantStepsAttr) {
-            try {
-                const relevantStepIds = JSON.parse(relevantStepsAttr.replace(/'/g, '"')); // Handle single quotes if used
-                console.log(`Relevante steps for ${iconElement.id}:`, relevantStepIds); // TEST OUTPUT
-
-                relevantStepIds.forEach(stepId => {
-                    const stepElement = document.getElementById(stepId);
-                    // Check if stepElement exists AND is reasonably visible (opacity check is simpler than display:none check)
-                    if (stepElement && window.getComputedStyle(stepElement).opacity !== '0') {
-                        try {
-                            const line = new LeaderLine(
-                                iconElement, // Start anchor
-                                stepElement,  // End anchor
-                                {
-                                    color: 'rgba(0, 100, 200, 0.6)', // Example color
-                                    size: 2,
-                                    path: 'fluid', // Or 'grid', 'straight'
-                                    dash: { animation: true }
-                                }
-                            );
-                            lines.push(line);
-                            console.log(`Tegnede linje fra ${iconElement.id} til ${stepId}`); // TEST OUTPUT
-                        } catch(e) {
-                             console.error(`FEJL ved tegning af LeaderLine fra ${iconElement.id} til ${stepId}:`, e);
-                        }
-                    } else {
-                         console.warn(`Skipped line til ${stepId} (element ikke fundet eller ikke synligt)`);
-                    }
-                });
-            } catch (e) {
-                console.error(`FEJL: Kunne ikke parse data-cimt-relevant for ${iconElement.id}: ${relevantStepsAttr}`, e);
-            }
-        } else {
-             console.warn(`Attribut 'data-cimt-relevant' mangler på ${iconElement.id}`);
-        }
-         console.log("<-- drawLinesForIcon() færdig"); // TEST OUTPUT
+    #controls {
+        flex-direction: column; /* Stack control buttons */
+        align-items: stretch; /* Make buttons full width */
     }
-
-     // --- Significance Visual Functions (ALLE ER FJERNET) ---
-    // function hideAllSignificanceVisuals() { ... } // FJERN HELE FUNKTIONEN
-    // function showPriorityNumbers() { ... } // FJERN HELE FUNKTIONEN
-    // function showRiskMarkers() { ... } // FJERN HELE FUNKTIONEN
-    // function showUnifiedEffortLine() { ... } // FJERN HELE FUNKTIONEN
-
-    // --- Trend Tooltip Functions ---
-    let tooltipTimeout;
-    function showTrendExampleTooltip(stepElement, trendIconElement) {
-        console.log(`Viser tooltip for step ${stepElement.id} relateret til trend ${trendIconElement.id}`); // TEST OUTPUT
-        // --- DIN EKSISTERENDE TOOLTIP LOGIK SKAL VÆRE HER ---
-        // Eksempel (skal tilpasses din faktiske implementering):
-        if (!trendTooltip) {
-            console.error("Trend tooltip element #trend-tooltip mangler!");
-            return;
-        }
-        const examplesMapAttr = trendIconElement.getAttribute('data-examples-map');
-        let exampleText = "Ingen specifik information for dette trin.";
-        if (examplesMapAttr) {
-            try {
-                const examples = JSON.parse(examplesMapAttr.replace(/'/g, '"'));
-                exampleText = examples[stepElement.id] || examples["Generelt"] || exampleText;
-            } catch (e) {
-                console.error("Fejl ved parsing af data-examples-map", e);
-                exampleText = "Fejl i data.";
-            }
-        }
-        trendTooltip.textContent = exampleText;
-
-        // Positionering (simpel eksempel - skal måske forbedres)
-        const stepRect = stepElement.getBoundingClientRect();
-        const tooltipRect = trendTooltip.getBoundingClientRect(); // Get dimensions after setting text
-
-        let top = stepRect.top + window.scrollY;
-        let left = stepRect.right + window.scrollX + 10; // Lidt til højre
-
-        // Kant-tjek (meget basalt)
-        if (left + tooltipRect.width > window.innerWidth) {
-            left = stepRect.left + window.scrollX - tooltipRect.width - 10; // Prøv til venstre
-        }
-        if (top + tooltipRect.height > window.innerHeight) {
-             top = window.innerHeight - tooltipRect.height - 5; // Juster op
-        }
-         if (top < 0) {
-             top = 5; // Juster ned
-         }
-
-        trendTooltip.style.left = `${left}px`;
-        trendTooltip.style.top = `${top}px`;
-        trendTooltip.style.display = 'block';
-         clearTimeout(tooltipTimeout); // Stop eventuel skjul-timeout
+    #controls button {
+        width: 100%;
+        box-sizing: border-box;
     }
+}
 
-    function hideTrendExampleTooltip() {
-        clearTimeout(tooltipTimeout);
-        tooltipTimeout = setTimeout(() => {
-             if (trendTooltip) trendTooltip.style.display = 'none';
-             console.log("Skjuler trend tooltip (med timeout)"); // TEST OUTPUT
-        }, 150);
+@media (max-width: 768px) {
+    #infographic-container {
+        padding: 20px;
     }
-
-
-    // --- Event Listeners ---
-    console.log("Tilføjer Event Listeners..."); // TEST OUTPUT
-
-    // Listener for "Vis CIMT Understøttelse" button
-    if (showCimtBtn) {
-        showCimtBtn.addEventListener('click', () => {
-            console.log(">>> KLIK: Vis CIMT Understøttelse <<<"); // TEST OUTPUT
-            hideAllInfoAndFocus();
-            if (cimtBand) cimtBand.style.display = 'flex';
-             document.body.classList.remove('trend-focus-active');
-             document.querySelectorAll('.trend-indicator').forEach(ind => ind.style.display = 'none');
-            setActiveButton(showCimtBtn);
-             // TODO: Implement the overview animation reuse here later
-             console.log("CIMT Bånd vist."); // TEST OUTPUT
-        });
+    h1 {
+        font-size: 1.8em;
     }
-
-    // Listener for "Vis Tendenser / Risici" button
-    if (showTrendsBtn) {
-        showTrendsBtn.addEventListener('click', () => {
-             console.log(">>> KLIK: Vis Tendenser / Risici <<<"); // TEST OUTPUT
-            hideAllInfoAndFocus();
-             if (trendsBand) trendsBand.style.display = 'flex';
-            document.body.classList.remove('cimt-focus-active');
-            lines.forEach(line => line.remove());
-             lines = [];
-            setActiveButton(showTrendsBtn);
-            console.log("Trends Bånd vist."); // TEST OUTPUT
-        });
+    .workflow-step p {
+        font-size: 0.85em;
     }
+     .cimt-icon p, .trend-icon p {
+        font-size: 0.75em; /* Smaller text on icons */
+    }
+    .cimt-icon svg, .trend-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+    .cimt-icon, .trend-icon {
+        min-width: 75px; /* Adjust min-width for smaller screens */
+    }
+}
 
-    // Listener for "Vis Betydning for CIMT" button (HELE BLOKKEN ER FJERNET)
-    // if (showSignificanceBtn) { ... }
-
-    // Add listeners to each Workflow Step
-    workflowSteps.forEach(step => {
-        step.addEventListener('click', () => {
-            console.log(`>>> KLIK: Workflow Step: ${step.id} <<<`); // TEST OUTPUT
-            hideAllInfoAndFocus();
-            step.classList.add('active');
-            const infoTarget = step.getAttribute('data-info-target');
-            if (infoTarget) {
-                showInfoBox(infoTarget);
-            } else {
-                console.warn(`Workflow step ${step.id} mangler data-info-target`);
-            }
-        });
-
-        // Hover listeners for trends
-         step.addEventListener('mouseover', () => {
-            if (document.body.classList.contains('trend-focus-active')) {
-                const activeTrendIcon = document.querySelector('.trend-icon.active');
-                // Tjek også om dette step rent faktisk *er* relevant for den aktive trend
-                if (activeTrendIcon && step.classList.contains('relevant-for-trend')) {
-                     if (trendTooltip) {
-                        showTrendExampleTooltip(step, activeTrendIcon);
-                     } else {
-                        console.error("FEJL: Trend tooltip element (#trend-tooltip) mangler!");
-                     }
-                }
-            }
-         });
-         step.addEventListener('mouseout', hideTrendExampleTooltip);
-         step.addEventListener('focusout', hideTrendExampleTooltip);
-
-    });
-
-    // Add listeners to each CIMT Icon
-    cimtIcons.forEach(icon => {
-        icon.addEventListener('click', () => {
-            console.log(`>>> KLIK: CIMT Icon: ${icon.id} <<<`); // TEST OUTPUT
-             // Vi antager, at CIMT klik altid skal fungere, selvom trend-fokus er aktivt.
-             // hideAllInfoAndFocus() vil fjerne trend-fokus.
-             hideAllInfoAndFocus();
-             if(cimtBand) cimtBand.style.display = 'flex';
-
-             icon.classList.add('active');
-             document.body.classList.add('cimt-focus-active');
-
-             // Dim irrelevant steps
-              const relevantStepsAttr = icon.getAttribute('data-cimt-relevant');
-              let relevantStepIds = [];
-              if (relevantStepsAttr) {
-                 try { relevantStepIds = JSON.parse(relevantStepsAttr.replace(/'/g, '"')); } catch(e) { console.error("Parse fejl:", e); }
-              }
-              console.log("Relevante steps for CIMT focus:", relevantStepIds); // TEST OUTPUT
-              workflowSteps.forEach(step => {
-                 if (relevantStepIds.includes(step.id)) {
-                     step.classList.add('relevant-for-cimt');
-                     step.classList.remove('irrelevant-for-cimt');
-                 } else {
-                     step.classList.add('irrelevant-for-cimt');
-                     step.classList.remove('relevant-for-cimt');
-                 }
-              });
-
-             const infoTarget = icon.getAttribute('data-info-target');
-             if (infoTarget) {
-                 showInfoBox(infoTarget);
-             } else {
-                  console.warn(`CIMT icon ${icon.id} mangler data-info-target`);
-             }
-             drawLinesForIcon(icon);
-             setActiveButton(showCimtBtn);
-        });
-    });
-
-    // Add listeners to each Trend Icon
-    trendIcons.forEach(icon => {
-        icon.addEventListener('click', () => {
-            console.log(`>>> KLIK: Trend Icon: ${icon.id} <<<`); // TEST OUTPUT
-
-             hideAllInfoAndFocus();
-            if (trendsBand) trendsBand.style.display = 'flex';
-
-            icon.classList.add('active');
-            document.body.classList.add('trend-focus-active');
-
-            // Dim irrelevant steps AND CIMT icons
-            let relevantStepIds = [];
-             let relevantCimtIds = [];
-            const relevantStepsAttr = icon.getAttribute('data-relevant-steps');
-            const relevantCimtAttr = icon.getAttribute('data-relevant-cimt');
-
-             try { if(relevantStepsAttr) relevantStepIds = JSON.parse(relevantStepsAttr.replace(/'/g, '"')); } catch(e){ console.error("Parse fejl steps:", e); }
-             try { if(relevantCimtAttr) relevantCimtIds = JSON.parse(relevantCimtAttr.replace(/'/g, '"')); } catch(e){ console.error("Parse fejl cimt:", e); }
-
-             console.log("Relevante steps for Trend fokus:", relevantStepIds); // TEST OUTPUT
-             console.log("Relevante CIMT icons for Trend fokus:", relevantCimtIds); // TEST OUTPUT
-
-             // Først skjul alle trend indicators
-             document.querySelectorAll('.trend-indicator').forEach(ind => ind.style.display = 'none');
-
-             workflowSteps.forEach(step => {
-                 if (relevantStepIds.includes(step.id)) {
-                     step.classList.add('relevant-for-trend');
-                     step.classList.remove('irrelevant-for-trend');
-                     // Find og vis den specifikke indicator på dette step
-                     const indicator = step.querySelector(`.trend-indicator#${icon.id}`); // Mere præcis selector hvis ID bruges
-                     if (indicator) {
-                        indicator.style.display = 'block';
-                     } else {
-                         // Fallback hvis ID ikke bruges, men klasse (mindre præcist)
-                         const indicatorClass = step.querySelector(`.trend-indicator.${icon.id}`);
-                         if(indicatorClass) indicatorClass.style.display = 'block';
-                     }
-                 } else {
-                     step.classList.add('irrelevant-for-trend');
-                    step.classList.remove('relevant-for-trend');
-                 }
-             });
-
-             cimtIcons.forEach(cimtIcon => {
-                 if (relevantCimtIds.includes(cimtIcon.id)) {
-                     cimtIcon.classList.add('relevant-for-trend');
-                     cimtIcon.classList.remove('irrelevant-for-trend');
-                 } else {
-                     cimtIcon.classList.add('irrelevant-for-trend');
-                    cimtIcon.classList.remove('relevant-for-trend');
-                 }
-             });
-
-
-            const infoTarget = icon.getAttribute('data-info-target');
-            if (infoTarget) {
-                showInfoBox(infoTarget);
-            } else {
-                console.warn(`Trend icon ${icon.id} mangler data-info-target`);
-            }
-            setActiveButton(showTrendsBtn);
-        });
-    });
-
-     // Add listeners to significance list items (HELE BLOKKEN ER FJERNET)
-    // const significanceItems = document.querySelectorAll('#info-significance li');
-    // significanceItems.forEach(item => { ... });
-
-
-    // Global click listener to potentially close info boxes or remove focus
-    document.addEventListener('click', (event) => {
-        const container = document.getElementById('infographic-container');
-        // Tjek om klikket er UDENFOR containeren, eller direkte på body/container baggrunden
-        if (!container?.contains(event.target) || event.target === document.body || event.target === container) {
-             console.log("Global klik udenfor interaktive elementer (eller på baggrund). Nulstiller delvist."); // TEST OUTPUT
-             // Nulstil kun visse ting - undgå at skjule aktive bånd?
-             infoBoxes.forEach(box => {
-                 box.style.display = 'none'; // Skjul alle info bokse
-             });
-             document.querySelectorAll('.active').forEach(el => el.classList.remove('active')); // Fjern highlights
-             document.body.classList.remove('cimt-focus-active', 'trend-focus-active'); // Fjern fade-effekt klasser
-             lines.forEach(line => line.remove()); // Fjern linjer
-             lines = [];
-             setActiveButton(null); // Deaktiver knapper visuelt
-             // Skjul IKKE cimtBand eller trendsBand her - det ville være irriterende for brugeren.
-        }
-    });
-
-    // Resize listener to remove lines
-     let resizeTimeout;
-     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-             console.log("Resize event - fjerner linjer."); // TEST OUTPUT
-             lines.forEach(line => line.remove());
-             lines = [];
-             // significanceLines.forEach(line => line.remove()); // FJERN reference
-             // significanceLines = []; // FJERN reference
-        }, 250);
-    });
-
-
-    console.log("===== Script Initialisering Færdig ====="); // TEST OUTPUT
-
-}); // End of DOMContentLoaded
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    #infographic-container {
+        padding: 15px;
+    }
+     h1 {
+        font-size: 1.5em;
+    }
+    #controls button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    .workflow-step {
+        padding: 10px;
+    }
+     .cimt-icon, .trend-icon {
+        min-width: 65px;
+    }
+}
