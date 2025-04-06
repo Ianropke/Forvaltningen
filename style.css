@@ -83,7 +83,7 @@ p {
 
 /* Main Diagram and Workflow Layer */
 #main-diagram {
-    margin-bottom: 30px;
+    margin-bottom: 30px; /* Keep existing margin below diagram */
 }
 
 #workflow-layer {
@@ -110,8 +110,7 @@ p {
     max-width: 150px; /* Maximum width to prevent them becoming too wide */
     position: relative; /* Needed for positioning overlay icons */
     overflow: hidden; /* Hide potential overflow from icons */
-    /* Ensure steps are clickable by default */
-    pointer-events: auto;
+    pointer-events: auto; /* Ensure steps are clickable by default */
 }
 
 .workflow-step p {
@@ -177,9 +176,10 @@ p {
     padding: 15px;
     background-color: #e9ecef;
     border-radius: 8px;
-    margin-bottom: 30px;
+    margin-bottom: 30px; /* Keep margin below bands */
     overflow-x: auto;
     flex-wrap: wrap;
+    margin-top: 40px; /* NYT: Flytter båndene ned fra workflowet */
 }
 
 #cimt-band {
@@ -202,8 +202,7 @@ p {
     transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
     min-width: 90px;
     position: relative;
-     /* Ensure icons are clickable by default */
-    pointer-events: auto;
+    pointer-events: auto; /* Ensure icons are clickable by default */
 }
 
 .cimt-icon p, .trend-icon p {
@@ -285,7 +284,7 @@ p {
 /* When CIMT focus is active, dim irrelevant steps */
 body.cimt-focus-active .workflow-step.irrelevant-for-cimt {
     opacity: 0.4;
-    /* pointer-events: none; --- FJERNET HERFRA */
+    /* pointer-events: none; <-- FJERNET */
 }
 body.cimt-focus-active .workflow-step.relevant-for-cimt {
     opacity: 1;
@@ -295,7 +294,7 @@ body.cimt-focus-active .workflow-step.relevant-for-cimt {
 body.trend-focus-active .workflow-step.irrelevant-for-trend,
 body.trend-focus-active .cimt-icon.irrelevant-for-trend {
     opacity: 0.4;
-    /* pointer-events: none; --- FJERNET HERFRA */
+    /* pointer-events: none; <-- FJERNET */
 }
 body.trend-focus-active .workflow-step.relevant-for-trend,
 body.trend-focus-active .cimt-icon.relevant-for-trend {
