@@ -21,14 +21,15 @@
         <div id="controls">
             <button id="show-cimt-btn">Vis CIMT Understøttelse</button>
             <button id="show-trends-btn">Vis Tendenser / Risici</button>
-            </div>
+        </div>
 
         <div id="main-diagram">
             <div id="workflow-layer">
                  <div class="workflow-step" id="proevetagning" data-info-target="#info-proevetagning">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stethoscope" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h-1a2 2 0 0 0 -2 2v3.5h0a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1" /><path d="M8 15a6 6 0 1 0 12 0v-3" /><path d="M11 3v2" /><path d="M6 6v2" /><path d="M20 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>
                     <p>Prøvetagning</p>
-                    <div class="trend-indicator trend-digitalisering" id="trend-digitalisering"></div> </div>
+                    <div class="trend-indicator trend-digitalisering" id="trend-digitalisering"></div>
+                 </div>
                  <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
 
                  <div class="workflow-step" id="transport" data-info-target="#info-transport">
@@ -99,105 +100,40 @@
                  <div class="tooltip">Nye løsninger</div>
             </div>
         </div> <div id="trends-band" class="info-band" style="display: none;">
-            <div class="trend-icon" id="trend-digitalisering" data-info-target="#info-trend-digitalisering"
-                 data-relevant-steps='["proevetagning", "resultat", "patientadgang"]'
-                 data-relevant-cimt='["cimt-systemforvaltning", "cimt-infrastruktur", "cimt-projekt"]'
-                 data-examples-map='{"proevetagning": "Digitale rekvisitioner, mobile prøvetagningsløsninger.", "resultat": "Hurtigere digital levering af svar til SP.", "patientadgang": "Nye funktioner i MinSundhed/SP.", "Generelt": "Øget digitalisering stiller krav til systemintegration og brugeroplevelse."}'>
+            <div class="trend-icon" id="trend-digitalisering" data-info-target="#info-trend-digitalisering" data-relevant-steps='["proevetagning", "resultat", "patientadgang"]' data-relevant-cimt='["cimt-systemforvaltning", "cimt-infrastruktur", "cimt-projekt"]' data-examples-map='{"proevetagning": "Digitale rekvisitioner, mobile prøvetagningsløsninger.", "resultat": "Hurtigere digital levering af svar til SP.", "patientadgang": "Nye funktioner i MinSundhed/SP.", "Generelt": "Øget digitalisering stiller krav til systemintegration og brugeroplevelse."}'>
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-mobile-code" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.5 21h-3.5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" /><path d="M20 21l2 -2l-2 -2" /><path d="M17 17l-2 2l2 2" /><path d="M11 4h2" /><path d="M12 17v.01" /></svg>
                 <p>Digitalisering & Mobilitet</p>
             </div>
-            <div class="trend-icon" id="trend-automatisering" data-info-target="#info-trend-automatisering"
-                 data-relevant-steps='["transport", "analyse"]'
-                 data-relevant-cimt='["cimt-systemforvaltning", "cimt-infrastruktur", "cimt-integration"]'
-                 data-examples-map='{"transport": "Robottransport (PTU), tracking.", "analyse": "Automatiserede analysebånd, AI-understøttet diagnostik.", "Generelt": "Automatisering kræver robuste systemer og integrationer."}'>
+            <div class="trend-icon" id="trend-automatisering" data-info-target="#info-trend-automatisering" data-relevant-steps='["transport", "analyse"]' data-relevant-cimt='["cimt-systemforvaltning", "cimt-infrastruktur", "cimt-integration"]' data-examples-map='{"transport": "Robottransport (PTU), tracking.", "analyse": "Automatiserede analysebånd, AI-understøttet diagnostik.", "Generelt": "Automatisering kræver robuste systemer og integrationer."}'>
                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-robot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h10a2 2 0 0 1 2 2v1l1 1v3l-1 1h-10l-1 -1v-3l1 -1v-1a2 2 0 0 1 2 -2z" /><path d="M10 16h4" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M9 12v-1" /><path d="M15 11v1" /></svg>
                  <p>Automatisering & AI</p>
             </div>
-            <div class="trend-icon" id="trend-interoperabilitet" data-info-target="#info-trend-interoperabilitet"
-                 data-relevant-steps='["videresendelse", "resultat"]'
-                 data-relevant-cimt='["cimt-govsec", "cimt-integration", "cimt-systemforvaltning"]' /* Opdateret */
-                 data-examples-map='{"videresendelse": "Standardiserede formater (HL7, FHIR) for deling.", "resultat": "Integration til nationale databaser og SP.", "Generelt": "Datadeling kræver standarder."}'>
+            <div class="trend-icon" id="trend-interoperabilitet" data-info-target="#info-trend-interoperabilitet" data-relevant-steps='["videresendelse", "resultat"]' data-relevant-cimt='["cimt-govsec", "cimt-integration", "cimt-systemforvaltning"]' data-examples-map='{"videresendelse": "Standardiserede formater (HL7, FHIR) for deling.", "resultat": "Integration til nationale databaser og SP.", "Generelt": "Datadeling kræver standarder."}'>
                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-transfer-down" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 3l0 18" /><path d="M4 6l3 -3l3 3" /><path d="M7 21l0 -18" /><path d="M20 18l-3 3l-3 -3" /></svg>
                  <p>Interoperabilitet & Standarder</p>
             </div>
-             <div class="trend-icon" id="trend-regulering" data-info-target="#info-trend-regulering"
-                 data-relevant-steps='["analyse", "videresendelse"]'
-                 data-relevant-cimt='["cimt-govsec", "cimt-systemforvaltning"]' /* Opdateret */
-                 data-examples-map='{"analyse": "IVDR-krav for udstyr.", "videresendelse": "GDPR-krav ved datadeling.", "Generelt": "Regulatoriske krav påvirker IT."}'>
+             <div class="trend-icon" id="trend-regulering" data-info-target="#info-trend-regulering" data-relevant-steps='["analyse", "videresendelse"]' data-relevant-cimt='["cimt-govsec", "cimt-systemforvaltning"]' data-examples-map='{"analyse": "IVDR-krav for udstyr.", "videresendelse": "GDPR-krav ved datadeling.", "Generelt": "Regulatoriske krav påvirker IT."}'>
                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-gavel" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 10l7.383 7.418c.823 .82 .823 2.148 0 2.967a2.11 2.11 0 0 1 -2.976 0l-7.407 -7.385" /><path d="M6 9l4 4" /><path d="M13 10l-4 -4" /><path d="M3 21h7" /><path d="M6.793 15.793l-3.586 -3.586a1 1 0 0 1 0 -1.414l7.586 -7.586a1 1 0 0 1 1.414 0l3.586 3.586a1 1 0 0 1 0 1.414l-7.586 7.586a1 1 0 0 1 -1.414 0z" /></svg>
                  <p>Regulering & Sikkerhed</p>
             </div>
         </div> <div class="info-box-container">
-            <div class="info-box" id="info-proevetagning">
-                <h2>Prøvetagning (Afdeling)</h2>
-                <p>Rejsen starter her. Korrekt identifikation af patient og mærkning af prøver er afgørende. IT-systemer understøtter registrering via f.eks. håndscannere og sikrer kobling til patientens journal i Sundhedsplatformen.</p>
-            </div>
-            <div class="info-box" id="info-transport">
-                <h2>Transport (Logistik/PTU)</h2>
-                <p>Prøven transporteres fysisk til laboratoriet. Systemer kan understøtte sporing (tracking) af prøven, især ved brug af taxa eller specialtransport. PTU (rørpost) kræver overvågning af driftstatus.</p>
-            </div>
-             <div class="info-box" id="info-analyse">
-                <h2>Primær Analyse (Laboratorium)</h2>
-                <p>På laboratoriet registreres prøven i LIS (Laboratory Information System) og analyseres. Analyseudstyr er ofte integreret med LIS for automatisk resultatoverførsel. Bioanalytikere validerer resultater i LIS.</p>
-            </div>
-             <div class="info-box" id="info-videresendelse">
-                <h2>Videresendelse (Integration/EDI)</h2>
-                <p>Hvis prøven skal analyseres andetsteds, sendes data (eller selve prøven) videre. Kræver standardiseret elektronisk dataudveksling (EDI) mellem systemer, f.eks. via nationale standarder eller services.</p>
-            </div>
-             <div class="info-box" id="info-resultat">
-                 <h2>Resultat til SP og nationale baser (Integration)</h2>
-                <p>Validerede resultater sendes fra LIS til Sundhedsplatformen (SP) via integrationsløsninger. Resultater kan også indberettes automatisk til relevante nationale kvalitets- eller forskningsdatabaser.</p>
-            </div>
-             <div class="info-box" id="info-patientadgang">
-                <h2>Kliniker og patientadgang (SP/MinSundhed)</h2>
-                <p>Klinikere tilgår svar i SP for at træffe beslutninger. Patienter kan se egne svar via portaler som MinSundhed.dk eller Sundhed.dk, som henter data fra SP eller direkte fra kildesystemer.</p>
-            </div>
-
-            <div class="info-box" id="info-cimt-govsec">
-                 <h2>Governance & Sikkerhed</h2>
-                 <p>Denne samlede funktion sikrer, at IT-løsningerne er veldesignede, sikre og overholder regler/aftaler.</p>
-                 <ul><li><strong>Arkitektur:</strong> Overordnet design og sammenhæng mellem systemer.</li><li><strong>Op./Info. Sikkerhed:</strong> Beskyttelse mod nedbrud, fejl, uautoriseret adgang (GDPR).</li><li><strong>IT Kontrakter:</strong> Aftaler med leverandører om oppetid, sikkerhed etc.</li></ul>
-                 <p>Garanterer robusthed, sikkerhed og lovmæssig ramme for IT-systemerne.</p>
-             </div>
-             <div class="info-box" id="info-cimt-servicedesk">
-                <h2>Service Desk</h2>
-                <p>Primær kontakt for brugere ved IT-problemer (login, fejlmeldinger, adgang). Yder support på tværs af de systemer, brugerne møder i arbejdsgangen.</p>
-            </div>
-            <div class="info-box" id="info-cimt-systemforvaltning">
-                 <h2>Systemforvaltning (SP, Lab, m.fl.)</h2>
-                 <p>Sikrer daglig drift, vedligehold, opdateringer og konfiguration af centrale systemer som SP og LIS. Arbejder tæt med superbrugere og leverandører for at holde systemerne stabile og funktionelle.</p>
-            </div>
-             <div class="info-box" id="info-cimt-infrastruktur">
-                <h2>Infrastruktur (Netværk, Server, Storage)</h2>
-                <p>Leverer det fundamentale lag: Netværk, serverkraft og datalagring, som alle applikationer og dataoverførsler er afhængige af. Sikrer kapacitet og stabil forbindelse.</p>
-            </div>
-             <div class="info-box" id="info-cimt-integration">
-                 <h2>Integration</h2>
-                <p>Bygger og vedligeholder de "rør", der forbinder systemerne (f.eks. LIS til SP, SP til nationale baser). Sikrer korrekt og rettidig dataudveksling via standardiserede formater.</p>
-            </div>
-             <div class="info-box" id="info-cimt-projekt">
-                <h2>Projekt & Portefølje</h2>
-                <p>Styrer implementering af nye IT-løsninger eller større ændringer (f.eks. nyt LIS, opgradering af SP-modul, udrulning af nyt udstyr med IT-integration).</p>
-            </div>
-
-            <div class="info-box" id="info-trend-digitalisering">
-                <h2>Trend: Digitalisering & Mobilitet</h2>
-                <p>Ønske om fuldt digitale workflows, færre papirprocesser. Øget brug af mobile enheder til f.eks. prøvetagning og svarvisning. Stiller krav til brugerflader og integrationer (også til MinSundhed).</p>
-            </div>
-            <div class="info-box" id="info-trend-automatisering">
-                <h2>Trend: Automatisering & AI</h2>
-                <p>Automatiserede analysebånd i lab, robotter til transport (PTU), potentiale for AI i diagnostik/planlægning. Kræver robuste integrationer, data og overvejelser om etik/sikkerhed.</p>
-            </div>
-            <div class="info-box" id="info-trend-interoperabilitet">
-                <h2>Trend: Interoperabilitet & Standarder</h2>
-                <p>Stort fokus på, at systemer kan tale sammen på tværs af regioner, sektorer og lande via standarder (HL7, FHIR). Nødvendigt for datadeling til f.eks. nationale baser og patientportaler.</p>
-            </div>
-            <div class="info-box" id="info-trend-regulering">
-                <h2>Trend: Regulering & Sikkerhed</h2>
-                <p>Stigende lovkrav til datasikkerhed (GDPR, NIS2), medicinsk udstyr (IVDR/MDR) og cybersikkerhed generelt. Påvirker alle led i IT-kæden fra design til drift.</p>
-            </div>
-
-            </div> </div> <div id="trend-tooltip" class="trend-example-tooltip" style="display: none; position: fixed; z-index: 1000;"></div>
+            <div class="info-box" id="info-proevetagning"> <h2>Prøvetagning (Afdeling)</h2> <p>Rejsen starter her...</p> </div>
+            <div class="info-box" id="info-transport"> <h2>Transport (Logistik/PTU)</h2> <p>Prøven transporteres...</p> </div>
+            <div class="info-box" id="info-analyse"> <h2>Primær Analyse (Laboratorium)</h2> <p>På laboratoriet registreres...</p> </div>
+            <div class="info-box" id="info-videresendelse"> <h2>Videresendelse (Integration/EDI)</h2> <p>Hvis prøven skal analyseres...</p> </div>
+            <div class="info-box" id="info-resultat"> <h2>Resultat til SP og nationale baser (Integration)</h2> <p>Validerede resultater sendes...</p> </div>
+            <div class="info-box" id="info-patientadgang"> <h2>Kliniker og patientadgang (SP/MinSundhed)</h2> <p>Klinikere tilgår svar...</p> </div>
+            <div class="info-box" id="info-cimt-govsec"> <h2>Governance & Sikkerhed</h2> <p>Denne samlede funktion sikrer...</p> <ul><li>...</li></ul> <p>...</p> </div>
+            <div class="info-box" id="info-cimt-servicedesk"> <h2>Service Desk</h2> <p>Primær kontakt for brugere...</p> </div>
+            <div class="info-box" id="info-cimt-systemforvaltning"> <h2>Systemforvaltning (SP, Lab, m.fl.)</h2> <p>Sikrer daglig drift...</p> </div>
+            <div class="info-box" id="info-cimt-infrastruktur"> <h2>Infrastruktur (Netværk, Server, Storage)</h2> <p>Leverer det fundamentale lag...</p> </div>
+            <div class="info-box" id="info-cimt-integration"> <h2>Integration</h2> <p>Bygger og vedligeholder...</p> </div>
+            <div class="info-box" id="info-cimt-projekt"> <h2>Projekt & Portefølje</h2> <p>Styrer implementering...</p> </div>
+            <div class="info-box" id="info-trend-digitalisering"> <h2>Trend: Digitalisering & Mobilitet</h2> <p>Ønske om fuldt digitale workflows...</p> </div>
+            <div class="info-box" id="info-trend-automatisering"> <h2>Trend: Automatisering & AI</h2> <p>Automatiserede analysebånd...</p> </div>
+            <div class="info-box" id="info-trend-interoperabilitet"> <h2>Trend: Interoperabilitet & Standarder</h2> <p>Stort fokus på, at systemer...</p> </div>
+            <div class="info-box" id="info-trend-regulering"> <h2>Trend: Regulering & Sikkerhed</h2> <p>Stigende lovkrav...</p> </div>
+        </div> </div> <div id="trend-tooltip" class="trend-example-tooltip" style="display: none; position: fixed; z-index: 1000;"></div>
 
     <script src="script.js"></script>
 </body>
