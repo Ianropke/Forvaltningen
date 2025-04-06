@@ -93,6 +93,8 @@ p {
     flex-wrap: nowrap; /* Prevent wrapping on large screens */
     gap: 10px; /* Small gap between steps/arrows */
     padding: 10px 0; /* Padding top/bottom */
+    /* Sørg for at transition er inkluderet her for .overview-active */
+    transition: border 0.3s ease, background-color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
 }
 
 /* Individual Workflow Step */
@@ -103,7 +105,7 @@ p {
     padding: 15px;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease; /* Tilføjet opacity transition */
     flex: 1; /* Allow steps to grow and shrink */
     min-width: 120px; /* Minimum width for each step */
     max-width: 150px; /* Maximum width to prevent them becoming too wide */
@@ -145,10 +147,8 @@ p {
     height: 24px;
 }
 
-/* --- Overlay Icons (Only Trend Indicators remain relevant now) --- */
-
-/* Base style for all overlay icons (positioning) - Now mostly for Trend */
-.priority-number, .risk-marker, .trend-indicator {
+/* Trend Indicator specific styles */
+.trend-indicator {
     position: absolute;
     display: none; /* Hidden by default, shown by JS */
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
@@ -157,10 +157,6 @@ p {
     font-weight: bold;
     text-align: center;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-/* Trend Indicator specific styles */
-.trend-indicator {
     width: 18px;
     height: 18px;
     bottom: 3px;
@@ -173,13 +169,6 @@ p {
 .trend-indicator.trend-automatisering { background-color: #fd7e14; } /* Orange */
 .trend-indicator.trend-interoperabilitet { background-color: #20c997; } /* Teal */
 .trend-indicator.trend-regulering { background-color: #dc3545; } /* Red */
-
-
-/* --- FJERNET: Styling for .priority-number --- */
-/* .priority-number { ... } */
-
-/* --- FJERNET: Styling for .risk-marker --- */
-/* .risk-marker { ... } */
 
 
 /* Info Bands (CIMT and Trends) */
@@ -212,7 +201,7 @@ p {
     cursor: pointer;
     padding: 10px;
     border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease; /* Tilføjet opacity transition */
     min-width: 90px; /* Minimum width for icons */
     position: relative; /* Needed for tooltip positioning */
 }
@@ -292,13 +281,6 @@ p {
     margin-bottom: 8px;
 }
 
-/* --- FJERNET: Styling for #info-significance and its list items --- */
-/* #info-significance { ... } */
-/* #info-significance ul { ... } */
-/* #info-significance li { ... } */
-/* #info-significance li:hover { ... } */
-/* #info-significance li.active { ... } */
-
 
 /* Focus/Fade Effects */
 /* When CIMT focus is active, dim irrelevant steps */
@@ -306,7 +288,6 @@ body.cimt-focus-active .workflow-step.irrelevant-for-cimt {
     opacity: 0.4;
     pointer-events: none; /* Optional: disable clicks on dimmed items */
 }
-/* Ensure relevant ones are fully opaque */
 body.cimt-focus-active .workflow-step.relevant-for-cimt {
     opacity: 1;
 }
@@ -317,7 +298,6 @@ body.trend-focus-active .cimt-icon.irrelevant-for-trend {
     opacity: 0.4;
     pointer-events: none; /* Optional */
 }
-/* Ensure relevant ones are fully opaque */
 body.trend-focus-active .workflow-step.relevant-for-trend,
 body.trend-focus-active .cimt-icon.relevant-for-trend {
     opacity: 1;
@@ -335,8 +315,16 @@ body.trend-focus-active .cimt-icon.relevant-for-trend {
     /* Position is set dynamically by JS */
 }
 
-/* --- FJERNET: Styling for .workflow-frame-active --- */
-/* .workflow-frame-active .workflow-step { ... } */
+/* === NYT TILFØJET: Styling for Overview Active State === */
+#workflow-layer.overview-active {
+    border: 2px dashed #0056b3; /* Eksempel: Stiplede mørkeblå kant */
+    padding: 10px;
+    /* Juster evt. margin for at undgå layout-hop, hvis padding påvirker størrelsen */
+    margin: -10px;
+    border-radius: 8px; /* Matcher step-radius */
+    background-color: rgba(230, 242, 255, 0.3); /* Meget let blålig baggrund */
+    /* Transition er allerede defineret på #workflow-layer */
+}
 
 
 /* Media Queries for Responsiveness */
@@ -344,7 +332,15 @@ body.trend-focus-active .cimt-icon.relevant-for-trend {
     #workflow-layer {
         flex-direction: column; /* Stack workflow steps vertically */
         align-items: center; /* Center items when stacked */
+        /* Fjern padding/margin justering for overview, når den er stacked? */
+        /* Eller juster den specifikt her */
     }
+    #workflow-layer.overview-active {
+        /* Juster evt padding/margin for stacked view */
+        padding: 10px 5px; /* Mindre side-padding? */
+        margin: -10px -5px;
+    }
+
     .arrow {
         display: none; /* Hide arrows when stacked */
     }
