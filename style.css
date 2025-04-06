@@ -179,14 +179,17 @@ p {
     margin-bottom: 30px; /* Keep margin below bands */
     overflow-x: auto;
     flex-wrap: wrap;
-    margin-top: 40px; /* Flytter båndene ned fra workflowet */
+    /* margin-top fjernet herfra */
 }
 
+/* Specifikke marginer for at rykke båndene ned */
 #cimt-band {
     flex-wrap: nowrap;
+    margin-top: 60px; /* Øget afstand for CIMT-båndet */
 }
 #trends-band {
      justify-content: center;
+     margin-top: 60px; /* Øget afstand for Tendens-båndet */
 }
 
 
@@ -278,13 +281,12 @@ p {
 }
 
 .info-box h2 {
-    /* Styling for consistency */
     color: #0056b3;
     margin-top: 0;
     margin-bottom: 10px;
     border-bottom: 1px solid #eee;
     padding-bottom: 5px;
-    font-size: 1.2em; /* Slightly smaller than main H2 */
+    font-size: 1.2em;
 }
 
 
@@ -348,6 +350,8 @@ body.trend-focus-active .cimt-icon.relevant-for-trend {
     .workflow-step { width: 80%; max-width: 300px; margin-bottom: 15px; }
     #controls { flex-direction: column; align-items: stretch; }
     #controls button { width: 100%; box-sizing: border-box; }
+    /* Juster bånd margin på mindre skærme evt. */
+    #cimt-band, #trends-band { margin-top: 40px; }
 }
 
 @media (max-width: 768px) {
@@ -357,6 +361,7 @@ body.trend-focus-active .cimt-icon.relevant-for-trend {
     .cimt-icon p, .trend-icon p { font-size: 0.75em; }
     .cimt-icon svg, .trend-icon svg { width: 32px; height: 32px; }
     .cimt-icon, .trend-icon { min-width: 75px; }
+    #cimt-band, #trends-band { margin-top: 30px; } /* Yderligere justering */
 }
 
 @media (max-width: 480px) {
@@ -366,4 +371,5 @@ body.trend-focus-active .cimt-icon.relevant-for-trend {
     #controls button { padding: 8px 15px; font-size: 0.9em; }
     .workflow-step { padding: 10px; }
     .cimt-icon, .trend-icon { min-width: 65px; }
+    #cimt-band, #trends-band { margin-top: 25px; } /* Yderligere justering */
 }
