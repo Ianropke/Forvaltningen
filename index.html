@@ -14,23 +14,20 @@
     <div id="infographic-container">
         <h1>Sammen om forvaltningen i CIMT</h1>
         <p class="center-text">
-            Klik på trinene i blodprøvens rejse for detaljer. Aktiver knapperne nedenfor for at se CIMT funktioner (viser info-boks og linjer), Tendenser/Risici (viser info-boks og fokus-effekt) eller Betydning for CIMT (med visuelle pointer).
-            <br>Klik på ikonerne i båndene eller punkterne i 'Betydning' for info.
+            Klik på trinene i blodprøvens rejse for detaljer. Aktiver knapperne nedenfor for at se CIMT funktioner (viser info-boks og linjer) eller Tendenser/Risici (viser info-boks og fokus-effekt).
+            <br>Klik på ikonerne i båndene for info.
         </p>
 
         <div id="controls">
             <button id="show-cimt-btn">Vis CIMT Understøttelse</button>
             <button id="show-trends-btn">Vis Tendenser / Risici</button>
-            <button id="show-significance-btn">Vis Betydning for CIMT</button>
-        </div>
+            </div>
 
         <div id="main-diagram">
             <div id="workflow-layer">
                  <div class="workflow-step" id="proevetagning" data-info-target="#info-proevetagning">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stethoscope" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h-1a2 2 0 0 0 -2 2v3.5h0a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1" /><path d="M8 15a6 6 0 1 0 12 0v-3" /><path d="M11 3v2" /><path d="M6 6v2" /><path d="M20 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>
                     <p>Prøvetagning</p>
-                    <div class="priority-number">1</div>
-                    <div class="risk-marker">!</div>
                     <div class="trend-indicator trend-digitalisering"></div>
                  </div>
                  <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
@@ -38,17 +35,13 @@
                  <div class="workflow-step" id="transport" data-info-target="#info-transport">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-truck-delivery" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-4.4a1 1 0 0 1 .7 -1l6.3 -3.6a1 1 0 0 1 1.3 .1l4 4a1 1 0 0 1 .1 1.3l-3.6 6.3a1 1 0 0 1 -1 .7h-1.8" /><path d="M9.5 17.5l1.5 -2.5" /><path d="M15 9l-4 4" /><path d="M13 6h5l3 5v6h-2" /></svg>
                     <p>Transport</p>
-                    <div class="priority-number">2</div>
-                     <div class="risk-marker">!</div>
-                     <div class="trend-indicator trend-automatisering"></div>
+                    <div class="trend-indicator trend-automatisering"></div>
                  </div>
                  <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
 
                  <div class="workflow-step" id="analyse" data-info-target="#info-analyse">
                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flask" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 3l6 0" /><path d="M10 9l4 0" /><path d="M10 3v6l-4 11a.7 .7 0 0 0 .5 1h11a.7 .7 0 0 0 .5 -1l-4 -11v-6" /></svg>
                      <p>Primær Analyse</p>
-                     <div class="priority-number">3</div>
-                     <div class="risk-marker">!</div>
                      <div class="trend-indicator trend-automatisering trend-regulering"></div>
                  </div>
                  <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
@@ -56,8 +49,6 @@
                  <div class="workflow-step" id="videresendelse" data-info-target="#info-videresendelse">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh-dot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                     <p>Videresendelse</p>
-                     <div class="priority-number">4</div>
-                     <div class="risk-marker">!</div>
                      <div class="trend-indicator trend-interoperabilitet trend-regulering"></div>
                  </div>
                  <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
@@ -65,8 +56,6 @@
                  <div class="workflow-step" id="resultat" data-info-target="#info-resultat">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-database" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /><path d="M4 6v6a8 3 0 0 0 16 0v-6" /><path d="M4 12v6a8 3 0 0 0 16 0v-6" /></svg>
                     <p>Resultat til SP og nationale baser</p>
-                    <div class="priority-number">5</div>
-                    <div class="risk-marker">!</div>
                     <div class="trend-indicator trend-digitalisering trend-interoperabilitet"></div>
                  </div>
                  <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg></div>
@@ -74,15 +63,13 @@
                  <div class="workflow-step" id="patientadgang" data-info-target="#info-patientadgang">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h1.5" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M20.2 20.2l1.8 1.8" /></svg>
                     <p>Kliniker og patientadgang</p>
-                    <div class="priority-number">6</div>
-                     <div class="risk-marker">!</div>
-                     <div class="trend-indicator trend-digitalisering"></div>
+                    <div class="trend-indicator trend-digitalisering"></div>
                  </div>
             </div>
         </div>
 
         <div id="cimt-band" class="info-band" style="display: none;">
-            <div class="cimt-icon" id="cimt-govsec" data-info-target="#info-cimt-govsec" data-cimt-relevant='["proevetagning", "transport", "analyse", "videresendelse", "resultat", "patientadgang"]'>
+             <div class="cimt-icon" id="cimt-govsec" data-info-target="#info-cimt-govsec" data-cimt-relevant='["proevetagning", "transport", "analyse", "videresendelse", "resultat", "patientadgang"]'>
                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shield-checkered" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" />
@@ -91,7 +78,7 @@
                  </svg>
                  <p>Governance & Sikkerhed</p>
                  <div class="tooltip">Arkitektur, Operationel/Info Sikkerhed, IT Kontrakter</div> </div>
-            <div class="cimt-icon" id="cimt-servicedesk" data-info-target="#info-cimt-servicedesk" data-cimt-relevant='["proevetagning", "resultat", "patientadgang"]'>
+             <div class="cimt-icon" id="cimt-servicedesk" data-info-target="#info-cimt-servicedesk" data-cimt-relevant='["proevetagning", "resultat", "patientadgang"]'>
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-headset" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 14v-3a8 8 0 1 1 16 0v3" /><path d="M18 19c0 1.657 -2.686 3 -6 3" /><path d="M4 14a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2v-3z" /><path d="M15 14a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2v-3z" /></svg>
                 <p>Service Desk</p>
                 <div class="tooltip">Bruger- support</div>
@@ -121,7 +108,7 @@
                 <p>Projekt & Portefølje</p>
                  <div class="tooltip">Nye løsninger</div>
             </div>
-            </div>
+        </div>
 
         <div id="trends-band" class="info-band" style="display: none;">
             <div class="trend-icon" id="trend-digitalisering" data-info-target="#info-trend-digitalisering"
@@ -140,7 +127,7 @@
             </div>
             <div class="trend-icon" id="trend-interoperabilitet" data-info-target="#info-trend-interoperabilitet"
                  data-relevant-steps='["videresendelse", "resultat"]'
-                 data-relevant-cimt='["cimt-arkitektur", "cimt-integration", "cimt-systemforvaltning"]'
+                 data-relevant-cimt='["cimt-govsec", "cimt-integration", "cimt-systemforvaltning"]' /* Opdateret til nyt ID */
                  data-examples-map='{"videresendelse": "Standardiserede formater (HL7, FHIR) for deling mellem regioner/lande.", "resultat": "Integration til nationale databaser og Sundhedsplatformen.", "Generelt": "Øget fokus på datadeling på tværs kræver standarder og stærke integrationsløsninger."}'>
                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-transfer-down" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 3l0 18" /><path d="M4 6l3 -3l3 3" /><path d="M7 21l0 -18" /><path d="M20 18l-3 3l-3 -3" /></svg>
                  <p>Interoperabilitet & Standarder</p>
@@ -214,11 +201,12 @@
                 <h2>Dataplatform & Business Intelligence</h2>
                 <p>Indsamler, strukturerer og tilgængeliggør data fra f.eks. LIS og SP til rapportering, kvalitetsmonitorering og forskning. Kan levere indsigt i f.eks. svartider, prøvevolumen eller identificere flaskehalse i processen baseret på data fra analyse og resultat.</p>
             </div>
-            <div class="info-box" id="info-cimt-projekt">
+             <div class="info-box" id="info-cimt-projekt">
                 <h2>Projekt & Portefølje</h2>
                 <p>Håndterer implementeringen af nye IT-løsninger eller større ændringer i eksisterende. Det kan være udrulning af nyt lab-udstyr med IT-integration, opgradering af SP-moduler relateret til prøvesvar eller udvikling af nye funktioner til patientadgang.</p>
             </div>
-             <div class="info-box" id="info-trend-digitalisering">
+
+            <div class="info-box" id="info-trend-digitalisering">
                 <h2>Trend: Digitalisering & Mobilitet</h2>
                 <p>Stigende forventning om digitale arbejdsgange og mobil adgang. Kræver intuitive brugerflader, robuste mobile løsninger (f.eks. til prøvetagning) og nem adgang til data for både personale og patienter (MinSundhed).</p>
             </div>
@@ -235,17 +223,7 @@
                 <p>Stadig strengere krav til IT-sikkerhed (cybertrusler), databeskyttelse (GDPR) og godkendelse af medicinsk udstyr (IVDR/MDR). Påvirker systemdesign, udvikling, drift og dokumentation.</p>
             </div>
 
-            <div class="info-box" id="info-significance">
-                 <h2>Betydning for CIMT</h2>
-                 <ul>
-                    <li data-visual="priority">Prioritering og Ressourcestyring: Hvilke systemer/processer er mest kritiske for flowet?</li>
-                    <li data-visual="unified">Samlet Indsats: Hvordan sikrer vi, at forretningen oplever én samlet CIMT-indsats?</li>
-                    <li data-visual="risk">Risikostyring: Hvor er de største IT-mæssige sårbarheder i kæden?</li>
-                    <li>Kompetenceudvikling: Hvilke teknologier og processer skal vi mestre i fremtiden?</li>
-                    <li>Samarbejde: Behov for tæt samarbejde på tværs af CIMT-teams og med klinikken.</li>
-                 </ul>
             </div>
-        </div>
     </div>
 
     <div id="trend-tooltip" class="trend-example-tooltip" style="display: none; position: fixed; z-index: 1000;"></div>
