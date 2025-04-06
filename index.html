@@ -117,22 +117,81 @@
                  <p>Regulering & Sikkerhed</p>
             </div>
         </div> <div class="info-box-container">
-            <div class="info-box" id="info-proevetagning"> <h2>Prøvetagning (Afdeling)</h2> <p>Rejsen starter her...</p> </div>
-            <div class="info-box" id="info-transport"> <h2>Transport (Logistik/PTU)</h2> <p>Prøven transporteres...</p> </div>
-            <div class="info-box" id="info-analyse"> <h2>Primær Analyse (Laboratorium)</h2> <p>På laboratoriet registreres...</p> </div>
-            <div class="info-box" id="info-videresendelse"> <h2>Videresendelse (Integration/EDI)</h2> <p>Hvis prøven skal analyseres...</p> </div>
-            <div class="info-box" id="info-resultat"> <h2>Resultat til SP og nationale baser (Integration)</h2> <p>Validerede resultater sendes...</p> </div>
-            <div class="info-box" id="info-patientadgang"> <h2>Kliniker og patientadgang (SP/MinSundhed)</h2> <p>Klinikere tilgår svar...</p> </div>
-            <div class="info-box" id="info-cimt-govsec"> <h2>Governance & Sikkerhed</h2> <p>Denne samlede funktion sikrer...</p> <ul><li>...</li></ul> <p>...</p> </div>
-            <div class="info-box" id="info-cimt-servicedesk"> <h2>Service Desk</h2> <p>Primær kontakt for brugere...</p> </div>
-            <div class="info-box" id="info-cimt-systemforvaltning"> <h2>Systemforvaltning (SP, Lab, m.fl.)</h2> <p>Sikrer daglig drift...</p> </div>
-            <div class="info-box" id="info-cimt-infrastruktur"> <h2>Infrastruktur (Netværk, Server, Storage)</h2> <p>Leverer det fundamentale lag...</p> </div>
-            <div class="info-box" id="info-cimt-integration"> <h2>Integration</h2> <p>Bygger og vedligeholder...</p> </div>
-            <div class="info-box" id="info-cimt-projekt"> <h2>Projekt & Portefølje</h2> <p>Styrer implementering...</p> </div>
-            <div class="info-box" id="info-trend-digitalisering"> <h2>Trend: Digitalisering & Mobilitet</h2> <p>Ønske om fuldt digitale workflows...</p> </div>
-            <div class="info-box" id="info-trend-automatisering"> <h2>Trend: Automatisering & AI</h2> <p>Automatiserede analysebånd...</p> </div>
-            <div class="info-box" id="info-trend-interoperabilitet"> <h2>Trend: Interoperabilitet & Standarder</h2> <p>Stort fokus på, at systemer...</p> </div>
-            <div class="info-box" id="info-trend-regulering"> <h2>Trend: Regulering & Sikkerhed</h2> <p>Stigende lovkrav...</p> </div>
+            <div class="info-box" id="info-proevetagning">
+                <h2>Prøvetagning (Afdeling)</h2>
+                <p>Rejsen starter her. Korrekt identifikation af patient og mærkning af prøver er afgørende. IT-systemer understøtter registrering via f.eks. håndscannere og sikrer kobling til patientens journal i Sundhedsplatformen.</p>
+                <ul><li><strong>IT-understøttelse:</strong> Adgang til SP for patientidentifikation og evt. rekvisition, brug af håndholdte scannere til mærkning/registrering, stabil netværksforbindelse på afdelingen.</li></ul>
+            </div>
+            <div class="info-box" id="info-transport">
+                <h2>Transport (Logistik/PTU)</h2>
+                <p>Prøven transporteres fysisk (f.eks. via portør, taxa, rørpost/PTU) til det relevante laboratorium. Korrekt håndtering og evt. temperaturstyring under transport er afgørende for prøvens kvalitet.</p>
+                 <ul><li><strong>IT-understøttelse:</strong> Systemer til sporing af prøver under transport (tracking), overvågning af PTU-anlæggets driftsstatus, evt. logistiksystemer til booking af transport.</li></ul>
+            </div>
+             <div class="info-box" id="info-analyse">
+                <h2>Primær Analyse (Laboratorium)</h2>
+                <p>På laboratoriet modtages og registreres prøven i det lokale Laboratory Information System (LIS). Specialiseret analyseudstyr udfører analyserne, og resultaterne overføres ofte automatisk til LIS. Bioanalytikere validerer resultaterne i LIS.</p>
+                 <ul><li><strong>IT-understøttelse:</strong> Stabil drift af LIS, integration mellem LIS og analyseapparater, netværksinfrastruktur i laboratoriet, serverkapacitet til LIS og databehandling.</li></ul>
+            </div>
+             <div class="info-box" id="info-videresendelse">
+                <h2>Videresendelse (Integration/EDI)</h2>
+                <p>Hvis specielle analyser kræves på et andet laboratorium (internt/eksternt), kan prøven eller data sendes videre. Dette kræver sikker og standardiseret elektronisk dataudveksling (EDI) mellem forskellige LIS-systemer eller via nationale/internationale platforme.</p>
+                 <ul><li><strong>IT-understøttelse:</strong> Integrationsplatforme, overholdelse af EDI-standarder (f.eks. HL7, Edifact), sikker dataoverførsel (kryptering, VPN), aftaler om dataudveksling.</li></ul>
+            </div>
+             <div class="info-box" id="info-resultat">
+                 <h2>Resultat til SP og nationale baser (Integration)</h2>
+                <p>Når resultaterne er valideret i LIS, sendes de elektronisk via integrationslaget til Sundhedsplatformen (SP). Herfra bliver de tilgængelige for det relevante sundhedspersonale. Data kan også samtidigt indberettes til nationale kvalitets- og forskningsdatabaser efter faste regler.</p>
+                 <ul><li><strong>IT-understøttelse:</strong> Integration mellem LIS og SP, integration til nationale databaser, sikring af korrekt dataformat og overførsel, overvågning af datastrømme.</li></ul>
+            </div>
+             <div class="info-box" id="info-patientadgang">
+                <h2>Kliniker og patientadgang (SP/MinSundhed)</h2>
+                <p>Klinikeren ser og anvender prøvesvarene i Sundhedsplatformen (SP) som led i patientbehandlingen. Patienten kan tilgå mange af sine egne prøvesvar via nationale portaler som MinSundhed.dk eller Sundhed.dk, som trækker data fra de relevante kildesystemer.</p>
+                 <ul><li><strong>IT-understøttelse:</strong> Stabil drift og adgang til SP for klinikere, integrationer der muliggør visning på nationale portaler, sikring af korrekt dataadgang og overholdelse af GDPR ift. patientdata.</li></ul>
+            </div>
+
+            <div class="info-box" id="info-cimt-govsec">
+                 <h2>Governance & Sikkerhed</h2>
+                 <p>Denne samlede funktion udstikker de overordnede rammer og sikrer IT-understøttelsen af blodprøvens rejse mod interne og eksterne trusler samt sikrer overholdelse af lovgivning og kontrakter.</p>
+                 <ul><li><strong>Arkitektur:</strong> Definerer hvordan systemer som SP, LIS og integrationsplatforme skal designes for at fungere optimalt sammen, være skalerbare og fremtidssikrede ift. nye teknologier eller krav.</li><li><strong>Operationel & Informationssikkerhed:</strong> Arbejder proaktivt med at beskytte systemerne mod nedbrud, cyberangreb og datalæk (GDPR). Implementerer sikkerhedspolitikker, adgangsstyring, logning, beredskabsplaner og håndterer sikkerhedshændelser på tværs af alle systemer i kæden.</li><li><strong>IT Kontrakter:</strong> Udarbejder og forvalter kontrakter med IT-leverandører (f.eks. af LIS, SP-moduler, netværksudstyr) for at sikre, at de lever op til aftalte krav om oppetid, performance, sikkerhed og databehandling.</li></ul>
+                 <p>Disse områder sikrer samlet set et stabilt, sikkert og compliant IT-landskab for blodprøveprocessen.</p>
+             </div>
+             <div class="info-box" id="info-cimt-servicedesk">
+                <h2>Service Desk</h2>
+                <p>Er brugernes (både klinikere, bioanalytikere m.fl.) primære indgang til IT-support. De håndterer henvendelser vedrørende f.eks. login-problemer til SP eller LIS, fejl på scannere ved prøvetagning, problemer med udskrift af labels, eller spørgsmål til adgang/visning af prøvesvar. De løser sagen direkte eller eskalerer til relevante specialister i CIMT (f.eks. Systemforvaltning eller Infrastruktur).</p>
+            </div>
+            <div class="info-box" id="info-cimt-systemforvaltning">
+                 <h2>Systemforvaltning (SP, Lab, m.fl.)</h2>
+                 <p>Dette team har ansvaret for den daglige drift, vedligeholdelse, konfiguration og opdatering af de store kliniske applikationer, primært Sundhedsplatformen og diverse Laboratory Information Systems (LIS). De sikrer, at systemerne kører stabilt, retter fejl, implementerer ændringer og nye versioner i samarbejde med superbrugere og leverandører. Deres arbejde er essentielt for stort set alle digitale trin i blodprøvens rejse.</p>
+            </div>
+             <div class="info-box" id="info-cimt-infrastruktur">
+                <h2>Infrastruktur (Netværk, Server, Storage)</h2>
+                <p>Leverer det tekniske fundament, som alle IT-systemerne kører på. Dette omfatter etablering og drift af stabilt netværk (kablet og trådløst) på hospitaler og laboratorier, sikring af tilstrækkelig serverkapacitet til applikationer som SP og LIS, samt drift af datalagringsløsninger (storage), hvor patientdata og systemdata opbevares sikkert. Deres arbejde er afgørende for, at alle systemer overhovedet er tilgængelige.</p>
+            </div>
+             <div class="info-box" id="info-cimt-integration">
+                 <h2>Integration</h2>
+                <p>Sørger for, at data kan flyde korrekt og sikkert mellem de forskellige IT-systemer, der er involveret i blodprøvens rejse. De udvikler, konfigurerer og vedligeholder de "digitale rør" (integrationer), der f.eks. sender svar fra LIS til SP, data fra SP til nationale databaser, eller muliggør dataudveksling mellem forskellige laboratorier. Arbejder tæt sammen med Systemforvaltning og Arkitektur for at sikre standardiserede og robuste løsninger.</p>
+            </div>
+             <div class="info-box" id="info-cimt-projekt">
+                <h2>Projekt & Portefølje</h2>
+                <p>Håndterer implementeringen af *nye* IT-løsninger eller *større* ændringer og opgraderinger af eksisterende systemer, der påvirker blodprøveprocessen. Det kan f.eks. være projektledelse ved indkøb og udrulning af et helt nyt LIS-system, implementering af et nyt modul i SP til prøvesvar, eller opgradering af infrastruktur specifikt til laboratorieområdet. Sikrer koordinering på tværs af CIMT og med klinikken.</p>
+            </div>
+
+            <div class="info-box" id="info-trend-digitalisering">
+                <h2>Trend: Digitalisering & Mobilitet</h2>
+                <p>Der er et konstant pres for at digitalisere flere arbejdsgange og gøre information tilgængelig mobilt. I blodprøvekonteksten ses det f.eks. ved ønske om fuldt digitale rekvisitioner, brug af mobile enheder ved prøvetagning (evt. ude hos patienten), og nemmere adgang til prøvesvar for både klinikere (på tablets/telefoner) og patienter (via MinSundhed/Sundhed.dk). Dette stiller store krav til brugervenlighed, integration og sikkerhed.</p>
+            </div>
+            <div class="info-box" id="info-trend-automatisering">
+                <h2>Trend: Automatisering & AI</h2>
+                <p>Automatisering vinder frem, især i laboratorierne med robotter til prøvehåndtering og store analysebånd. Rørpost (PTU) automatiserer transporten. Potentialet for Kunstig Intelligens (AI) undersøges f.eks. til billedanalyse (mikroskopi) eller forudsigelse af svartider. Automatisering kræver robuste IT-systemer, tætte integrationer og store mængder data, mens AI også rejser etiske og valideringsmæssige spørgsmål.</p>
+            </div>
+            <div class="info-box" id="info-trend-interoperabilitet">
+                <h2>Trend: Interoperabilitet & Standarder</h2>
+                <p>Evnen for forskellige IT-systemer til at "tale sammen" (interoperabilitet) er afgørende for et moderne sundhedsvæsen. Der er stort fokus nationalt og internationalt på at bruge fælles standarder (f.eks. HL7 FHIR) til dataudveksling. For blodprøver er det essentielt for at kunne sende svar til SP, indberette til nationale baser, og evt. dele resultater mellem regioner eller med primærsektoren på en sikker og standardiseret måde.</p>
+            </div>
+            <div class="info-box" id="info-trend-regulering">
+                <h2>Trend: Regulering & Sikkerhed</h2>
+                <p>Lovgivningen og kravene til IT i sundhedsvæsenet strammes løbende. GDPR sætter krav til håndtering af persondata i alle led. Nye EU-forordninger (IVDR/MDR) stiller skrappe krav til medicinsk udstyr, herunder software i analyseapparater. Samtidig stiger truslen fra cyberkriminalitet (f.eks. ransomware), hvilket kræver konstant fokus på IT-sikkerhed, opdateringer og beredskab. Alt dette påvirker design, drift og dokumentation af IT-løsningerne.</p>
+            </div>
+
         </div> </div> <div id="trend-tooltip" class="trend-example-tooltip" style="display: none; position: fixed; z-index: 1000;"></div>
 
     <script src="script.js"></script>
