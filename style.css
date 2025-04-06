@@ -179,7 +179,7 @@ p {
     margin-bottom: 30px; /* Keep margin below bands */
     overflow-x: auto;
     flex-wrap: wrap;
-    margin-top: 40px; /* NYT: Flytter båndene ned fra workflowet */
+    margin-top: 40px; /* Flytter båndene ned fra workflowet */
 }
 
 #cimt-band {
@@ -263,13 +263,30 @@ p {
 }
 
 .info-box {
-    display: none;
+    display: none; /* JS controls visibility */
     padding: 20px;
     background-color: #f1f3f5;
     border: 1px solid #dee2e6;
     border-radius: 5px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* Ensure content isn't hidden by default box styles */
+    height: auto;
+    opacity: 1;
+    color: #333;
+    font-size: inherit;
+    overflow: visible;
 }
+
+.info-box h2 {
+    /* Styling for consistency */
+    color: #0056b3;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    font-size: 1.2em; /* Slightly smaller than main H2 */
+}
+
 
 .info-box ul {
     padding-left: 20px;
@@ -284,7 +301,7 @@ p {
 /* When CIMT focus is active, dim irrelevant steps */
 body.cimt-focus-active .workflow-step.irrelevant-for-cimt {
     opacity: 0.4;
-    /* pointer-events: none; <-- FJERNET */
+    /* pointer-events: none; <-- Fjernet */
 }
 body.cimt-focus-active .workflow-step.relevant-for-cimt {
     opacity: 1;
@@ -294,7 +311,7 @@ body.cimt-focus-active .workflow-step.relevant-for-cimt {
 body.trend-focus-active .workflow-step.irrelevant-for-trend,
 body.trend-focus-active .cimt-icon.irrelevant-for-trend {
     opacity: 0.4;
-    /* pointer-events: none; <-- FJERNET */
+     /* pointer-events: none; <-- Fjernet */
 }
 body.trend-focus-active .workflow-step.relevant-for-trend,
 body.trend-focus-active .cimt-icon.relevant-for-trend {
@@ -316,39 +333,21 @@ body.trend-focus-active .cimt-icon.relevant-for-trend {
 #workflow-layer.overview-active {
     border: 2px dashed #0056b3;
     padding: 10px;
-    margin: -10px; /* Juster evt. for at undgå layout-hop */
+    margin: -10px;
     border-radius: 8px;
     background-color: rgba(230, 242, 255, 0.3);
-    /* Transition er allerede defineret på #workflow-layer */
+    transition: border 0.3s ease, background-color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
 }
 
 
 /* Media Queries for Responsiveness */
 @media (max-width: 992px) {
-    #workflow-layer {
-        flex-direction: column;
-        align-items: center;
-    }
-    #workflow-layer.overview-active {
-        padding: 10px 5px;
-        margin: -10px -5px;
-    }
-    .arrow {
-        display: none;
-    }
-    .workflow-step {
-        width: 80%;
-        max-width: 300px;
-        margin-bottom: 15px;
-    }
-    #controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    #controls button {
-        width: 100%;
-        box-sizing: border-box;
-    }
+    #workflow-layer { flex-direction: column; align-items: center; }
+    #workflow-layer.overview-active { padding: 10px 5px; margin: -10px -5px; }
+    .arrow { display: none; }
+    .workflow-step { width: 80%; max-width: 300px; margin-bottom: 15px; }
+    #controls { flex-direction: column; align-items: stretch; }
+    #controls button { width: 100%; box-sizing: border-box; }
 }
 
 @media (max-width: 768px) {
